@@ -36,7 +36,7 @@
         </div>
       </div>
       <div v-else>
-        <!-- Registered Doctors Section -->
+
         <div class="section">
           <div class="section-header">
             <h2>Registered Doctors</h2>
@@ -55,7 +55,6 @@
           </div>
         </div>
 
-        <!-- Registered Patients Section -->
         <div class="section">
           <div class="section-header">
             <h2>Registered Patients</h2>
@@ -75,7 +74,6 @@
           </div>
         </div>
 
-        <!-- Departments Section -->
         <div class="section">
           <div class="section-header">
             <h2>Departments</h2>
@@ -94,7 +92,6 @@
           </div>
         </div>
 
-        <!-- Upcoming Appointments Section -->
         <div class="section">
           <h2>Upcoming Appointments</h2>
           <div class="table-container">
@@ -106,8 +103,6 @@
                   <th>Doctor Name</th>
                   <th>Department</th>
                   <th>Date</th>
-                  <th>Status</th>
-                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -120,14 +115,6 @@
                   <td>{{ appointment.doctor_name }}</td>
                   <td>{{ appointment.department }}</td>
                   <td>{{ formatDate(appointment.appointment_date) }}</td>
-                  <td>
-                    <span class="status" :class="appointment.status.toLowerCase()">
-                      {{ appointment.status }}
-                    </span>
-                  </td>
-                  <td>
-                    <button class="btn-view">View</button>
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -353,13 +340,18 @@ function formatDate(dateString) {
 <style scoped>
 .admin-container {
   min-height: 100vh;
-  background-color: #f5f7fa;
+  background-color: #edf2f7; 
   padding: 2rem;
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* Sections */
+
 .section {
   background: white;
+  color:#2c3e50;
   padding: 2rem;
   border-radius: 8px;
   margin-bottom: 2rem;

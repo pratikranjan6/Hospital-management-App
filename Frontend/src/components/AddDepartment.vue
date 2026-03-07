@@ -1,11 +1,9 @@
 <template>
   <div class="add-department-container">
-    <!-- Header -->
     <div class="form-section">
       <h2>Add a new Department</h2>
       <form @submit.prevent="submitDepartment" class="department-form">
         
-        <!-- Department Name Field -->
         <div class="form-group">
           <label for="name">Department Name</label>
           <input 
@@ -17,7 +15,6 @@
           />
         </div>
 
-        <!-- Description Field -->
         <div class="form-group">
           <label for="description">Description</label>
           <textarea 
@@ -29,10 +26,8 @@
           ></textarea>
         </div>
 
-        <!-- Submit Button -->
         <button type="submit" class="btn-create">Create</button>
       </form>
-      <p class="note">Note: You can add/edit more fields if required</p>
     </div>
   </div>
 </template>
@@ -78,6 +73,7 @@ async function submitDepartment() {
   padding: 40px;
   background: #f5f5f5;
   min-height: 100vh;
+  width: 100%;
 }
 
 .form-section {

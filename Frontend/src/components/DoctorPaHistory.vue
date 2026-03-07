@@ -90,11 +90,12 @@ async function fetchPatientHistory(patientId) {
 }
 
 function goBack() {
-  router.push('/admin_dashboard')
+  router.push('/doctor_dashboard')
 }
 </script>
 
 <style scoped>
+/* reuse same styles as PatientHistory.vue */
 .patient-history-container {
   padding: 40px;
   background: #f5f5f5;
@@ -193,41 +194,19 @@ function goBack() {
 }
 
 .medicines-list li {
-  padding: 5px 0;
-}
-
-.medicines-list li:before {
-  content: "• ";
-  color: #4CAF50;
-  font-weight: bold;
-  margin-right: 8px;
-}
-
-.empty-message {
-  text-align: center;
-  color: #999;
-  padding: 40px 15px !important;
-}
-
-.note {
-  color: #999;
-  font-size: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 4px;
 }
 
 .btn-back {
   padding: 10px 20px;
-  background: #4CAF50;
-  color: white;
+  background: #0f1724;
+  color: #fff;
   border: none;
   border-radius: 4px;
-  font-size: 14px;
-  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
 .btn-back:hover {
-  background: #45a049;
+  background: #1e293b;
 }
 </style>

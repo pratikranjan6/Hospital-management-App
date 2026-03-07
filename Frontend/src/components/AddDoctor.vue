@@ -1,11 +1,30 @@
 <template>
   <div class="add-doctor-container">
-    <!-- Header -->
     <div class="form-section">
       <h2>Add a new Doctor</h2>
       <form @submit.prevent="submitDoctor" class="doctor-form">
-        
-        <!-- Fullname Field -->
+
+
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input 
+            v-model="formData.username"
+            type="email" 
+            id="username"
+            placeholder="Enter doctor's username"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input 
+            v-model="formData.password"
+            type="password" 
+            id="password"
+            placeholder="Enter a password"
+            required
+          />
+        </div>
         <div class="form-group">
           <label for="fullname">Fullname</label>
           <input 
@@ -17,7 +36,6 @@
           />
         </div>
 
-        <!-- Specialization/Department Field -->
         <div class="form-group">
           <label for="specialization">Specialization/Department</label>
           <select 
@@ -32,7 +50,6 @@
           </select>
         </div>
 
-        <!-- Qualification Field -->
         <div class="form-group">
           <label for="qualification">Qualification</label>
           <input 
@@ -44,7 +61,6 @@
           />
         </div>
 
-        <!-- Experience Field -->
         <div class="form-group">
           <label for="experience">Experience (years)</label>
           <input 
@@ -56,22 +72,9 @@
           />
         </div>
 
-        <!-- Availability Field -->
-        <div class="form-group">
-          <label for="availability">Availability</label>
-          <input 
-            v-model="formData.availability"
-            type="text" 
-            id="availability"
-            placeholder="e.g., Mon-Fri, 9AM-5PM"
-            required
-          />
-        </div>
 
-        <!-- Submit Button -->
         <button type="submit" class="btn-create">Create</button>
       </form>
-      <p class="note">Note: Students can add more fields if required</p>
     </div>
   </div>
 </template>
@@ -86,11 +89,13 @@ const router = useRouter()
 const API_BASE = getApiBase()
 
 const formData = ref({
+  username: '',
+  password: '',
   name: '',
   specialization: '',
   qualification: '',
   experience: '',
-  availability: ''
+
 })
 
 const departments = ref([])
@@ -116,6 +121,8 @@ async function submitDoctor() {
     const token = localStorage.getItem('token')
     const response = await axios.post(`${API_BASE}/api/admin/doctor`, 
       {
+        username: formData.value.username,
+        password: formData.value.password,
         name: formData.value.name,
         specialization: parseInt(formData.value.specialization),
         qualification: formData.value.qualification,
@@ -141,6 +148,7 @@ async function submitDoctor() {
   padding: 40px;
   background: #f5f5f5;
   min-height: 100vh;
+  width: 100%;
 }
 
 .form-section {

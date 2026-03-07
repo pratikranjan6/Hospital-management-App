@@ -109,10 +109,10 @@ onMounted(() => {
 <style scoped>
 .edit-doctor-container { padding: 40px; min-height: 100vh; background: #f5f5f5 }
 .form-section { max-width: 600px; margin: 0 auto; background: #fff; padding: 36px; border-radius: 8px }
-.form-section h2 { text-align:center; margin-bottom: 20px }
+.form-section h2 { text-align:center;color:black; margin-bottom: 20px }
 .doctor-form { display:flex; flex-direction:column; gap:16px }
-.form-group { display:flex; flex-direction:column; gap:8px }
-.form-group input { padding:10px; border:1px solid #ddd; border-radius:4px }
+.form-group { display:flex; color:black;flex-direction:column; gap:8px }
+.form-group input { padding:10px; border:1px solid #ddd;background-color: #ddd;color:black; border-radius:4px }
 .btn-update { padding:12px; background:#1976d2; color:white; border:none; border-radius:6px; cursor:pointer }
 .btn-update:hover { background:#165fa8 }
 </style>

@@ -68,7 +68,6 @@ async function submit() {
     success.value = ''
     loading.value = true
 
-    // basic client-side validation
     if (!form.username || !form.full_name || !form.password || !form.address || !form.pin_code) {
         error.value = 'Please fill in all required fields.'
         loading.value = false
@@ -86,7 +85,6 @@ async function submit() {
 
         if (res.status === 201 || res.data?.msg) {
             success.value = res.data?.msg || 'Registered successfully.'
-            // redirect to login after short delay
             setTimeout(() => { router.push('/login') }, 900)
         } else {
             error.value = 'Registration failed.'

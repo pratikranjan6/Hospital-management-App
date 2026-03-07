@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <div class="login-page">
-      <h1>� Welcome to Hospital Management</h1>
+      <h1> Welcome to Hospital Management</h1>
       <h2>🔐 Login</h2>
 
       <form @submit.prevent="submit">
@@ -62,8 +62,8 @@ async function submit() {
     if (token) {
       localStorage.setItem('token', token)
       localStorage.setItem('role', role)
-      // redirect based on role using router to avoid full reload
       if (role === 'admin') router.push('/admin_dashboard')
+      else if (role === 'doctor') router.push('/doctor_dashboard')
       else router.push('/user_dashboard')
     } else {
       error.value = res.data.msg || 'Login failed'
