@@ -246,7 +246,6 @@ def save_patient_profile():
 
 
 
-# user‑triggered asynchronous export (CSV) ------------------------------------------------------
 @app.route('/api/patient/export_history', methods=['POST'])
 @jwt_required()
 def trigger_export_history():
@@ -401,7 +400,6 @@ def update_doctor(doctor_id):
             doctor.availability = data['availability']
         
         db.session.commit()
-        # invalidate doctor list cache
         try:
             redis_client.delete('cache:/api/admin/doctors?')
         except Exception:

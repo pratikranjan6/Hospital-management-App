@@ -40,9 +40,10 @@ class Patient(db.Model):
     blood_group = db.Column(db.String, nullable=False)
     address = db.Column(db.String, nullable=False)
     
-
     appointments = db.relationship('Appointment', backref='patient', lazy=True, cascade='all, delete-orphan')
     patient_history = db.relationship('patient_history', backref='patient', lazy=True, cascade='all, delete-orphan')
+
+
 class Department(db.Model):
     __tablename__ = "department"
     id = db.Column(db.Integer, primary_key=True)

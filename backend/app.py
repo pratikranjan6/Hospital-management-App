@@ -11,17 +11,13 @@ def create_app():
     db.init_app(app)
     jwt.init_app(app)
 
-    # initialize celery so that tasks can be imported later
     from application.tasks import init_celery
     init_celery(app)
 
-    # allow cors from the vite dev server and enable credentials for cookie/session flows.
-    # adjust origin if your frontend runs on a different host/port.
     CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "http://localhost:5173/*"}})
 
     with app.app_context():
         db.create_all()
-        # ensure admin user exists
         if not User.query.filter_by(username="Pratik@13").first():
             admin_user = User(
                 username="Pratik@13",
@@ -33,7 +29,6 @@ def create_app():
             db.session.add(admin_user)
             db.session.commit()
 
-        # populate availability for next 7 days for each doctor if missing
         from datetime import date, timedelta
         def seed_availability():
             today = date.today()
@@ -43,7 +38,6 @@ def create_app():
                     d = today + timedelta(days=i)
                     exists = Availability.query.filter_by(doctor_id=doc.id, date=d).first()
                     if not exists:
-                        # new entries default status 'Not Available'
                         db.session.add(Availability(doctor_id=doc.id, date=d))
             db.session.commit()
 

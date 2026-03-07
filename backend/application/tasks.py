@@ -11,20 +11,17 @@ import smtplib
 from email.message import EmailMessage
 import importlib
 
-# helper to lazily create/get the Flask app when tasks run in a separate process
 _flask_app = None
 def get_flask_app():
     global _flask_app
     if _flask_app is not None:
         return _flask_app
     try:
-        # ensure backend folder is on sys.path so top-level `app` module is importable
         import sys
         from pathlib import Path
         backend_dir = Path(__file__).resolve().parents[1]
         if str(backend_dir) not in sys.path:
             sys.path.insert(0, str(backend_dir))
-        # import top-level app module and call create_app()
         app_mod = importlib.import_module('app')
         if hasattr(app_mod, 'create_app'):
             _flask_app = app_mod.create_app()
@@ -36,7 +33,6 @@ def get_flask_app():
     return None
 
 
-# create celery object early so decorators work; config will be updated later
 candidate_broker = os.getenv('CELERY_BROKER_URL', None)
 if candidate_broker:
     celery = Celery('application.tasks', broker=candidate_broker)
@@ -59,7 +55,6 @@ def init_celery(flask_app):
     return celery
 
 
-# ---------- helpers -------------------------------------------------------------
 
 def send_email(to_address: str, subject: str, body: str, attachment: tuple = None):
     """Simple SMTP helper that sends an email using configuration defined in
@@ -113,7 +108,6 @@ def send_chat_message(webhook: str, message: str):
             print('Failed to send chat message to', webhook, e)
 
 
-# ---------- periodic / scheduled tasks -----------------------------------------
 
 @celery.task(name='application.tasks.send_daily_reminders')
 def send_daily_reminders():
@@ -127,7 +121,6 @@ def send_daily_reminders():
         return
     with flask_app.app_context():
         today = date.today()
-        # query by date portion only
         appts = Appointment.query.filter(db.func.date(Appointment.appointment_date) == today).all()
         for appt in appts:
             pat = appt.patient
@@ -143,7 +136,6 @@ def send_daily_reminders():
                     on <strong>{when}</strong>.</p>\
                     <p>Please arrive a few minutes early.</p>"
 
-            # preference order: chat webhook -> email
             webhook = flask_app.config.get('GCHAT_WEBHOOK_URL')
             if webhook:
                 send_chat_message(webhook, f"Reminder for {pat.name}: appointment at {when}")
@@ -173,7 +165,6 @@ def send_monthly_reports():
                 Appointment.appointment_date >= last_month_start,
                 Appointment.appointment_date <= last_month_end
             ).all()
-            # build HTML report
             rows = []
             for a in appts:
                 rows.append(f"<tr><td>{a.patient.name if a.patient else 'N/A'}</td>"
@@ -188,12 +179,10 @@ def send_monthly_reports():
                 <tbody>{''.join(rows)}</tbody>
             </table>
             """
-            # send to doctor's username which we expect to be an email
             if doc.username:
                 send_email(doc.username, f"Monthly activity report - {last_month_start.strftime('%B %Y')}", report_html)
 
 
-# ---------- user‑triggered asynchronous jobs -----------------------------------
 
 @celery.task(name='application.tasks.export_patient_history')
 def export_patient_history(user_id: int):
@@ -211,8 +200,7 @@ def export_patient_history(user_id: int):
             flask_app.logger.warning('export_patient_history called for missing user %s', user_id)
             return
 
-        appointments = patient.appointments  # includes diagnosis/prescription fields
-
+        appointments = patient.appointments  
         output = io.StringIO()
         writer = csv.writer(output)
         writer.writerow([
@@ -227,7 +215,7 @@ def export_patient_history(user_id: int):
                 a.appointment_date.strftime('%Y-%m-%d %H:%M'),
                 a.diagnosis or '',
                 a.prescription or '',
-                ''  # next visit not tracked on appointment model
+                ''  
             ])
 
         csv_data = output.getvalue().encode('utf-8')
@@ -236,9 +224,7 @@ def export_patient_history(user_id: int):
         send_email(patient.user.username, subject, body,
                    attachment=('history.csv', csv_data, 'text/csv'))
 
-        # optionally cache a flag to show job completed if needed
         try:
             redis_client.setex(f"export_done:{user_id}", 3600, '1')
         except Exception:
-            # if redis isn't available just ignore
             pass
