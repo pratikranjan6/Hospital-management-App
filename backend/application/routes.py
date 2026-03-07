@@ -244,6 +244,54 @@ def save_patient_profile():
         return jsonify({'msg': 'Failed to save patient profile'}), 500
 
 
+@app.route('/api/patient/history', methods=['GET'])
+@jwt_required()
+def get_current_patient_history():
+    """Fetch medical history for the current logged-in patient"""
+    try:
+        identity = get_jwt_identity()
+        try:
+            user_id = int(identity)
+        except Exception:
+            return jsonify({'msg': 'Invalid user identity'}), 400
+        
+        patient = Patient.query.filter_by(user_id=user_id).first()
+        if not patient:
+            return jsonify({
+                'patient_name': 'User',
+                'appointments': []
+            }), 200
+        
+        
+        records = patient_history.query.filter_by(patient_id=patient.id).order_by(patient_history.appointment_date.desc()).all()
+
+        history = []
+        for r in records:
+            meds = r.medication.split(',') if r.medication else []
+            history.append({
+                'id': r.id,
+                'appointment_id': r.appointment_id,
+                'date': r.appointment_date.isoformat() if r.appointment_date else None,
+                'diagnosis': r.diagnosis or '',
+                'tests_done': r.test_done or '',
+                'prescription': r.prescription or '',
+                'medicines': meds,
+                'doctor_name': r.doctor.name if getattr(r, 'doctor', None) else (Doctor.query.get(r.doctor_id).name if r.doctor_id else 'N/A'),
+                'department': r.department.name if getattr(r, 'department', None) else (Department.query.get(r.department_id).name if r.department_id else 'N/A')
+            })
+
+        return jsonify({
+            'patient_name': patient.name,
+            'appointments': history
+        }), 200
+    except Exception as e:
+        app.logger.exception('Error fetching current patient history')
+        return jsonify({'msg': 'Failed to fetch patient history'}), 500
+
+
+@app.route('/api/patient/export_history', methods=['OPTIONS'])
+def export_history_options():
+    return '', 204
 
 
 @app.route('/api/patient/export_history', methods=['POST'])
@@ -257,10 +305,19 @@ def trigger_export_history():
     except Exception:
         return jsonify({'msg': 'Invalid identity'}), 400
 
-    from .tasks import export_patient_history
-    export_patient_history.delay(user_id)
-    from .cache import redis_client
-    redis_client.delete(f"export_done:{user_id}")
+    try:
+        from .tasks import export_patient_history
+        export_patient_history.delay(user_id)
+    except Exception as e:
+        app.logger.exception('Failed to enqueue export task')
+        return jsonify({'msg': 'Failed to start export job', 'error': str(e)}), 503
+
+    try:
+        from .cache import redis_client
+        redis_client.delete(f"export_done:{user_id}")
+    except Exception:
+        pass
+
     return jsonify({'msg': 'Export job started; you will receive an email shortly'}), 202
 
 

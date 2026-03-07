@@ -1,49 +1,51 @@
 <template>
-    <div class="register-container">
-        <div class="register-page">
-            <h1>� Welcome to Hospital Management</h1>
-            <h2>📝 Register</h2>
+  <div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card shadow" style="max-width: 500px; width: 100%;">
+      <div class="card-body p-4">
+        <h2 class="card-title text-center mb-3">Welcome to Hospital Management</h2>
+        <h2 class="h4 text-center mb-4">📝 Register</h2>
 
-            <form @submit.prevent="submit">
-                <div class="form-group">
-                    <label for="username">📧 Username (Email)</label>
-                    <input id="username" v-model="form.username" type="email" class="form-control" required />
-                </div>
+        <form @submit.prevent="submit">
+          <div class="mb-3">
+            <label for="username" class="form-label">📧 Username (Email)</label>
+            <input id="username" v-model="form.username" type="email" class="form-control" required />
+          </div>
 
-                <div class="form-group">
-                    <label for="full_name">👤 Full Name</label>
-                    <input id="full_name" v-model="form.full_name" type="text" class="form-control" required />
-                </div>
+          <div class="mb-3">
+            <label for="full_name" class="form-label">👤 Full Name</label>
+            <input id="full_name" v-model="form.full_name" type="text" class="form-control" required />
+          </div>
 
-                <div class="form-group">
-                    <label for="password">🔑 Password</label>
-                    <input id="password" v-model="form.password" type="password" class="form-control" required />
-                </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">🔑 Password</label>
+            <input id="password" v-model="form.password" type="password" class="form-control" required />
+          </div>
 
-                <div class="form-group">
-                    <label for="address">🏠 Address</label>
-                    <input id="address" v-model="form.address" type="text" class="form-control" required />
-                </div>
+          <div class="mb-3">
+            <label for="address" class="form-label">🏠 Address</label>
+            <input id="address" v-model="form.address" type="text" class="form-control" required />
+          </div>
 
-                <div class="form-group">
-                    <label for="pin_code">📍 Pin Code</label>
-                    <input id="pin_code" v-model="form.pin_code" type="text" class="form-control" required />
-                </div>
+          <div class="mb-3">
+            <label for="pin_code" class="form-label">📍 Pin Code</label>
+            <input id="pin_code" v-model="form.pin_code" type="text" class="form-control" required />
+          </div>
 
-                <div class="actions mt-3">
-                    <button type="submit" class="btn btn-primary" :disabled="loading">
-                        {{ loading ? '⏳ Registering...' : ' Register' }}
-                    </button>
-                    <button type="button" class="btn btn-success" @click="goLogin">
-                         Existing user
-                    </button>
-                </div>
-            </form>
+          <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-primary" :disabled="loading">
+              {{ loading ? '⏳ Registering...' : 'Register' }}
+            </button>
+            <button type="button" class="btn btn-success" @click="goLogin">
+              Existing user
+            </button>
+          </div>
+        </form>
 
-            <div v-if="error" class="mt-3 error-message">⚠️ {{ error }}</div>
-            <div v-if="success" class="mt-3 success-message">✅ {{ success }}</div>
-        </div>
+        <div v-if="error" class="alert alert-danger mt-3">⚠️ {{ error }}</div>
+        <div v-if="success" class="alert alert-success mt-3">✅ {{ success }}</div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script setup>
@@ -96,132 +98,3 @@ async function submit() {
     }
 }
 </script>
-
-<style scoped>
-.register-container {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.register-page {
-  max-width: 500px;
-  width: 100%;
-  background-color: #ffffff;
-  padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-.register-page h1 {
-  color: #324e6a;
-  font-size: 1.75rem;
-  margin-bottom: 0.5rem;
-  text-align: center;
-}
-
-.register-page h2 {
-  color: #667eea;
-  font-size: 1.3rem;
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 1.25rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #2c3e50;
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
-.form-control {
-  width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #e0e0e0;
-  border-radius: 6px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-  box-sizing: border-box;
-  font-family: inherit;
-}
-
-.form-control:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.btn {
-  flex: 1;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.btn-primary {
-  background-color: #667eea;
-  color: white;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background-color: #5568d3;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-}
-
-.btn-primary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn-success {
-  background-color: #48bb78;
-  color: white;
-}
-
-.btn-success:hover {
-  background-color: #38a169;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.4);
-}
-
-.error-message {
-  color: #e53e3e;
-  background-color: #fed7d7;
-  border-left: 4px solid #e53e3e;
-  padding: 1rem;
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-.success-message {
-  color: #22863a;
-  background-color: #f0f8ff;
-  border-left: 4px solid #28a745;
-  padding: 1rem;
-  border-radius: 4px;
-  font-weight: 500;
-}
-
-.mt-3 {
-  margin-top: 1.5rem;
-}
-</style>

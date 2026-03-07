@@ -14,7 +14,7 @@ import DoctorDashboard from "./components/DoctorDashboard.vue";
 import UserDashboard from "./components/UserDashboard.vue";
 import DepartmentInfo from "./components/DepartmentInfo.vue";
 import EditProfile from "./components/EditProfile.vue";
-import History from "./components/History.vue";
+import UserPatientHistory from "./components/UserPatientHistory.vue";
 import DoctorAvailability from "./components/DoctorAvailability.vue";
 import BookAppointment from "./components/BookAppointment.vue";
 import EditPatient from "./components/EditPatient.vue";
@@ -38,7 +38,7 @@ const routes = [
     { path: "/book-appointment/:doctorId", name: "bookAppointment", component: BookAppointment },
     { path: "/edit-patient/:appointmentId", name: "editPatient", component: EditPatient },
     { path: "/edit-profile", component: EditProfile },
-    { path: "/history", component: History },
+    { path: "/history", component: UserPatientHistory },
 ]
 
 export const router = createRouter({

@@ -1,53 +1,64 @@
 <template>
-  <div class="patient-history-container">
-    <div class="patient-info">
-      <h2>Patient History</h2>
-      <div class="patient-details">
-        <div class="detail-item">
-          <span class="label">Patient Name:</span>
-          <span class="value">{{ patientName }}</span>
+  <div class="container-fluid bg-light min-vh-100 py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow mb-4">
+          <div class="card-body">
+            <h2 class="card-title text-center mb-4">Patient History</h2>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <strong>Patient Name:</strong> {{ patientName }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow">
+          <div class="card-body">
+            <h3 class="card-title mb-4">Visit History</h3>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                  <tr>
+                    <th>Visit No.</th>
+                    <th>Doctor</th>
+                    <th>Department</th>
+                    <th>Tests Done</th>
+                    <th>Diagnosis</th>
+                    <th>Prescription</th>
+                    <th>Medicines</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-if="visits.length === 0">
+                    <td colspan="7" class="text-center text-muted py-5">No visit history found</td>
+                  </tr>
+                  <tr v-for="(visit, index) in visits" :key="visit.id">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ visit.doctor_name || 'N/A' }}</td>
+                    <td>{{ visit.department || 'N/A' }}</td>
+                    <td>{{ visit.tests_done }}</td>
+                    <td>{{ visit.diagnosis }}</td>
+                    <td>{{ visit.prescription }}</td>
+                    <td>
+                      <ul class="list-unstyled">
+                        <li v-for="medicine in visit.medicines" :key="medicine" class="mb-1">
+                          <i class="bi bi-check-circle-fill text-success me-2"></i>{{ medicine }}
+                        </li>
+                      </ul>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-center mt-4">
+              <button @click="goBack" class="btn btn-success">Back</button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-
-    <div class="visit-history">
-      <h3>Visit History</h3>
-      <div class="table-container">
-        <table class="history-table">
-          <thead>
-            <tr>
-              <th>Visit No.</th>
-              <th>Doctor</th>
-              <th>Department</th>
-              <th>Tests Done</th>
-              <th>Diagnosis</th>
-              <th>Prescription</th>
-              <th>Medicines</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="visits.length === 0">
-              <td colspan="8" class="empty-message">No visit history found</td>
-            </tr>
-            <tr v-for="(visit, index) in visits" :key="visit.id">
-              <td>{{ index + 1 }}</td>
-              <td>{{ visit.doctor_name || 'N/A' }}</td>
-              <td>{{ visit.department || 'N/A' }}</td>
-              <td>{{ visit.tests_done }}</td>
-              <td>{{ visit.diagnosis }}</td>
-              <td>{{ visit.prescription }}</td>
-              <td>
-                <ul class="medicines-list">
-                  <li v-for="medicine in visit.medicines" :key="medicine">
-                    {{ medicine }}
-                  </li>
-                </ul>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <button @click="goBack" class="btn-back">Back</button>
     </div>
   </div>
 </template>
@@ -93,141 +104,3 @@ function goBack() {
   router.push('/admin_dashboard')
 }
 </script>
-
-<style scoped>
-.patient-history-container {
-  padding: 40px;
-  background: #f5f5f5;
-  min-height: 100vh;
-}
-
-.patient-info {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.patient-info h2 {
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 22px;
-}
-
-.patient-details {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
-}
-
-.detail-item {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-
-.detail-item .label {
-  font-weight: 600;
-  color: #555;
-  font-size: 14px;
-}
-
-.detail-item .value {
-  color: #333;
-  font-size: 16px;
-}
-
-.visit-history {
-  background: white;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.visit-history h3 {
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 18px;
-}
-
-.table-container {
-  overflow-x: auto;
-  margin-bottom: 20px;
-}
-
-.history-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: white;
-}
-
-.history-table thead {
-  background: #f9f9f9;
-  border-bottom: 2px solid #ddd;
-}
-
-.history-table th {
-  padding: 15px;
-  text-align: left;
-  font-weight: 600;
-  color: #333;
-  font-size: 14px;
-}
-
-.history-table td {
-  padding: 15px;
-  border-bottom: 1px solid #eee;
-  color: #666;
-  font-size: 14px;
-}
-
-.history-table tbody tr:hover {
-  background: #f9f9f9;
-}
-
-.medicines-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.medicines-list li {
-  padding: 5px 0;
-}
-
-.medicines-list li:before {
-  content: "• ";
-  color: #4CAF50;
-  font-weight: bold;
-  margin-right: 8px;
-}
-
-.empty-message {
-  text-align: center;
-  color: #999;
-  padding: 40px 15px !important;
-}
-
-.note {
-  color: #999;
-  font-size: 12px;
-  margin-bottom: 20px;
-}
-
-.btn-back {
-  padding: 10px 20px;
-  background: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.btn-back:hover {
-  background: #45a049;
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
    <div class="content-container">
       <div class="content-page">
-         <h1>� Welcome to Hospital Management System</h1>
+         <h1> Welcome to Hospital Management System</h1>
          <h2>Your Healthcare Solution</h2>
          
          <div class="description">

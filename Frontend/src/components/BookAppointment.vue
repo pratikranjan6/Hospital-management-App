@@ -1,106 +1,112 @@
 <template>
-  <div class="book-appointment">
-    <div class="appointment-header">
-      <h1>Book Appointment</h1>
-      <div class="header-actions">
-        <router-link to="/user_dashboard" class="action-link">Dashboard</router-link>
-        <span class="divider">|</span>
-        <router-link to="/history" class="action-link">History</router-link>
-        <span class="divider">|</span>
-        <button @click="logout" class="logout-btn">logout</button>
-      </div>
-    </div>
-
-    <div class="doctor-info-section" v-if="doctorInfo">
-      <div class="doctor-card">
-        <div class="doctor-details">
-          <h2>{{ doctorInfo.name }}</h2>
-          <p><strong>Specialization:</strong> {{ doctorInfo.specialization }}</p>
-          <p><strong>Qualification:</strong> {{ doctorInfo.qualification }}</p>
-          <p><strong>Experience:</strong> {{ doctorInfo.experience }} years</p>
-        </div>
-      </div>
-    </div>
-
-    <button @click="goBack" class="back-btn">← Back</button>
-
-    <div class="slots-section">
-      <h3>Next 7 Days Availability</h3>
-      
-      <div v-if="!currentUser || !currentUser.id" class="warning-message">
-        <p>Please complete your profile first to book an appointment.</p>
-        <router-link to="/edit-profile" class="profile-link">Complete Profile</router-link>
-      </div>
-      <div v-else-if="loadingSlots" class="loading">Loading appointment slots...</div>
-      <div v-else-if="appointmentSlots.length === 0" class="no-data">
-        No appointment slots available
-      </div>
-      <div v-else class="slots-grid">
-        <div
-          v-for="slot in appointmentSlots"
-          :key="slot.id"
-          class="slot-card"
-          :class="[
-            'day-' + slot.dayOfWeek.toLowerCase(),
-            { 'unavailable': !slot.available },
-            { 'booked': slot.status === 'Booked' },
-            { 'available': slot.available && slot.status !== 'Booked' }
-          ]"
-        >
-          <div class="slot-date">
-            <div class="date-number">{{ slot.dateNumber }}</div>
-            <div class="date-month">{{ slot.month }}</div>
-            <div class="day-name">{{ slot.dayOfWeek }}</div>
-          </div>
-
-          <div class="slot-content">
-            <div class="slot-time" v-if="slot.available">
-              {{ slot.startTime }} - {{ slot.endTime }}
-            </div>
-            <div class="slot-status">
-              <span v-if="!slot.available" class="status-badge unavailable">
-                No Appointment
-              </span>
-              <span v-else-if="slot.status === 'Booked'" class="status-badge booked">
-                Booked
-              </span>
-              <span v-else class="status-badge open">
-                Available
-              </span>
-            </div>
-
-            <button
-              v-if="slot.available && slot.status !== 'Booked'"
-              @click="bookAppointment(slot)"
-              class="book-btn"
-              :disabled="bookingLoading === slot.id"
-            >
-              {{ bookingLoading === slot.id ? 'Booking...' : 'Book Appointment' }}
-            </button>
-            <button
-              v-else-if="slot.status === 'Booked' && slot.bookedByMe"
-              @click="cancelAppointment(slot)"
-              class="cancel-btn"
-              :disabled="cancellingLoading === slot.id"
-            >
-              {{ cancellingLoading === slot.id ? 'Cancelling...' : 'Cancel Appointment' }}
-            </button>
-            <div v-else-if="slot.status === 'Booked'" class="booked-by-other">
-              Booked by another patient
-            </div>
+  <div class="container-fluid py-4">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h1 class="h3 mb-0">Book Appointment</h1>
+          <div class="d-flex align-items-center gap-3">
+            <router-link to="/user_dashboard" class="text-decoration-none">Dashboard</router-link>
+            <span class="text-muted">|</span>
+            <router-link to="/history" class="text-decoration-none">History</router-link>
+            <span class="text-muted">|</span>
+            <button @click="logout" class="btn btn-link p-0 text-decoration-none">logout</button>
           </div>
         </div>
       </div>
     </div>
 
-    <div v-if="successMessage" class="success-message">
+    <div class="card mb-4" v-if="doctorInfo">
+      <div class="card-body">
+        <h2 class="h4 mb-3">{{ doctorInfo.name }}</h2>
+        <p><strong>Specialization:</strong> {{ doctorInfo.specialization }}</p>
+        <p><strong>Qualification:</strong> {{ doctorInfo.qualification }}</p>
+        <p><strong>Experience:</strong> {{ doctorInfo.experience }} years</p>
+      </div>
+    </div>
+
+    <button @click="goBack" class="btn btn-secondary mb-4">← Back</button>
+
+    <div class="card">
+      <div class="card-body">
+        <h3 class="h5 mb-4">Next 7 Days Availability</h3>
+        
+        <div v-if="!currentUser || !currentUser.id" class="alert alert-warning" role="alert">
+          <p class="mb-2">Please complete your profile first to book an appointment.</p>
+          <router-link to="/edit-profile" class="btn btn-warning btn-sm">Complete Profile</router-link>
+        </div>
+        <div v-else-if="loadingSlots" class="text-center py-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading appointment slots...</span>
+          </div>
+        </div>
+        <div v-else-if="appointmentSlots.length === 0" class="text-center py-4 text-muted">
+          No appointment slots available
+        </div>
+        <div v-else class="row g-3">
+          <div
+            v-for="slot in appointmentSlots"
+            :key="slot.id"
+            class="col-12 col-sm-6 col-md-4 col-lg-3"
+          >
+            <div 
+              class="card h-100 text-center"
+              :class="getSlotCardClass(slot)"
+            >
+              <div class="card-body d-flex flex-column justify-content-between">
+                <div class="slot-date mb-3">
+                  <div class="fs-4 fw-bold text-primary">{{ slot.dateNumber }}</div>
+                  <div class="small text-muted text-uppercase">{{ slot.month }}</div>
+                  <div class="fw-semibold">{{ slot.dayOfWeek }}</div>
+                </div>
+
+                <div>
+                  <div v-if="slot.available" class="small text-muted mb-2">
+                    {{ slot.startTime }} - {{ slot.endTime }}
+                  </div>
+                  <div class="mb-3">
+                    <span v-if="!slot.available" class="badge bg-danger">
+                      No Appointment
+                    </span>
+                    <span v-else-if="slot.status === 'Booked'" class="badge bg-warning">
+                      Booked
+                    </span>
+                    <span v-else class="badge bg-success">
+                      Available
+                    </span>
+                  </div>
+
+                  <button
+                    v-if="slot.available && slot.status !== 'Booked'"
+                    @click="bookAppointment(slot)"
+                    class="btn btn-success btn-sm w-100"
+                    :disabled="bookingLoading === slot.id"
+                  >
+                    {{ bookingLoading === slot.id ? 'Booking...' : 'Book' }}
+                  </button>
+                  <button
+                    v-else-if="slot.status === 'Booked' && slot.bookedByMe"
+                    @click="cancelAppointment(slot)"
+                    class="btn btn-danger btn-sm w-100"
+                    :disabled="cancellingLoading === slot.id"
+                  >
+                    {{ cancellingLoading === slot.id ? 'Cancelling...' : 'Cancel' }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="successMessage" class="alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1000; width: auto; max-width: 400px;">
       {{ successMessage }}
-      <button @click="successMessage = ''" class="close-msg">&times;</button>
+      <button type="button" class="btn-close" @click="successMessage = ''" aria-label="Close"></button>
     </div>
 
-    <div v-if="errorMessage" class="error-message">
+    <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1000; width: auto; max-width: 400px;">
       {{ errorMessage }}
-      <button @click="errorMessage = ''" class="close-msg">&times;</button>
+      <button type="button" class="btn-close" @click="errorMessage = ''" aria-label="Close"></button>
     </div>
   </div>
 </template>
@@ -277,6 +283,16 @@ export default {
       return true
     },
 
+    getSlotCardClass(slot) {
+      if (!slot.available) {
+        return 'border-danger'
+      } else if (slot.status === 'Booked') {
+        return 'border-warning'
+      } else {
+        return 'border-success'
+      }
+    },
+
     async bookAppointment(slot) {
       try {
         if (!this.currentUser || !this.currentUser.id) {
@@ -386,408 +402,4 @@ export default {
 }
 </script>
 
-<style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
-.book-appointment {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.appointment-header {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.appointment-header h1 {
-  color: #333;
-  margin: 0;
-  font-size: 28px;
-}
-
-.header-actions {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.action-link,
-.logout-btn {
-  text-decoration: none;
-  color: #667eea;
-  font-weight: 500;
-  border: none;
-  background: none;
-  cursor: pointer;
-  transition: color 0.3s;
-  font-size: 14px;
-}
-
-.action-link:hover,
-.logout-btn:hover {
-  color: #764ba2;
-}
-
-.divider {
-  color: #ccc;
-}
-
-/* Doctor Info */
-.doctor-info-section {
-  margin-bottom: 30px;
-}
-
-.doctor-card {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.doctor-details h2 {
-  color: #333;
-  margin-bottom: 15px;
-  font-size: 24px;
-}
-
-.doctor-details p {
-  color: #666;
-  margin: 8px 0;
-  font-size: 15px;
-}
-
-/* Back Button */
-.back-btn {
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid #667eea;
-  color: #667eea;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  margin-bottom: 25px;
-  transition: all 0.3s;
-}
-
-.back-btn:hover {
-  background: #667eea;
-  color: white;
-  transform: translateX(-5px);
-}
-
-/* Slots Section */
-.slots-section {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.slots-section h3 {
-  color: #333;
-  margin-bottom: 25px;
-  font-size: 20px;
-}
-
-.slots-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-/* Slot Card */
-.slot-card {
-  border: 2px solid #e0e0e0;
-  border-radius: 10px;
-  padding: 20px;
-  background: white;
-  transition: all 0.3s;
-  text-align: center;
-  min-height: 280px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.slot-card.available {
-  border-color: #4caf50;
-  background: #f1f8f4;
-}
-
-.slot-card.available:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(76, 175, 80, 0.3);
-}
-
-.slot-card.unavailable {
-  border-color: #f44336;
-  background: #fef5f5;
-  opacity: 0.8;
-}
-
-.slot-card.booked {
-  border-color: #ff9800;
-  background: #fff8f0;
-}
-
-/* Slot Date */
-.slot-date {
-  margin-bottom: 15px;
-}
-
-.date-number {
-  font-size: 32px;
-  font-weight: bold;
-  color: #667eea;
-  line-height: 1;
-}
-
-.date-month {
-  font-size: 12px;
-  color: #999;
-  text-transform: uppercase;
-  margin: 5px 0;
-}
-
-.day-name {
-  font-size: 14px;
-  font-weight: 600;
-  color: #333;
-  margin-top: 5px;
-}
-
-/* Slot Content */
-.slot-content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.slot-time {
-  font-size: 14px;
-  color: #666;
-  font-weight: 500;
-}
-
-.slot-status {
-  display: flex;
-  justify-content: center;
-}
-
-.status-badge {
-  display: inline-block;
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.status-badge.available {
-  background: #c8e6c9;
-  color: #2e7d32;
-}
-
-.status-badge.unavailable {
-  background: #ffcdd2;
-  color: #c62828;
-}
-
-.status-badge.open {
-  background: #bbdefb;
-  color: #1565c0;
-}
-
-.status-badge.booked {
-  background: #ffe0b2;
-  color: #e65100;
-}
-
-/* Buttons */
-.book-btn,
-.cancel-btn {
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.book-btn {
-  background: #4caf50;
-  color: white;
-}
-
-.book-btn:hover {
-  background: #45a049;
-  transform: scale(1.02);
-}
-
-.book-btn:disabled {
-  background: #bdbdbd;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.cancel-btn {
-  background: #ff6b6b;
-  color: white;
-}
-
-.cancel-btn:hover {
-  background: #ff5252;
-  transform: scale(1.02);
-}
-
-.cancel-btn:disabled {
-  background: #bdbdbd;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.booked-by-other {
-  font-size: 12px;
-  color: #ff6b6b;
-  font-style: italic;
-  padding: 8px;
-  background: #fff0f0;
-  border-radius: 4px;
-}
-
-/* Messages */
-.loading,
-.no-data {
-  text-align: center;
-  padding: 40px;
-  color: #666;
-  font-size: 16px;
-}
-
-.warning-message {
-  background: #fff3cd;
-  border: 2px solid #ffc107;
-  border-radius: 5px;
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.warning-message p {
-  color: #856404;
-  margin: 0 0 15px 0;
-  font-size: 15px;
-}
-
-.profile-link {
-  display: inline-block;
-  background: #ffc107;
-  color: #856404;
-  padding: 10px 20px;
-  border-radius: 5px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s;
-}
-
-.profile-link:hover {
-  background: #ff9800;
-  color: white;
-  transform: scale(1.05);
-}
-
-.success-message,
-.error-message {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 15px 20px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  z-index: 1000;
-  animation: slideIn 0.3s ease-in;
-}
-
-.success-message {
-  background: #4caf50;
-  color: white;
-}
-
-.error-message {
-  background: #f44336;
-  color: white;
-}
-
-.close-msg {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 0;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(400px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .appointment-header {
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
-  }
-
-  .appointment-header h1 {
-    font-size: 22px;
-  }
-
-  .slots-grid {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 15px;
-  }
-
-  .slot-card {
-    min-height: 240px;
-    padding: 15px;
-  }
-
-  .date-number {
-    font-size: 28px;
-  }
-
-  .success-message,
-  .error-message {
-    width: calc(100% - 40px);
-    right: 20px;
-    left: 20px;
-  }
-}
-</style>

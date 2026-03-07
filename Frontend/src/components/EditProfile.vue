@@ -1,139 +1,159 @@
 <template>
-  <div class="edit-profile">
-    <div class="profile-header">
-      <h1>Edit Profile</h1>
-      <div class="header-actions">
-        <router-link to="/user_dashboard" class="action-link">Dashboard</router-link>
-        <span class="divider">|</span>
-        <button @click="logout" class="logout-btn">logout</button>
+  <div class="container-fluid py-4">
+    <div class="card mb-4">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+          <h2 class="h3 mb-0">Edit Profile</h2>
+        </div>
       </div>
     </div>
 
-    <button @click="goBack" class="back-btn">← Back</button>
+    <button @click="goBack" class="btn btn-secondary mb-4">← Back</button>
 
-    <div class="profile-form-container">
-      <div class="form-wrapper">
-        <h2>Patient Information</h2>
-        
-        <form @submit.prevent="saveProfile" class="profile-form">
-          <div class="form-group">
-            <label for="name">Full Name <span class="required">*</span></label>
-            <input
-              id="name"
-              v-model="profileForm.name"
-              type="text"
-              class="form-input"
-              placeholder="Enter your full name"
-              required
-            />
-            <span v-if="formErrors.name" class="error-message">{{ formErrors.name }}</span>
-          </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="h4 mb-4">Patient Information</h2>
+            
+            <form @submit.prevent="saveProfile">
+              <div class="mb-3">
+                <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                <input
+                  id="name"
+                  v-model="profileForm.name"
+                  type="text"
+                  class="form-control"
+                  :class="{'is-invalid': formErrors.name}"
+                  placeholder="Enter your full name"
+                  required
+                />
+                <div v-if="formErrors.name" class="invalid-feedback">
+                  {{ formErrors.name }}
+                </div>
+              </div>
 
-          <div class="form-group">
-            <label for="age">Age <span class="required">*</span></label>
-            <input
-              id="age"
-              v-model.number="profileForm.age"
-              type="number"
-              min="0"
-              max="150"
-              class="form-input"
-              placeholder="Enter your age"
-              required
-            />
-            <span v-if="formErrors.age" class="error-message">{{ formErrors.age }}</span>
-          </div>
+              <div class="mb-3">
+                <label for="age" class="form-label">Age <span class="text-danger">*</span></label>
+                <input
+                  id="age"
+                  v-model.number="profileForm.age"
+                  type="number"
+                  min="0"
+                  max="150"
+                  class="form-control"
+                  :class="{'is-invalid': formErrors.age}"
+                  placeholder="Enter your age"
+                  required
+                />
+                <div v-if="formErrors.age" class="invalid-feedback">
+                  {{ formErrors.age }}
+                </div>
+              </div>
 
-          <div class="form-group">
-            <label for="dob">Date of Birth <span class="required">*</span></label>
-            <input
-              id="dob"
-              v-model="profileForm.date_of_birth"
-              type="date"
-              class="form-input"
-              required
-            />
-            <span v-if="formErrors.date_of_birth" class="error-message">{{ formErrors.date_of_birth }}</span>
-          </div>
+              <div class="mb-3">
+                <label for="dob" class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                <input
+                  id="dob"
+                  v-model="profileForm.date_of_birth"
+                  type="date"
+                  class="form-control"
+                  :class="{'is-invalid': formErrors.date_of_birth}"
+                  required
+                />
+                <div v-if="formErrors.date_of_birth" class="invalid-feedback">
+                  {{ formErrors.date_of_birth }}
+                </div>
+              </div>
 
-          <div class="form-group">
-            <label for="gender">Gender <span class="required">*</span></label>
-            <select
-              id="gender"
-              v-model="profileForm.gender"
-              class="form-input"
-              required
-            >
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
-            </select>
-            <span v-if="formErrors.gender" class="error-message">{{ formErrors.gender }}</span>
-          </div>
+              <div class="mb-3">
+                <label for="gender" class="form-label">Gender <span class="text-danger">*</span></label>
+                <select
+                  id="gender"
+                  v-model="profileForm.gender"
+                  class="form-select"
+                  :class="{'is-invalid': formErrors.gender}"
+                  required
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+                <div v-if="formErrors.gender" class="invalid-feedback">
+                  {{ formErrors.gender }}
+                </div>
+              </div>
 
-          <div class="form-group">
-            <label for="blood_group">Blood Group <span class="required">*</span></label>
-            <select
-              id="blood_group"
-              v-model="profileForm.blood_group"
-              class="form-input"
-              required
-            >
-              <option value="">Select Blood Group</option>
-              <option value="A+">A+</option>
-              <option value="A-">A-</option>
-              <option value="B+">B+</option>
-              <option value="B-">B-</option>
-              <option value="AB+">AB+</option>
-              <option value="AB-">AB-</option>
-              <option value="O+">O+</option>
-              <option value="O-">O-</option>
-            </select>
-            <span v-if="formErrors.blood_group" class="error-message">{{ formErrors.blood_group }}</span>
-          </div>
+              <div class="mb-3">
+                <label for="blood_group" class="form-label">Blood Group <span class="text-danger">*</span></label>
+                <select
+                  id="blood_group"
+                  v-model="profileForm.blood_group"
+                  class="form-select"
+                  :class="{'is-invalid': formErrors.blood_group}"
+                  required
+                >
+                  <option value="">Select Blood Group</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+                <div v-if="formErrors.blood_group" class="invalid-feedback">
+                  {{ formErrors.blood_group }}
+                </div>
+              </div>
 
-          <div class="form-group">
-            <label for="address">Address</label>
-            <textarea
-              id="address"
-              v-model="profileForm.address"
-              class="form-textarea"
-              rows="3"
-              placeholder="Enter your address"
-            ></textarea>
-            <span v-if="formErrors.address" class="error-message">{{ formErrors.address }}</span>
-          </div>
+              <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <textarea
+                  id="address"
+                  v-model="profileForm.address"
+                  class="form-control"
+                  rows="3"
+                  placeholder="Enter your address"
+                ></textarea>
+                <div v-if="formErrors.address" class="invalid-feedback">
+                  {{ formErrors.address }}
+                </div>
+              </div>
 
-          <div class="form-actions">
-            <button
-              type="submit"
-              class="save-btn"
-              :disabled="isSaving"
-            >
-              {{ isSaving ? 'Saving...' : 'Save Profile' }}
-            </button>
-            <button
-              type="button"
-              @click="resetForm"
-              class="reset-btn"
-              :disabled="isSaving"
-            >
-              Reset
-            </button>
+              <div class="d-grid gap-2 d-md-flex">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  :disabled="isSaving"
+                >
+                  {{ isSaving ? 'Saving...' : 'Save Profile' }}
+                </button>
+                <button
+                  type="button"
+                  @click="resetForm"
+                  class="btn btn-outline-secondary"
+                  :disabled="isSaving"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
       </div>
     </div>
 
-    <div v-if="successMessage" class="success-message">
+    <div v-if="successMessage" class="alert alert-success alert-dismissible fade show position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1000; width: auto; max-width: 400px;">
       {{ successMessage }}
-      <button @click="successMessage = ''" class="close-msg">&times;</button>
+      <button type="button" class="btn-close" @click="successMessage = ''" aria-label="Close"></button>
     </div>
 
-    <div v-if="errorMessage" class="error-alert">
+    <div v-if="errorMessage" class="alert alert-danger alert-dismissible fade show position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1000; width: auto; max-width: 400px;">
       {{ errorMessage }}
-      <button @click="errorMessage = ''" class="close-msg">&times;</button>
+      <button type="button" class="btn-close" @click="errorMessage = ''" aria-label="Close"></button>
     </div>
   </div>
 </template>
@@ -313,281 +333,67 @@ export default {
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.edit-profile {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Header */
-.profile-header {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 20px;
+.card {
+  border: 1px solid #dee2e6;
   border-radius: 8px;
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.5rem;
 }
 
-.profile-header h1 {
-  color: #333;
-  margin: 0;
-  font-size: 28px;
+.card-body {
+  padding: 1.5rem;
 }
 
-.header-actions {
-  display: flex;
-  gap: 15px;
-  align-items: center;
+.form-control:focus,
+.form-select:focus {
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 
-.action-link,
-.logout-btn {
-  text-decoration: none;
-  color: #667eea;
+.invalid-feedback {
+  display: block;
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.is-invalid {
+  border-color: #dc3545 !important;
+}
+
+.btn-primary {
+  background-color: #1e88e5;
+  border-color: #1e88e5;
   font-weight: 500;
-  border: none;
-  background: none;
-  cursor: pointer;
-  transition: color 0.3s;
-  font-size: 14px;
 }
 
-.action-link:hover,
-.logout-btn:hover {
-  color: #764ba2;
+.btn-primary:hover {
+  background-color: #1565c0;
+  border-color: #1565c0;
 }
 
-.divider {
-  color: #ccc;
+.btn-outline-secondary {
+  font-weight: 500;
 }
 
-/* Back Button */
-.back-btn {
-  background: rgba(255, 255, 255, 0.9);
-  border: 2px solid #667eea;
-  color: #667eea;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: 600;
-  margin-bottom: 25px;
-  transition: all 0.3s;
-}
-
-.back-btn:hover {
-  background: #667eea;
-  color: white;
-  transform: translateX(-5px);
-}
-
-/* Form Container */
-.profile-form-container {
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.form-wrapper {
-  background: rgba(255, 255, 255, 0.95);
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.form-wrapper h2 {
-  color: #333;
-  margin-bottom: 30px;
-  font-size: 24px;
-}
-
-/* Form Groups */
-.form-group {
-  margin-bottom: 25px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  color: #333;
-  font-weight: 600;
-  font-size: 15px;
-}
-
-.required {
-  color: #f44336;
-}
-
-.form-input,
-.form-textarea {
-  width: 100%;
-  color:#333;
-  padding: 12px 15px;
-  border: 2px solid #e0e0e0;
-  border-radius: 5px;
-  font-size: 15px;
-  font-family: inherit;
-  transition: all 0.3s;
-  background: white;
-}
-
-.form-input:focus,
-.form-textarea:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.form-input::placeholder,
-.form-textarea::placeholder {
-  color: #999;
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.error-message {
-  display: block;
-  color: #f44336;
-  font-size: 13px;
-  margin-top: 5px;
-}
-
-/* Form Actions */
-.form-actions {
-  display: flex;
-  gap: 15px;
-  margin-top: 35px;
-}
-
-.save-btn,
-.reset-btn {
-  flex: 1;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.save-btn {
-  background: #667eea;
+.btn-outline-secondary:hover {
+  background-color: #6c757d;
+  border-color: #6c757d;
   color: white;
 }
 
-.save-btn:hover:not(:disabled) {
-  background: #764ba2;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
-.reset-btn {
-  background: #f5f5f5;
-  color: #333;
-  border: 2px solid #ddd;
-}
-
-.reset-btn:hover:not(:disabled) {
-  background: #e0e0e0;
-  border-color: #999;
-}
-
-.save-btn:disabled,
-.reset-btn:disabled {
-  opacity: 0.6;
+.btn:disabled {
+  opacity: 0.65;
   cursor: not-allowed;
 }
 
-/* Messages */
-.success-message,
-.error-alert {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 15px 20px;
-  border-radius: 5px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 15px;
-  z-index: 1000;
-  animation: slideIn 0.3s ease-in;
-}
-
-.success-message {
-  background: #4caf50;
-  color: white;
-}
-
-.error-alert {
-  background: #f44336;
-  color: white;
-}
-
-.close-msg {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 0;
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(400px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-/* Responsive */
 @media (max-width: 768px) {
-  .profile-header {
-    flex-direction: column;
-    text-align: center;
-    gap: 15px;
-  }
-
-  .profile-header h1 {
-    font-size: 22px;
-  }
-
-  .form-wrapper {
-    padding: 25px;
-  }
-
-  .form-actions {
+  .d-md-flex {
     flex-direction: column;
   }
-
-  .save-btn,
-  .reset-btn {
-    width: 100%;
-  }
-
-  .success-message,
-  .error-alert {
-    width: calc(100% - 40px);
-    right: 20px;
-    left: 20px;
+  
+  .card-body {
+    padding: 1rem;
   }
 }
 </style>

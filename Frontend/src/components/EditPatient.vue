@@ -1,57 +1,76 @@
 <template>
-  <div class="edit-patient">
-    <div class="header">
-      <h1>Update Patient History</h1>
-      <button @click="goBack" class="back-btn">← Back</button>
+  <div class="container-fluid bg-light min-vh-100 py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="card shadow">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h1 class="h4 mb-0">Update Patient History</h1>
+            <button @click="goBack" class="btn btn-outline-secondary">
+              <i class="bi bi-arrow-left"></i> Back
+            </button>
+          </div>
+          <div class="card-body">
+            <div v-if="loading" class="text-center py-4">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-2 text-muted">Loading appointment data...</p>
+            </div>
+            <form v-else @submit.prevent="submitHistory">
+              <div class="row mb-3">
+                <div class="col-md-4">
+                  <label class="form-label fw-bold">Appointment ID:</label>
+                  <p class="mb-0">{{ appointmentId }}</p>
+                </div>
+                <div class="col-md-4" v-if="appointment.patient_name">
+                  <label class="form-label fw-bold">Patient:</label>
+                  <p class="mb-0">{{ appointment.patient_name }}</p>
+                </div>
+                <div class="col-md-4" v-if="appointment.doctor_name">
+                  <label class="form-label fw-bold">Doctor:</label>
+                  <p class="mb-0">{{ appointment.doctor_name }}</p>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="tests" class="form-label">Tests Done</label>
+                <input id="tests" v-model="form.tests_done" type="text" class="form-control" placeholder="e.g. ECG, Blood test" />
+              </div>
+
+              <div class="mb-3">
+                <label for="diagnosis" class="form-label">Diagnosis</label>
+                <input id="diagnosis" v-model="form.diagnosis" type="text" class="form-control" placeholder="e.g. Hypertension" />
+              </div>
+
+              <div class="mb-3">
+                <label for="prescription" class="form-label">Prescription</label>
+                <input id="prescription" v-model="form.prescription" type="text" class="form-control" placeholder="e.g. Apply ointment twice daily" />
+              </div>
+
+              <div class="mb-3">
+                <label for="medicines" class="form-label">Medicines (comma separated)</label>
+                <input id="medicines" v-model="form.medicines" type="text" class="form-control" placeholder="e.g. Paracetamol, Ibuprofen" />
+              </div>
+
+              <div class="text-end">
+                <button type="submit" class="btn btn-success" :disabled="saving">
+                  <span v-if="saving" class="spinner-border spinner-border-sm me-2" role="status"></span>
+                  {{ saving ? 'Saving...' : 'Update History' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div v-if="loading" class="loading">Loading appointment data...</div>
-    <div v-else>
-      <form @submit.prevent="submitHistory" class="history-form">
-        <div class="form-group">
-          <label>Appointment ID:</label>
-          <span>{{ appointmentId }}</span>
+    <div v-if="message" class="toast-container position-fixed top-0 end-0 p-3">
+      <div class="toast show" :class="messageType === 'success' ? 'bg-success' : 'bg-danger'" role="alert">
+        <div class="toast-body text-white d-flex justify-content-between align-items-center">
+          {{ message }}
+          <button type="button" class="btn-close btn-close-white" @click="message = ''"></button>
         </div>
-        <div class="form-group" v-if="appointment.patient_name">
-          <label>Patient:</label>
-          <span>{{ appointment.patient_name }}</span>
-        </div>
-        <div class="form-group" v-if="appointment.doctor_name">
-          <label>Doctor:</label>
-          <span>{{ appointment.doctor_name }}</span>
-        </div>
-
-        <div class="form-group">
-          <label for="tests">Tests Done</label>
-          <input id="tests" v-model="form.tests_done" type="text" placeholder="e.g. ECG, Blood test" />
-        </div>
-
-        <div class="form-group">
-          <label for="diagnosis">Diagnosis</label>
-          <input id="diagnosis" v-model="form.diagnosis" type="text" placeholder="e.g. Hypertension" />
-        </div>
-
-        <div class="form-group">
-          <label for="prescription">Prescription</label>
-          <input id="prescription" v-model="form.prescription" type="text" placeholder="e.g. Apply ointment twice daily" />
-        </div>
-
-        <div class="form-group">
-          <label for="medicines">Medicines (comma separated)</label>
-          <input id="medicines" v-model="form.medicines" type="text" placeholder="e.g. Paracetamol, Ibuprofen" />
-        </div>
-
-        <div class="form-actions">
-          <button type="submit" class="save-btn" :disabled="saving">
-            {{ saving ? 'Saving...' : 'Update History' }}
-          </button>
-        </div>
-      </form>
-    </div>
-
-    <div v-if="message" class="message" :class="messageType">
-      {{ message }}
-      <button class="close-msg" @click="message = ''">×</button>
+      </div>
     </div>
   </div>
 </template>
@@ -149,79 +168,20 @@ export default {
 </script>
 
 <style scoped>
-.edit-patient {
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 20px;
+.card-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
-}
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-.back-btn {
-  background: #ccc;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.loading {
-  text-align: center;
-  color: #666;
-}
-.history-form .form-group {
-  margin-bottom: 20px;
-}
-.history-form label {
-  display: block;
-  font-weight: 600;
-  margin-bottom: 6px;
-}
-.history-form input {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-.form-actions {
-  text-align: right;
-}
-.save-btn {
-  background: #4CAF50;
   color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 4px;
-  cursor: pointer;
+  border-bottom: none;
 }
-.save-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-.message {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 12px 20px;
-  border-radius: 4px;
+
+.card-header .btn-outline-secondary {
+  border-color: rgba(255, 255, 255, 0.5);
   color: white;
-  display: flex;
-  align-items: center;
-  gap: 12px;
 }
-.message.success { background: #4CAF50; }
-.message.error { background: #f44336; }
-.close-msg {
-  background: transparent;
-  border: none;
-  font-size: 18px;
-  line-height: 1;
-  cursor: pointer;
+
+.card-header .btn-outline-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: white;
   color: white;
 }
 </style>

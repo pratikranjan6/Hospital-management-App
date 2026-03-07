@@ -1,123 +1,134 @@
 <template>
   <div>
     <AdminNavBar />
-    <div class="admin-container">
+    <div class="container mt-4">
       <div v-if="searchResults">
-        <div class="search-results">
-          <div class="section">
-            <div class="section-header">
-              <h2>Search Results</h2>
-              <button @click="() => { searchResults = null; router.push('/admin_dashboard') }" class="btn btn-create">Clear</button>
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="h4 mb-0">Search Results</h2>
+            <button @click="() => { searchResults = null; router.push('/admin_dashboard') }" class="btn btn-secondary">Clear</button>
+          </div>
+          <div class="card-body">
+            <div v-if="(searchResults.doctors || []).length === 0 && (searchResults.patients || []).length === 0" class="alert alert-info">No results found</div>
+            <div v-if="(searchResults.doctors || []).length > 0">
+              <h3>Doctors</h3>
+              <ul class="list-group mb-3">
+                <li v-for="d in searchResults.doctors" :key="d.id" class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>Dr. {{ d.name }}</strong> - {{ d.specialization }}
+                  </div>
+                  <button @click="editDoctor(d.id)" class="btn btn-warning btn-sm">Edit</button>
+                </li>
+              </ul>
             </div>
-            <div class="section-content">
-              <div v-if="(searchResults.doctors || []).length === 0 && (searchResults.patients || []).length === 0" class="empty-message">No results found</div>
-              <div v-if="(searchResults.doctors || []).length > 0">
-                <h3>Doctors</h3>
-                <div v-for="d in searchResults.doctors" :key="d.id" class="item-row">
-                  <span class="item-name">Dr. {{ d.name }}</span>
-                  <span class="item-info">{{ d.specialization }}</span>
-                  <div class="actions">
-                    <button @click="editDoctor(d.id)" class="btn-edit">Edit</button>
+            <div v-if="(searchResults.patients || []).length > 0">
+              <h3>Patients</h3>
+              <ul class="list-group">
+                <li v-for="p in searchResults.patients" :key="p.id" class="list-group-item d-flex justify-content-between align-items-center">
+                  <div>
+                    <strong>{{ p.name }}</strong> (Age: {{ p.age }})
                   </div>
-                </div>
-              </div>
-              <div v-if="(searchResults.patients || []).length > 0">
-                <h3>Patients</h3>
-                <div v-for="p in searchResults.patients" :key="p.id" class="item-row">
-                  <span class="item-name">{{ p.name }}</span>
-                  <span class="item-info">(Age: {{ p.age }})</span>
-                  <div class="actions">
-                    <button @click="editPatient(p.id)" class="btn-edit">Edit</button>
-                  </div>
-                </div>
-              </div>
+                  <button @click="editPatient(p.id)" class="btn btn-warning btn-sm">Edit</button>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </div>
       <div v-else>
 
-        <div class="section">
-          <div class="section-header">
-            <h2>Registered Doctors</h2>
-            <button @click="goToAddDoctor" class="btn btn-create">+ Create</button>
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="h4 mb-0">Registered Doctors</h2>
+            <button @click="goToAddDoctor" class="btn btn-success">+ Create</button>
           </div>
-          <div class="section-content">
-            <div v-if="doctors.length === 0" class="empty-message">No doctors found</div>
-            <div v-for="doctor in doctors" :key="doctor.id" class="item-row">
-              <span class="item-name">Dr. {{ doctor.name }}</span>
-              <div class="actions">
-                <button @click="editDoctor(doctor.id)" class="btn-edit">Edit</button>
-                <button @click="deleteDoctor(doctor.id)" class="btn-delete">Delete</button>
-                <button @click="blacklistDoctor(doctor.id)" class="btn-blacklist">Blacklist</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-header">
-            <h2>Registered Patients</h2>
-          </div>
-          <div class="section-content">
-            <div v-if="patients.length === 0" class="empty-message">No patients found</div>
-            <div v-for="patient in patients" :key="patient.id" class="item-row">
-              <span class="item-name">{{ patient.name }}</span>
-              <span class="item-info">(Age: {{ patient.age }}, {{ patient.gender }})</span>
-              <div class="actions">
-                <button @click="editPatient(patient.id)" class="btn-edit">Edit</button>
-                <button @click="deletePatient(patient.id)" class="btn-delete">Delete</button>
-                <button @click="blacklistPatient(patient.id)" class="btn-blacklist">Blacklist</button>
-                <button @click="goToPatientHistory(patient.id)" class="btn-view">View</button>
-              </div>
-            </div>
+          <div class="card-body">
+            <div v-if="doctors.length === 0" class="alert alert-info">No doctors found</div>
+            <ul class="list-group">
+              <li v-for="doctor in doctors" :key="doctor.id" class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Dr. {{ doctor.name }}</strong>
+                <div>
+                  <button @click="editDoctor(doctor.id)" class="btn btn-warning btn-sm me-2">Edit</button>
+                  <button @click="deleteDoctor(doctor.id)" class="btn btn-danger btn-sm me-2">Delete</button>
+                  <button @click="blacklistDoctor(doctor.id)" class="btn btn-secondary btn-sm">Blacklist</button>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div class="section">
-          <div class="section-header">
-            <h2>Departments</h2>
-            <button @click="goToAddDepartment" class="btn btn-create">+ Add Department</button>
+        <div class="card mb-4">
+          <div class="card-header">
+            <h2 class="h4 mb-0">Registered Patients</h2>
           </div>
-          <div class="section-content">
-            <div v-if="departments.length === 0" class="empty-message">No departments found</div>
-            <div v-for="department in departments" :key="department.id" class="item-row">
-              <span class="item-name">{{ department.name }}</span>
-              <span class="item-info">{{ department.description }}</span>
-              <div class="actions">
-                <button @click="editDepartment(department.id)" class="btn-edit">Edit</button>
-                <button @click="deleteDepartment(department.id)" class="btn-delete">Delete</button>
-              </div>
-            </div>
+          <div class="card-body">
+            <div v-if="patients.length === 0" class="alert alert-info">No patients found</div>
+            <ul class="list-group">
+              <li v-for="patient in patients" :key="patient.id" class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{{ patient.name }}</strong> (Age: {{ patient.age }}, {{ patient.gender }})
+                </div>
+                <div>
+                  <button @click="deletePatient(patient.id)" class="btn btn-danger btn-sm me-2">Delete</button>
+                  <button @click="blacklistPatient(patient.id)" class="btn btn-secondary btn-sm me-2">Blacklist</button>
+                  <button @click="goToPatientHistory(patient.id)" class="btn btn-primary btn-sm">View</button>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div class="section">
-          <h2>Upcoming Appointments</h2>
-          <div class="table-container">
-            <table class="appointments-table">
-              <thead>
-                <tr>
-                  <th>Sr No.</th>
-                  <th>Patient Name</th>
-                  <th>Doctor Name</th>
-                  <th>Department</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-if="appointments.length === 0">
-                  <td colspan="7" class="empty-message">No appointments found</td>
-                </tr>
-                <tr v-for="(appointment, index) in appointments" :key="appointment.id">
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ appointment.patient_name }}</td>
-                  <td>{{ appointment.doctor_name }}</td>
-                  <td>{{ appointment.department }}</td>
-                  <td>{{ formatDate(appointment.appointment_date) }}</td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="card mb-4">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <h2 class="h4 mb-0">Departments</h2>
+            <button @click="goToAddDepartment" class="btn btn-success">+ Add Department</button>
+          </div>
+          <div class="card-body">
+            <div v-if="departments.length === 0" class="alert alert-info">No departments found</div>
+            <ul class="list-group">
+              <li v-for="department in departments" :key="department.id" class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{{ department.name }}</strong> - {{ department.description }}
+                </div>
+                <div>
+                  <button @click="editDepartment(department.id)" class="btn btn-warning btn-sm me-2">Edit</button>
+                  <button @click="deleteDepartment(department.id)" class="btn btn-danger btn-sm">Delete</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="h4 mb-0">Upcoming Appointments</h2>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Sr No.</th>
+                    <th>Patient Name</th>
+                    <th>Doctor Name</th>
+                    <th>Department</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-if="appointments.length === 0">
+                    <td colspan="5" class="text-center text-muted">No appointments found</td>
+                  </tr>
+                  <tr v-for="(appointment, index) in appointments" :key="appointment.id">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ appointment.patient_name }}</td>
+                    <td>{{ appointment.doctor_name }}</td>
+                    <td>{{ appointment.department }}</td>
+                    <td>{{ formatDate(appointment.appointment_date) }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
@@ -294,9 +305,7 @@ async function deleteDepartment(departmentId) {
   }
 }
 
-function editPatient(patientId) {
-  router.push(`/edit_patient/${patientId}`)
-}
+
 
 function editDepartment(departmentId) {
   router.push(`/edit_department/${departmentId}`)
@@ -336,168 +345,7 @@ function formatDate(dateString) {
   return date.toLocaleDateString() + ' ' + date.toLocaleTimeString()
 }
 </script>
-
 <style scoped>
-.admin-container {
-  min-height: 100vh;
-  background-color: #edf2f7; 
-  padding: 2rem;
-  width: 100%;
-  margin: 0 auto;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-
-.section {
-  background: white;
-  color:#2c3e50;
-  padding: 2rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  border-bottom: 2px solid #e0e0e0;
-  padding-bottom: 1rem;
-}
-
-.section-header h2 {
-  color: #324e6a;
-  font-size: 1.3rem;
-}
-
-.btn-create {
-  background-color: #48bb78;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: background-color 0.3s ease;
-}
-
-.btn-create:hover {
-  background-color: #38a169;
-}
-
-.section-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.item-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background-color: #f8f9fa;
-  border-radius: 6px;
-  border-left: 4px solid #3b82f6;
-}
-
-.item-name {
-  font-weight: 600;
-  color: #2c3e50;
-  flex: 1;
-}
-
-.item-info {
-  color: #718096;
-  margin-right: 1rem;
-}
-
-.actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.btn-edit,
-.btn-delete,
-.btn-blacklist,
-.btn-view {
-  padding: 0.5rem 0.75rem;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.btn-edit {
-  background-color: #ffd700;
-  color: #333;
-}
-
-.btn-edit:hover {
-  background-color: #ffed4e;
-}
-
-.btn-delete {
-  background-color: #ef4444;
-  color: white;
-}
-
-.btn-delete:hover {
-  background-color: #dc2626;
-}
-
-.btn-blacklist {
-  background-color: #6b7280;
-  color: white;
-}
-
-.btn-blacklist:hover {
-  background-color: #4b5563;
-}
-
-.btn-view {
-  background-color: #3b82f6;
-  color: white;
-}
-
-.btn-view:hover {
-  background-color: #2563eb;
-}
-
-/* Table */
-.table-container {
-  overflow-x: auto;
-}
-
-.appointments-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.appointments-table thead {
-  background-color: #f8f9fa;
-}
-
-.appointments-table th {
-  padding: 1rem;
-  text-align: left;
-  font-weight: 600;
-  color: #2c3e50;
-  border-bottom: 2px solid #e0e0e0;
-}
-
-.appointments-table td {
-  padding: 1rem;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.appointments-table tbody tr:hover {
-  background-color: #f8f9fa;
-}
 
 .status {
   padding: 0.25rem 0.75rem;
@@ -536,4 +384,5 @@ function formatDate(dateString) {
 .btn {
   transition: all 0.3s ease;
 }
+
 </style>

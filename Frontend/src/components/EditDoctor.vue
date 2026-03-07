@@ -24,13 +24,9 @@
           <input v-model.number="formData.experience" id="experience" type="number" min="0" required />
         </div>
 
-        <div class="form-group">
-          <label for="availability">Availability</label>
-          <input v-model="formData.availability" id="availability" type="text" required />
-        </div>
-
         <button type="submit" class="btn-update">Update</button>
       </form>
+      <button @click="router.push('/admin_dashboard')" class="btn btn-secondary w-100 mt-3">Back</button> 
     </div>
   </div>
 </template>

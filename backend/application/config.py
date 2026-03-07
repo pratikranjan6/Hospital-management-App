@@ -33,11 +33,13 @@ class LocalDevelopmentConfig(Config):
     CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', REDIS_URL)
     CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', REDIS_URL)
 
+
     from celery.schedules import crontab
     CELERY_BEAT_SCHEDULE = {
         'daily-reminder-job': {
             'task': 'application.tasks.send_daily_reminders',
-            'schedule': crontab(hour=8, minute=0),
+            'schedule': crontab(hour=8, minute=00),
+            
         },
         'monthly-report-job': {
             'task': 'application.tasks.send_monthly_reports',

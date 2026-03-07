@@ -1,25 +1,45 @@
 <template>
-  <div class="doctor-availability">
-    <h2>Doctor's Availability</h2>
-
-    <div class="availability-list">
-      <div v-if="loading" class="loading">Loading...</div>
-      <div v-else-if="availabilities.length === 0" class="no-data">No availability found</div>
-        
-
-        
-      <div v-for="item in availabilities" :key="item.id" class="avail-row">
-        <div class="date-box">{{ formatDate(item.date) }}</div>
-        <button
-          class="slot-box"
-          :class="{'available': isAvailable(item), 'not-available': !isAvailable(item)}"
-          @click="toggle(item)"
-        >
-          <div class="times">{{ item.start_time ? item.start_time : defaultStart }} - {{ item.end_time ? item.end_time : defaultEnd }}</div>
-          <div class="status">{{ isAvailable(item) ? 'Available' : 'Not Available' }}</div>
-        </button>
+  <div class="container-fluid bg-light min-vh-100 py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow">
+          <div class="card-header">
+            <h2 class="card-title mb-0">Doctor's Availability</h2>
+          </div>
+          <div class="card-body">
+            <div v-if="loading" class="text-center py-4">
+              <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-2 text-muted">Loading availability...</p>
+            </div>
+            <div v-else-if="availabilities.length === 0" class="text-center text-muted py-4">
+              No availability found
+            </div>
+            <div v-else class="row g-3">
+              <div v-for="item in availabilities" :key="item.id" class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                  <div class="card-body text-center">
+                    <div class="badge bg-primary mb-3 fs-6">{{ formatDate(item.date) }}</div>
+                    <button
+                      class="btn w-100"
+                      :class="isAvailable(item) ? 'btn-success' : 'btn-outline-danger'"
+                      @click="toggle(item)"
+                    >
+                      <div class="fw-bold">{{ item.start_time ? item.start_time : defaultStart }} - {{ item.end_time ? item.end_time : defaultEnd }}</div>
+                      <small class="text-muted">{{ isAvailable(item) ? 'Available' : 'Not Available' }}</small>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button @click="router.push('/doctor_dashboard')" class="btn btn-secondary w-100 mt-3">Back</button>
+        </div>
       </div>
+      
     </div>
+
   </div>
 </template>
 
@@ -141,23 +161,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.doctor-availability { padding: 18px; font-family: Inter, Arial, sans-serif }
-.doctor-availability h2 { margin: 0 0 12px 0 ;color:black;}
-.availability-list { display:flex; flex-direction:column; gap:10px }
-.avail-row { display:flex; gap:12px; align-items:center }
-.date-box { min-width:140px; padding:10px 12px; background:#eef2ff;color:black; border:2px solid #c7ddff; border-radius:6px; text-align:center; font-weight:600 }
-.slot-box { display:flex; flex-direction:column; align-items:center; padding:10px 16px; border-radius:8px; cursor:pointer; border:3px solid transparent; background:#fff; min-width:220px }
-.slot-box.available { border-color:#06b6a4; background:#ecfdf5 }
-.slot-box.not-available { border-color:#ef4444; background:#fff7f7 }
-.slot-box .times { font-weight:700; color:#0f1724 }
-.slot-box .status { font-size:12px; color:#334155; margin-top:6px }
-.loading, .no-data { padding:12px; color:#64748b }
-
-@media (max-width:700px) {
-  .avail-row { flex-direction:column; align-items:stretch }
-  .date-box { width:100% }
-  .slot-box { width:100% }
-}
-</style>

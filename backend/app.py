@@ -14,7 +14,14 @@ def create_app():
     from application.tasks import init_celery
     init_celery(app)
 
-    CORS(app, supports_credentials=True, resources={r"/api/*": {"origins": "http://localhost:5173/*"}})
+
+    CORS(app,
+         supports_credentials=True,
+         resources={r"/api/*": {"origins": ["http://localhost:5173"]}},
+         allow_headers=["Content-Type", "Authorization"],
+         expose_headers=["Content-Type", "Authorization"],
+         methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+    )
 
     with app.app_context():
         db.create_all()

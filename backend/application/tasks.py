@@ -33,18 +33,36 @@ def get_flask_app():
     return None
 
 
+
+
 candidate_broker = os.getenv('CELERY_BROKER_URL', None)
 if candidate_broker:
     celery = Celery('application.tasks', broker=candidate_broker)
 else:
     celery = Celery('application.tasks')
 
+try:
+    from application.config import LocalDevelopmentConfig
+    celery.conf.beat_schedule = getattr(LocalDevelopmentConfig, 'CELERY_BEAT_SCHEDULE', {})
+    celery.conf.timezone = os.getenv('CELERY_TIMEZONE', getattr(LocalDevelopmentConfig, 'CELERY_TIMEZONE', 'Asia/Kolkata'))
+    celery.conf.enable_utc = getattr(LocalDevelopmentConfig, 'CELERY_ENABLE_UTC', False)
+except Exception:
+    pass
+
 
 def init_celery(flask_app):
     """Configure celery with the Flask app's settings and wrap tasks in the
     application context.
     """
-    celery.conf.update(flask_app.config)
+    mapped = {}
+    mapped['broker_url'] = flask_app.config.get('CELERY_BROKER_URL', flask_app.config.get('REDIS_URL'))
+
+    mapped['result_backend'] = flask_app.config.get('CELERY_RESULT_BACKEND', flask_app.config.get('REDIS_URL'))
+
+    mapped['beat_schedule'] = flask_app.config.get('CELERY_BEAT_SCHEDULE', celery.conf.get('beat_schedule', {}))
+    mapped['timezone'] = flask_app.config.get('CELERY_TIMEZONE', celery.conf.get('timezone'))
+    mapped['enable_utc'] = flask_app.config.get('CELERY_ENABLE_UTC', celery.conf.get('enable_utc', True))
+    celery.conf.update(mapped)
 
     class ContextTask(celery.Task):
         def __call__(self, *args, **kwargs):

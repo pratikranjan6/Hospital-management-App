@@ -15,6 +15,7 @@
 
         <button type="submit" class="btn-create">Update</button>
       </form>
+      <button @click="router.push('/admin_dashboard')" class="btn btn-secondary w-100 mt-3">Back</button> 
     </div>
   </div>
 </template>
