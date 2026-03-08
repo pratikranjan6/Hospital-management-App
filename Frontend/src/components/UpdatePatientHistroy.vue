@@ -1,44 +1,57 @@
 <template>
-  <div class="update-history">
-    <h2>Update Patient History</h2>
-
-    <div class="patient-info">
-      <div><strong>Patient Name:</strong> {{ patientName }}</div>
-      <div><strong>Department:</strong> {{ department || 'N/A' }}</div>
-    </div>
-
-    <form @submit.prevent="saveHistory" class="history-form">
-      <div class="row">
-        <label>Visit Type</label>
-        <input v-model="form.visit_type" placeholder="e.g. Follow-up" />
-
-        <label>Test Done</label>
-        <input v-model="form.test_done" placeholder="e.g. ECG" />
+  <div class="container-fluid mt-5">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h2 class="h4 mb-0">Update Patient History</h2>
       </div>
-
-      <div class="row">
-        <label>Diagnosis</label>
-        <input v-model="form.diagnosis" placeholder="Diagnosis" />
-
-        <label>Prescription</label>
-        <input v-model="form.prescription" placeholder="Prescription" />
-      </div>
-
-      <div class="medicines">
-        <div class="med-header">Medicines</div>
-        <div v-for="(m, idx) in form.medicines" :key="idx" class="medicine-row">
-          <input v-model="m.name" placeholder="Medicine name" />
-          <input v-model="m.dosage" placeholder="dosage (e.g. 1-0-1)" />
-          <button type="button" class="btn small danger" @click="removeMedicine(idx)">remove</button>
+      <div class="card-body">
+        <div class="mb-3">
+          <strong>Patient Name:</strong> {{ patientName }}
         </div>
-        <button type="button" class="btn small" @click="addMedicine">add medicine</button>
-      </div>
+        <div class="mb-3">
+          <strong>Department:</strong> {{ department || 'N/A' }}
+        </div>
 
-      <div class="actions">
-        <button type="submit" class="btn save">save</button>
-        <button type="button" class="btn cancel" @click="$emit('cancel')">cancel</button>
+        <form @submit.prevent="saveHistory">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Visit Type</label>
+              <input v-model="form.visit_type" class="form-control" placeholder="e.g. Follow-up" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Test Done</label>
+              <input v-model="form.test_done" class="form-control" placeholder="e.g. ECG" />
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Diagnosis</label>
+              <input v-model="form.diagnosis" class="form-control" placeholder="Diagnosis" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Prescription</label>
+              <input v-model="form.prescription" class="form-control" placeholder="Prescription" />
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <h5>Medicines</h5>
+            <div v-for="(m, idx) in form.medicines" :key="idx" class="d-flex gap-2 mb-2 align-items-center">
+              <input v-model="m.name" class="form-control" placeholder="Medicine name" />
+              <input v-model="m.dosage" class="form-control" placeholder="dosage (e.g. 1-0-1)" />
+              <button type="button" class="btn btn-danger btn-sm" @click="removeMedicine(idx)">Remove</button>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" @click="addMedicine">Add Medicine</button>
+          </div>
+
+          <div class="d-flex justify-content-end gap-2">
+            <button type="submit" class="btn btn-success" :disabled="saving">Save</button>
+            <button type="button" class="btn btn-secondary" @click="$emit('cancel')">Cancel</button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
@@ -100,24 +113,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.update-history { max-width:980px; border:1px solid #e6eef6; padding:20px; margin: 18px auto; font-family: Inter, Arial, Helvetica, sans-serif; background:#fff; border-radius:8px }
-.update-history h2 { margin:0 0 12px 0; text-align:left; color:#0f1724 }
-.patient-info { margin-bottom:16px; color:#334155 }
-.history-form { display:block }
-.row { display:flex; gap:12px; margin-bottom:12px }
-.row label { width:120px; font-weight:600; align-self:center; color:#102a43 }
-.row input { flex:1; padding:10px; border:1px solid #e2e8f0; border-radius:8px; background:#fbfdff }
-.medicines { margin:14px 0 }
-.med-header { font-weight:600; margin-bottom:10px; color:#0f1724 }
-.medicine-row { display:flex; gap:8px; align-items:center; margin-bottom:8px }
-.medicine-row input { padding:8px; border-radius:6px; border:1px solid #e2e8f0 }
-.hint { color: #10b981; font-size:13px }
-.actions { margin-top:12px; display:flex; gap:8px; justify-content:flex-end }
-.btn { padding:8px 12px; border-radius:6px; border:1px solid transparent; cursor:pointer }
-.small { padding:6px 8px; font-size:13px }
-.danger { background:#ef4444; color:#fff }
-.save { background:#10b981; color:#fff }
-.cancel { background:#f8fafc }
-</style>

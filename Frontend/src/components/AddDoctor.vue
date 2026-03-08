@@ -1,13 +1,11 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
-        <div class="card shadow">
-          <div class="card-header bg-primary text-white">
-            <h2 class="h4 mb-0">Add a new Doctor</h2>
-          </div>
-          <div class="card-body">
-            <form @submit.prevent="submitDoctor">
+  <div class="container-fluid mt-5">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h2 class="h4 mb-0">Add a new Doctor</h2>
+      </div>
+      <div class="card-body">
+        <form @submit.prevent="submitDoctor">
               <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input 
@@ -84,8 +82,6 @@
             <button @click="router.push('/admin_dashboard')" class="btn btn-secondary w-100 mt-3">Back</button>
           </div>
         </div>
-      </div>
-    </div>
   </div>
 </template>
 

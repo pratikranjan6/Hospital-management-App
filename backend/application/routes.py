@@ -453,8 +453,6 @@ def update_doctor(doctor_id):
             doctor.qualification = data['qualification']
         if 'experience' in data:
             doctor.experience = data['experience']
-        if 'availability' in data:
-            doctor.availability = data['availability']
         
         db.session.commit()
         try:
@@ -543,13 +541,17 @@ def delete_patient(patient_id):
         if not patient:
             return jsonify({'msg': 'Patient not found'}), 404
         
-        db.session.delete(patient)
+        user = patient.user
+        if user:
+            db.session.delete(user)
+        else:
+            db.session.delete(patient)
         db.session.commit()
         try:
             redis_client.delete('cache:/api/admin/patients?')
         except Exception:
             pass
-        return jsonify({'msg': 'Patient deleted successfully'}), 200
+        return jsonify({'msg': 'Patient and associated user deleted successfully'}), 200
     except Exception as e:
         db.session.rollback()
         return jsonify({'msg': 'Failed to delete patient'}), 500
@@ -604,6 +606,14 @@ def create_doctor():
         )
         
         db.session.add(new_doctor)
+        db.session.commit()
+        
+        from datetime import date, timedelta
+        today = date.today()
+        for i in range(7):
+            d = today + timedelta(days=i)
+            availability = Availability(doctor_id=new_doctor.id, date=d)
+            db.session.add(availability)
         db.session.commit()
         
         return jsonify({
@@ -1006,6 +1016,10 @@ def get_user_appointments():
                 'medicines': appointment.medicines or ''
             })
         
+        q = request.args.get('q', '').strip().lower()
+        if q:
+            appointments_data = [a for a in appointments_data if q in a['doctor_name'].lower() or q in a['department_name'].lower()]
+        
         return jsonify(appointments_data), 200
     except Exception as e:
         app.logger.exception('Error fetching user appointments')
@@ -1029,10 +1043,10 @@ def cancel_user_appointment(appointment_id):
         if appointment.patient and appointment.patient.user_id != user_id:
             return jsonify({'msg': 'Not authorized'}), 403
         
-        appointment.status = 'Open'
+        appointment.status = 'Cancelled'
         db.session.commit()
         
-        return jsonify({'msg': 'Appointment cancelled (slot reopened) successfully'}), 200
+        return jsonify({'msg': 'Appointment cancelled successfully'}), 200
     except Exception as e:
         db.session.rollback()
         app.logger.exception('Error cancelling appointment')
@@ -1060,6 +1074,10 @@ def get_department_doctors(department_id):
                 'experience': doctor.experience,
                 'username': doctor.username
             })
+        
+        q = request.args.get('q', '').strip().lower()
+        if q:
+            doctors_data = [d for d in doctors_data if q in d['name'].lower()]
         
         return jsonify(doctors_data), 200
     except Exception as e:
@@ -1227,9 +1245,9 @@ def doctor_cancel_appointment(appointment_id):
         if appointment.doctor_id != doctor_id:
             return jsonify({'msg': 'Not authorized'}), 403
         
-        appointment.status = 'Open'
+        appointment.status = 'Cancelled'
         db.session.commit()
-        return jsonify({'msg': 'Appointment cancelled (slot reopened) successfully'}), 200
+        return jsonify({'msg': 'Appointment cancelled successfully'}), 200
     except Exception as e:
         db.session.rollback()
         app.logger.exception('Error doctor cancelling appointment')
@@ -1253,9 +1271,17 @@ def doctor_complete_appointment(appointment_id):
         if appointment.doctor_id != doctor_id:
             return jsonify({'msg': 'Not authorized'}), 403
         
-        appointment.status = 'Open'
+        has_diagnosis = appointment.diagnosis and appointment.diagnosis.strip()
+        has_tests = appointment.tests_done and appointment.tests_done.strip()
+        has_prescription = appointment.prescription and appointment.prescription.strip()
+        has_medicines = appointment.medicines and appointment.medicines.strip()
+        
+        if not (has_diagnosis or has_tests or has_prescription or has_medicines):
+            return jsonify({'msg': 'Please update patient history before marking appointment as complete'}), 400
+        
+        appointment.status = 'Completed'
         db.session.commit()
-        return jsonify({'msg': 'Appointment marked complete (slot reopened)'}), 200
+        return jsonify({'msg': 'Appointment marked as completed'}), 200
     except Exception as e:
         db.session.rollback()
         app.logger.exception('Error doctor completing appointment')

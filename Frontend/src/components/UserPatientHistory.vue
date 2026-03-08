@@ -15,7 +15,6 @@
       </div>
     </div>
 
-    <button @click="goBack" class="btn btn-secondary mb-4">← Back</button>
 
     <div class="row">
       <div class="col-12">
@@ -185,43 +184,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.table-hover tbody tr:hover {
-  background-color: #f5f5f5;
-}
-
-.table th {
-  font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #dee2e6;
-}
-
-.card {
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.btn-secondary {
-  background-color: #6c757d;
-  border-color: #6c757d;
-  font-weight: 500;
-}
-
-.btn-secondary:hover {
-  background-color: #5a6268;
-  border-color: #545b62;
-}
-
-@media (max-width: 768px) {
-  .table {
-    font-size: 0.9rem;
-  }
-  
-  .table th,
-  .table td {
-    padding: 0.75rem 0.5rem;
-  }
-}
-</style>

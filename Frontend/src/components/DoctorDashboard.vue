@@ -130,7 +130,13 @@ export default {
         this.appointments = this.appointments.filter(a => a.id !== appointmentId)
       } catch (e) {
         console.error('Error marking complete', e)
-        this.$toast?.error?.(e.message || 'Failed to mark appointment complete')
+        const errorMsg = e.message || 'Failed to mark appointment complete'
+        if (errorMsg.includes('update patient history')) {
+          alert('Please update patient history first')
+          this.updateHistory(appointmentId)
+        } else {
+          this.$toast?.error?.(errorMsg)
+        }
       }
     },
     async cancelAppointment(appointmentId) {

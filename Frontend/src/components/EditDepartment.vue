@@ -1,21 +1,25 @@
 <template>
-  <div class="edit-department-container">
-    <div class="form-section">
-      <h2>Edit Department</h2>
-      <form @submit.prevent="submitEdit" class="department-form">
-        <div class="form-group">
-          <label for="name">Department Name</label>
-          <input v-model="formData.name" id="name" type="text" required />
-        </div>
+  <div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-12">
+        <div class="card p-4">
+          <h2 class="card-title text-center mb-4">Edit Department</h2>
+          <form @submit.prevent="submitEdit">
+            <div class="mb-3">
+              <label for="name" class="form-label">Department Name</label>
+              <input v-model="formData.name" id="name" type="text" class="form-control" required />
+            </div>
 
-        <div class="form-group">
-          <label for="description">Description</label>
-          <textarea v-model="formData.description" id="description" rows="4" required></textarea>
-        </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">Description</label>
+              <textarea v-model="formData.description" id="description" rows="4" class="form-control" required></textarea>
+            </div>
 
-        <button type="submit" class="btn-create">Update</button>
-      </form>
-      <button @click="router.push('/admin_dashboard')" class="btn btn-secondary w-100 mt-3">Back</button> 
+            <button type="submit" class="btn btn-primary w-100">Update</button>
+          </form>
+          <button @click="router.push('/admin_dashboard')" class="btn btn-secondary w-100 mt-3">Back</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -76,14 +80,3 @@ async function submitEdit() {
 
 onMounted(() => fetchDepartment())
 </script>
-
-<style scoped>
-.edit-department-container { padding: 40px; min-height: 100vh; background: #f5f5f5 }
-.form-section { max-width: 600px; margin: 0 auto; background: #fff; padding: 36px; border-radius: 8px }
-.form-section h2 { text-align:center; margin-bottom: 20px }
-.department-form { display:flex; flex-direction:column; gap:16px }
-.form-group { display:flex; flex-direction:column; gap:8px }
-.form-group input, .form-group textarea { padding:10px; border:1px solid #ddd; border-radius:4px }
-.btn-create { padding:12px; background:#1976d2; color:white; border:none; border-radius:6px; cursor:pointer }
-.btn-create:hover { background:#165fa8 }
-</style>

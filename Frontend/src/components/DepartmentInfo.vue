@@ -25,6 +25,16 @@
     <div class="card">
       <div class="card-body">
         <h2 class="h4 mb-3">Doctors' list</h2>
+        <form class="d-flex mb-3" @submit.prevent="searchDoctors">
+          <input
+            v-model="searchQuery"
+            class="form-control me-2"
+            type="search"
+            placeholder="Search doctors by name"
+            aria-label="Search doctors"
+          />
+          <button class="btn btn-outline-primary" type="submit">Search</button>
+        </form>
         <div v-if="loading" class="text-center py-4">
           <div class="spinner-border text-primary" role="status">
             <span class="visually-hidden">Loading doctors...</span>
@@ -107,6 +117,7 @@ export default {
     return {
       department: {},
       doctors: [],
+      searchQuery: '',
       loading: true,
       showDoctorModal: false,
       showAvailabilityModal: false,
@@ -154,6 +165,33 @@ export default {
       } catch (error) {
         console.error('Error fetching doctors:', error)
         this.$toast?.error?.('Failed to fetch doctors')
+      } finally {
+        this.loading = false
+      }
+    },
+
+    async searchDoctors() {
+      try {
+        this.loading = true
+        const departmentId = this.department.id
+        let url = `${getApiBase()}/api/department/${departmentId}/doctors`
+        if (this.searchQuery.trim()) {
+          url += `?q=${encodeURIComponent(this.searchQuery.trim())}`
+        }
+
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: getAuthHeader()
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to search doctors')
+        }
+
+        this.doctors = await response.json()
+      } catch (error) {
+        console.error('Error searching doctors:', error)
+        this.$toast?.error?.('Failed to search doctors')
       } finally {
         this.loading = false
       }

@@ -34,7 +34,7 @@
               </div>
             </div>
           </div>
-          <button @click="router.push('/doctor_dashboard')" class="btn btn-secondary w-100 mt-3">Back</button>
+          <button @click="this.$router.push('/doctor_dashboard')" class="btn btn-secondary w-100 mt-3">Back</button>
         </div>
       </div>
       

@@ -1,32 +1,37 @@
 <template>
-  <div class="edit-doctor-container">
-    <div class="form-section">
-      <h2>Edit Doctor</h2>
-      <form @submit.prevent="submitEdit" class="doctor-form">
+  <div class="container-fluid mt-5">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h2 class="h4 mb-0">Edit Doctor</h2>
+      </div>
+      <div class="card-body">
+        <form @submit.prevent="submitEdit">
+          <div class="mb-3">
+            <label for="name" class="form-label">Fullname</label>
+            <input v-model="formData.name" id="name" type="text" class="form-control" required />
+          </div>
 
-        <div class="form-group">
-          <label for="name">Fullname</label>
-          <input v-model="formData.name" id="name" type="text" required />
-        </div>
+          <div class="mb-3">
+            <label class="form-label">Specialization/Department</label>
+            <input :value="specializationName" class="form-control" disabled readonly />
+          </div>
 
-        <div class="form-group">
-          <label>Specialization/Department</label>
-          <input :value="specializationName" disabled />
-        </div>
+          <div class="mb-3">
+            <label for="qualification" class="form-label">Qualification</label>
+            <input v-model="formData.qualification" id="qualification" type="text" class="form-control" required />
+          </div>
 
-        <div class="form-group">
-          <label for="qualification">Qualification</label>
-          <input v-model="formData.qualification" id="qualification" type="text" required />
-        </div>
+          <div class="mb-3">
+            <label for="experience" class="form-label">Experience (years)</label>
+            <input v-model.number="formData.experience" id="experience" type="number" min="0" class="form-control" required />
+          </div>
 
-        <div class="form-group">
-          <label for="experience">Experience (years)</label>
-          <input v-model.number="formData.experience" id="experience" type="number" min="0" required />
-        </div>
-
-        <button type="submit" class="btn-update">Update</button>
-      </form>
-      <button @click="router.push('/admin_dashboard')" class="btn btn-secondary w-100 mt-3">Back</button> 
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+        <button @click="router.push('/admin_dashboard')" class="btn btn-secondary w-100 mt-3">Back</button>
+      </div>
     </div>
   </div>
 </template>
@@ -44,8 +49,7 @@ const API_BASE = getApiBase()
 const formData = ref({
   name: '',
   qualification: '',
-  experience: 0,
-  availability: ''
+  experience: 0
 })
 
 const specializationName = ref('')
@@ -67,7 +71,6 @@ async function fetchDoctor() {
     formData.value.name = doc.name || ''
     formData.value.qualification = doc.qualification || ''
     formData.value.experience = doc.experience || 0
-    formData.value.availability = doc.availability || ''
     specializationName.value = doc.specialization || ''
   } catch (err) {
     console.error('Failed to fetch doctor:', err)
@@ -84,8 +87,7 @@ async function submitEdit() {
       {
         name: formData.value.name,
         qualification: formData.value.qualification,
-        experience: formData.value.experience,
-        availability: formData.value.availability
+        experience: formData.value.experience
       },
       { headers: { Authorization: `Bearer ${token}` } }
     )
@@ -101,14 +103,3 @@ onMounted(() => {
   fetchDoctor()
 })
 </script>
-
-<style scoped>
-.edit-doctor-container { padding: 40px; min-height: 100vh; background: #f5f5f5 }
-.form-section { max-width: 600px; margin: 0 auto; background: #fff; padding: 36px; border-radius: 8px }
-.form-section h2 { text-align:center;color:black; margin-bottom: 20px }
-.doctor-form { display:flex; flex-direction:column; gap:16px }
-.form-group { display:flex; color:black;flex-direction:column; gap:8px }
-.form-group input { padding:10px; border:1px solid #ddd;background-color: #ddd;color:black; border-radius:4px }
-.btn-update { padding:12px; background:#1976d2; color:white; border:none; border-radius:6px; cursor:pointer }
-.btn-update:hover { background:#165fa8 }
-</style>

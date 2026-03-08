@@ -36,20 +36,6 @@ def create_app():
             db.session.add(admin_user)
             db.session.commit()
 
-        from datetime import date, timedelta
-        def seed_availability():
-            today = date.today()
-            doctors = Doctor.query.all()
-            for doc in doctors:
-                for i in range(7):
-                    d = today + timedelta(days=i)
-                    exists = Availability.query.filter_by(doctor_id=doc.id, date=d).first()
-                    if not exists:
-                        db.session.add(Availability(doctor_id=doc.id, date=d))
-            db.session.commit()
-
-        seed_availability()
-
         from application import routes
     return app
 

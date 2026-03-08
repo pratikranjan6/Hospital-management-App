@@ -260,13 +260,16 @@ export default {
       return `${hours}:${minutes}`
     },
 
+    handleSearch() {
+      console.log('search requested:', this.searchTerm)
+      this.fetchUserAppointments(this.searchTerm)
+    },
     logout() {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
       this.$router.push('/login')
     }
   },
-
   mounted() {
     this.fetchDepartments()
     this.fetchUserAppointments()

@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid bg-light min-vh-100 py-5">
     <div class="row justify-content-center">
-      <div class="col-md-6">
+      <div class="col-md-12">
         <div class="card shadow">
           <div class="card-body">
             <h2 class="card-title text-center mb-4">Add a new Department</h2>

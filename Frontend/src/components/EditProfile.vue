@@ -11,7 +11,7 @@
     <button @click="goBack" class="btn btn-secondary mb-4">← Back</button>
 
     <div class="row justify-content-center">
-      <div class="col-lg-10">
+      <div class="col-12">
         <div class="card">
           <div class="card-body">
             <h2 class="h4 mb-4">Patient Information</h2>
@@ -331,69 +331,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.card {
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  margin-bottom: 1.5rem;
-}
-
-.card-body {
-  padding: 1.5rem;
-}
-
-.form-control:focus,
-.form-select:focus {
-  border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-.invalid-feedback {
-  display: block;
-  color: #dc3545;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-}
-
-.is-invalid {
-  border-color: #dc3545 !important;
-}
-
-.btn-primary {
-  background-color: #1e88e5;
-  border-color: #1e88e5;
-  font-weight: 500;
-}
-
-.btn-primary:hover {
-  background-color: #1565c0;
-  border-color: #1565c0;
-}
-
-.btn-outline-secondary {
-  font-weight: 500;
-}
-
-.btn-outline-secondary:hover {
-  background-color: #6c757d;
-  border-color: #6c757d;
-  color: white;
-}
-
-.btn:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
-
-@media (max-width: 768px) {
-  .d-md-flex {
-    flex-direction: column;
-  }
-  
-  .card-body {
-    padding: 1rem;
-  }
-}
-</style>
