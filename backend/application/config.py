@@ -38,7 +38,7 @@ class LocalDevelopmentConfig(Config):
     CELERY_BEAT_SCHEDULE = {
         'daily-reminder-job': {
             'task': 'application.tasks.send_daily_reminders',
-            'schedule': crontab(hour=8, minute=00),
+            'schedule': crontab(hour=20,minute=21),
             
         },
         'monthly-report-job': {
