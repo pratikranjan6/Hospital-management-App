@@ -1,86 +1,92 @@
 <template>
-  <div>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-      <div class="container-fluid">
-        <span class="navbar-brand mb-0 h1">Patients' Dashboard</span>
-        <div class="navbar-nav ms-auto">
-          <router-link to="/edit-profile" class="nav-link">Edit Profile</router-link>
-          <span class="nav-link">|</span>
-          <router-link to="/history" class="nav-link">History</router-link>
-          <span class="nav-link">|</span>
-          <button @click="logout" class="btn btn-outline-danger btn-sm">Logout</button>
-        </div>
-      </div>
-    </nav>
+  <div class="user-wrapper">
+    <UserNavBar />
 
-    <div class="container">
-      <div class="card mb-4">
-        <div class="card-body">
-          <h2 class="card-title">Welcome {{ userName }}</h2>
+    <div class="user-container">
+      <!-- Welcome Header -->
+      <div class="welcome-section">
+        <div class="welcome-content">
+          <h1 class="welcome-title"> Welcome, {{ userName }}</h1>
+          <p class="welcome-subtitle">Book and manage your medical appointments</p>
         </div>
       </div>
 
-      <div class="card mb-4">
-        <div class="card-header">
-          <h3 class="mb-0">Departments</h3>
-        </div>
-        <div class="card-body">
-          <div v-if="loading" class="text-center text-primary">Loading departments...</div>
-          <div v-else-if="departments.length === 0" class="alert alert-info">No departments available</div>
-          <div v-else class="row">
-            <div v-for="department in departments" :key="department.id" class="col-md-6 mb-3">
-              <div class="card h-100">
-                <div class="card-body d-flex flex-column">
-                  <h5 class="card-title">{{ department.name }}</h5>
-                  <p class="card-text flex-grow-1">{{ department.description }}</p>
-                  <button @click="viewDepartmentDetails(department)" class="btn btn-primary mt-auto">View Details</button>
+      <!-- Dashboard Grid -->
+      <div class="dashboard-grid">
+        <!-- Departments Card -->
+        <div class="dashboard-card departments-card">
+          <div class="card-header">
+            <div class="header-content">
+              <h3 class="card-title"> Available Departments</h3>
+              <p class="card-subtitle">{{ departments.length }} departments</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div v-if="loading" class="loading-state">
+              <div class="spinner"></div>
+              <p>Loading departments...</p>
+            </div>
+            <div v-else-if="departments.length === 0" class="empty-state">
+              <p>No departments available</p>
+            </div>
+            <div v-else class="departments-grid">
+              <div v-for="department in departments" :key="department.id" class="dept-card">
+                <div class="dept-header">
+                  <h4>{{ department.name }}</h4>
+                </div>
+                <div class="dept-body">
+                  <p class="dept-description">{{ department.description }}</p>
+                  <button @click="viewDepartmentDetails(department)" class="btn-action btn-view">View Details</button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="card">
-        <div class="card-header">
-          <h3 class="mb-0">Upcoming Appointments</h3>
-        </div>
-        <div class="card-body">
-          <div v-if="loadingAppointments" class="text-center text-primary">Loading appointments...</div>
-          <div v-else-if="filteredAppointments.length === 0" class="alert alert-info">No upcoming appointments</div>
-          <div v-else class="table-responsive">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Sr No.</th>
-                  <th>Doctor Name</th>
-                  <th>Department</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(appointment, index) in filteredAppointments" :key="appointment.id">
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ appointment.doctor_name }}</td>
-                  <td>{{ appointment.department_name }}</td>
-                  <td>{{ formatDate(appointment.appointment_date) }}</td>
-                  <td>{{ formatTime(appointment.appointment_date) }}</td>
-                  <td>
-                    <button
-                      v-if="appointment.status !== 'Cancelled'"
-                      @click="cancelAppointment(appointment.id)"
-                      class="btn btn-danger btn-sm"
-                      :disabled="cancellationLoading === appointment.id"
-                    >
-                      {{ cancellationLoading === appointment.id ? 'Cancelling...' : 'Cancel' }}
-                    </button>
-                    <span v-else class="badge bg-secondary">Cancelled</span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+        <!-- Appointments Card -->
+        <div class="dashboard-card appointments-card">
+          <div class="card-header">
+            <div class="header-content">
+              <h3 class="card-title"> Upcoming Appointments</h3>
+              <p class="card-subtitle">{{ filteredAppointments.length }} appointments</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div v-if="loadingAppointments" class="loading-state">
+              <div class="spinner"></div>
+              <p>Loading appointments...</p>
+            </div>
+            <div v-else-if="filteredAppointments.length === 0" class="empty-state">
+              <p>No upcoming appointments</p>
+            </div>
+            <div v-else class="appointments-table">
+              <div class="table-header">
+                <div class="col-no">Sr No.</div>
+                <div class="col-doctor">Doctor</div>
+                <div class="col-dept">Department</div>
+                <div class="col-date">Date</div>
+                <div class="col-time">Time</div>
+                <div class="col-action">Action</div>
+              </div>
+              <div v-for="(appointment, index) in filteredAppointments" :key="appointment.id" class="table-row">
+                <div class="col-no">{{ index + 1 }}</div>
+                <div class="col-doctor">Dr. {{ appointment.doctor_name }}</div>
+                <div class="col-dept">{{ appointment.department_name }}</div>
+                <div class="col-date">{{ formatDate(appointment.appointment_date) }}</div>
+                <div class="col-time">{{ formatTime(appointment.appointment_date) }}</div>
+                <div class="col-action">
+                  <button
+                    v-if="appointment.status !== 'Cancelled'"
+                    @click="cancelAppointment(appointment.id)"
+                    class="btn-action btn-cancel"
+                    :disabled="cancellationLoading === appointment.id"
+                  >
+                    {{ cancellationLoading === appointment.id ? 'Cancelling...' : 'Cancel' }}
+                  </button>
+                  <span v-else class="status-badge">Cancelled</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -89,10 +95,12 @@
 </template>
 
 <script>
+import UserNavBar from './UserNavBar.vue'
 import { getApiBase, getAuthHeader } from '../utils/auth'
 
 export default {
   name: 'UserDashboard',
+  components: { UserNavBar },
   data() {
     return {
       userName: 'User',
@@ -124,7 +132,7 @@ export default {
         this.departments = await response.json()
       } catch (error) {
         console.error('Error fetching departments:', error)
-        this.$toast?.error?.('Failed to fetch departments')
+        alert('Failed to fetch departments')
       } finally {
         this.loading = false
       }
@@ -139,7 +147,7 @@ export default {
         if (!response.ok) {
           throw new Error('Export request failed')
         }
-        this.$toast?.success?.('Export started. You will receive an email when it completes.')
+        alert('Export started. You will receive an email when it completes.')
 
         const checkStatus = async () => {
           try {
@@ -150,7 +158,7 @@ export default {
             if (s.ok) {
               const data = await s.json()
               if (data.done) {
-                this.$toast?.success?.('Export completed; check your email.')
+                alert('Export completed; check your email.')
               } else {
                 setTimeout(checkStatus, 5000)
               }
@@ -164,7 +172,7 @@ export default {
         checkStatus()
       } catch (err) {
         console.error('Error starting export:', err)
-        this.$toast?.error?.('Failed to start export')
+        alert('Failed to start export')
       }
     },
 
@@ -183,7 +191,7 @@ export default {
         this.appointments = await response.json()
       } catch (error) {
         console.error('Error fetching appointments:', error)
-        this.$toast?.error?.('Failed to fetch appointments')
+        alert('Failed to fetch appointments')
       } finally {
         this.loadingAppointments = false
       }
@@ -229,17 +237,16 @@ export default {
           appointment.status = 'Cancelled'
         }
 
-        this.$toast?.success?.('Appointment cancelled successfully')
+        alert('Appointment cancelled successfully')
       } catch (error) {
         console.error('Error cancelling appointment:', error)
-        this.$toast?.error?.('Failed to cancel appointment')
+        alert('Failed to cancel appointment')
       } finally {
         this.cancellationLoading = null
       }
     },
 
     viewDepartmentDetails(department) {
-      console.log('navigating to department', department.id)
       this.$router.push({
         path: `/department/${department.id}`,
         query: { department: encodeURIComponent(JSON.stringify(department)) }
@@ -260,10 +267,6 @@ export default {
       return `${hours}:${minutes}`
     },
 
-    handleSearch() {
-      console.log('search requested:', this.searchTerm)
-      this.fetchUserAppointments(this.searchTerm)
-    },
     logout() {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
@@ -279,32 +282,416 @@ export default {
 </script>
 
 <style scoped>
-body {
-  background-color: #f8f9fa;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.user-wrapper {
+  width: 100%;
   min-height: 100vh;
+  background: #f5f7fa;
+  display: flex;
+  flex-direction: column;
 }
 
-.navbar {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.user-container {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-.card {
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+/* ========== WELCOME SECTION ========== */
+.welcome-section {
+  margin-bottom: 3rem;
+  animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.welcome-content {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.welcome-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* ========== DASHBOARD GRID ========== */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 2rem;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== CARDS ========== */
+.dashboard-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  /* border-top: 4px solid #667eea; */
+  animation: cardSlide 0.5s ease-out;
+}
+
+@keyframes cardSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+}
+
+.departments-card {
+  border-top-color: #667eea;
+}
+
+.appointments-card {
+  border-top-color: #764ba2;
+  grid-column: 1 / -1;
 }
 
 .card-header {
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.table thead th {
-  background-color: #f8f9fa;
-  border-bottom: 2px solid #dee2e6;
+.header-content {
+  flex: 1;
 }
 
-.table tbody tr:hover {
-  background-color: #f8f9fa;
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+/* ========== LOADING STATE ========== */
+.loading-state {
+  text-align: center;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: #7f8c8d;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f0f0f0;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========== DEPARTMENTS GRID ========== */
+.departments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.dept-card {
+  background: linear-gradient(135deg, #f9f9f9 0%, #f0f2f9 100%);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid #e8eef7;
+}
+
+.dept-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
+  border-color: #667eea;
+}
+
+.dept-header {
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.dept-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.dept-body {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dept-description {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+  margin: 0;
+  flex: 1;
+}
+
+/* ========== APPOINTMENTS TABLE ========== */
+.appointments-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 80px 1.5fr 1.2fr 120px 100px 120px;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  position: sticky;
+  top: 0;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 80px 1.5fr 1.2fr 120px 100px 120px;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  /* border-left: 3px solid #764ba2; */
+  transition: all 0.2s ease;
+  align-items: center;
+}
+
+.table-row:hover {
+  background: #f0f2f9;
+  transform: translateX(5px);
+}
+
+.col-no,
+.col-doctor,
+.col-dept,
+.col-date,
+.col-time,
+.col-action {
+  font-size: 0.95rem;
+  color: #2c3e50;
+}
+
+/* ========== BUTTONS ========== */
+.btn-action {
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: transparent;
+  border: 1px solid #ddd;
+  white-space: nowrap;
+}
+
+.btn-action:hover {
+  transform: translateY(-2px);
+}
+
+.btn-view {
+  color: #667eea;
+  border-color: #667eea;
+  width: 100%;
+}
+
+.btn-view:hover {
+  background: #e8eef7;
+  border-color: #667eea;
+}
+
+.btn-cancel {
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+.btn-cancel:hover:not(:disabled) {
+  background: #ffe0e0;
+  border-color: #e74c3c;
+}
+
+.btn-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ========== STATUS BADGE ========== */
+.status-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #e8eef7;
+  color: #667eea;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* ========== EMPTY STATE ========== */
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+  font-style: italic;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 2px dashed #ddd;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+
+  .appointments-card {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 968px) {
+  .table-header,
+  .table-row {
+    grid-template-columns: 60px 1.2fr 1fr 100px 80px 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-container {
+    padding: 1rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .welcome-content {
+    padding: 1.5rem;
+  }
+
+  .welcome-title {
+    font-size: 1.5rem;
+  }
+
+  .departments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .table-header,
+  .table-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .col-no,
+  .col-doctor,
+  .col-dept,
+  .col-date,
+  .col-time,
+  .col-action {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .btn-action {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-container {
+    padding: 0.75rem;
+  }
+
+  .welcome-title {
+    font-size: 1.2rem;
+  }
+
+  .card-title {
+    font-size: 1.1rem;
+  }
+
+  .table-header,
+  .table-row {
+    padding: 0.75rem;
+  }
+
+  .btn-action {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
 }
 </style>

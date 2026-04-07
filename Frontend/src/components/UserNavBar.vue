@@ -2,12 +2,13 @@
   <nav class="custom-navbar">
     <div class="navbar-container">
       <div class="navbar-brand">
-        <span class="brand-text">Dr. {{ username }}</span>
+        <span class="brand-text"> MediCare</span>
       </div>
 
       <div class="navbar-center">
-        <button @click="goDashboard" class="nav-link"> Dashboard</button>
-        <button @click="goAvailability" class="nav-link"> Availability</button>
+        <router-link to="/user_dashboard" class="nav-link"> Dashboard</router-link>
+        <router-link to="/edit-profile" class="nav-link"> Profile</router-link>
+        <router-link to="/history" class="nav-link"> History</router-link>
       </div>
 
       <div class="navbar-actions">
@@ -18,23 +19,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-const username = ref(localStorage.getItem('username') || 'Doctor')
-
-function goDashboard() {
-  router.push('/doctor_dashboard')
-}
-
-function goAvailability() {
-  router.push('/doctor_availability')
-}
 
 function logout() {
   localStorage.removeItem('token')
-  localStorage.removeItem('username')
   localStorage.removeItem('role')
   router.push('/login')
 }
@@ -96,6 +86,8 @@ function logout() {
   border-radius: 6px;
   font-size: 0.95rem;
   white-space: nowrap;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .nav-link:hover {
@@ -199,10 +191,6 @@ function logout() {
   .navbar-brand {
     width: 100%;
     justify-content: flex-start;
-  }
-
-  .brand-icon {
-    font-size: 1.5rem;
   }
 
   .brand-text {
