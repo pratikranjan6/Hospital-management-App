@@ -1,11 +1,9 @@
 <script setup>
-import FloatingAIButton from './components/FloatingAIButton.vue'
 </script>
 
 <template>
   <div class="page-container">
     <router-view />
-    <FloatingAIButton />
   </div>
 </template>
 

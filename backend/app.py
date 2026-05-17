@@ -4,6 +4,7 @@ from application.database import db
 from application.models import User, Doctor, Patient, Department, Appointment, Availability
 from application.security import jwt
 from flask_cors import CORS
+from datetime import datetime, timedelta
 
 def create_app():
     app = Flask(__name__)
@@ -17,7 +18,7 @@ def create_app():
 
     CORS(app,
          supports_credentials=True,
-         resources={r"/api/*": {"origins": ["http://localhost:5173"]}},
+         resources={r"/api/*": {"origins": "*"}},
          allow_headers=["Content-Type", "Authorization"],
          expose_headers=["Content-Type", "Authorization"],
          methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]

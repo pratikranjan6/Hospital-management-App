@@ -13,24 +13,23 @@
           </div>
         </div>
         <button @click="closeAssistant" class="close-btn">
-          <i class="fas fa-times"></i>
+          <i class="fas fa-times">❌</i>
         </button>
       </div>
 
-      <!-- Language Selector -->
       <div class="language-selector">
         <label>Select Language:</label>
         <select v-model="selectedLanguage" class="language-select">
           <option value="en">English</option>
           <option value="hi">Hindi (हिंदी)</option>
-          <option value="es">Spanish (Español)</option>
-          <option value="fr">French (Français)</option>
-          <option value="de">German (Deutsch)</option>
-          <option value="pt">Portuguese (Português)</option>
+          <option value="od">Odia (ଓଡ଼ିଆ)</option>
+          <option value="ta">Tamil (தமிழ்)</option>
+          <option value="te">Telugu (తెలుగు)</option>
+          <option value="ml">Malayalam (മലയാളം)</option>
+          <option value="bn">Bengali (বাংলা)</option>
         </select>
       </div>
 
-      <!-- Quick Actions -->
       <div class="quick-actions">
         <h3>Quick Guides</h3>
         <div class="actions-grid">
@@ -47,7 +46,6 @@
         </div>
       </div>
 
-      <!-- Chat Area -->
       <div class="chat-container">
         <div class="messages-wrapper">
           <div v-for="message in messages" :key="message.id" class="message" :class="message.type">
@@ -135,77 +133,95 @@ const translations = {
     historyGuide:
       '<b>अपने चिकित्सा इतिहास को कैसे देखें:</b><br/>1. नेविगेशन से "History" पर क्लिक करें<br/>2. अपनी सभी पिछली अपॉइंटमेंट देखें<br/>3. डॉक्टर के नोट्स और निदान देखें<br/>4. निर्धारित दवाएं देखें<br/>5. अपने इतिहास को CSV के रूप में निर्यात करें<br/><br/>भविष्य के संदर्भ के लिए अपने रिकॉर्ड सुरक्षित रखें।'
   },
-  es: {
-    'Ask me anything...': 'Pregúntame cualquier cosa...',
-    'Complete Your Profile': 'Completa Tu Perfil',
-    'Explore Departments': 'Explora Departamentos',
-    'Find a Doctor': 'Encuentra un Doctor',
-    'Book Appointment': 'Reservar Cita',
-    'Check My History': 'Ver Mi Historial',
+  od: {
+    'Ask me anything...': 'ମୋତେ ଯେକୌଣସି ପ୍ରଶ୍ନ ପୁଛ...',
+    'Complete Your Profile': 'ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ ସମ୍ପୂର୍ଣ୍ଣ କରନ୍ତୁ',
+    'Explore Departments': 'ବିଭାଗଗୁଡ଼ିକ ଅନ୍ବେଷଣ କରନ୍ତୁ',
+    'Find a Doctor': 'ଜଣେ ଡାକ୍ତର ଖୋଜନ୍ତୁ',
+    'Book Appointment': 'ଅପଏଣ୍ଟମେଣ୍ଟ ବୁକ କରନ୍ତୁ',
+    'Check My History': 'ମୋ ଇତିହାସ ଯାଞ୍ଚ କରନ୍ତୁ',
     profileGuide:
-      '<b>Cómo completar tu perfil:</b><br/>1. Haz clic en "Edit Profile" desde tu panel<br/>2. Completa tu información personal (Nombre, Edad, Fecha de Nacimiento)<br/>3. Selecciona tu género y grupo sanguíneo<br/>4. Añade tu dirección (opcional)<br/>5. Haz clic en "Save Changes"<br/><br/>Esto ayuda a los doctores a entender mejor tu historial médico.',
+      '<b>ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ କିପରି ସମ୍ପୂର୍ଣ୍ଣ କରବେ:</b><br/>1. ଆପଣଙ୍କ ଡ୍ୟାସବୋର୍ଡରୁ "Edit Profile" ଉପରେ କ୍ଲିକ କରନ୍ତୁ<br/>2. ଆପଣଙ୍କ ବ୍ୟକ୍ତିଗତ ସୂଚନା ଭର୍ତ୍ତି କରନ୍ତୁ (ନାମ, ବୟସ, ଜନ୍ମତାରିଖ)<br/>3. ଆପଣଙ୍କ ଲିଙ୍ଗ ଏବଂ ରକ୍ତ ଗୋଷ୍ଠୀ ବାଛନ୍ତୁ<br/>4. ଆପଣଙ୍କ ଠିକାଣା ଯୋଗ କରନ୍ତୁ (ଐଚ୍ଛିକ)<br/>5. "Save Changes" ଉପରେ କ୍ଲିକ କରନ୍ତୁ<br/><br/>ଏହା ଡାକ୍ତରମାନଙ୍କୁ ଆପଣଙ୍କ ଚିକିତ୍ସା ପଟଭୂମି ଭଲ ବୁझିବାରେ ସାହାଯ୍ୟ କରେ।',
     departmentGuide:
-      '<b>Cómo explorar departamentos:</b><br/>1. Ve a tu Dashboard<br/>2. Verás la tarjeta "Available Departments"<br/>3. Explora departamentos como Cardiología, Neurología, etc.<br/>4. Haz clic en "View Details" para ver especialistas<br/>5. Cada departamento tiene doctores expertos<br/><br/>Elige según tu necesidad médica.',
+      '<b>ବିଭାଗଗୁଡ଼ିକ କିପରି ଅନ୍ବେଷଣ କରବେ:</b><br/>1. ଆପଣଙ୍କ ଡ୍ୟାସବୋର୍ଡକୁ ଯାଆନ୍ତୁ<br/>2. ଆପେ "Available Departments" କାର୍ଡ ଦେଖିବେ<br/>3. କାର୍ଡିଓଲୋଜି, ନ୍ୟୁରୋଲୋଜି ଆଦି ବିଭାଗ ବ୍ରାଉଜ କରନ୍ତୁ<br/>4. ବିଶେଷଜ୍ଞ ଦେଖିବା ପାଇଁ "View Details" ଉପରେ କ୍ଲିକ କରନ୍ତୁ<br/>5. ପ୍ରତ୍ୟେକ ବିଭାଗରେ ବିଶେଷଜ୍ଞ ଡାକ୍ତର ଅଛନ୍ତି<br/><br/>ଆପଣଙ୍କ ଚିକିତ୍ସା ଆବଶ୍ୟକତା ଅନୁସାରେ ବାଛନ୍ତୁ।',
     doctorGuide:
-      '<b>Cómo encontrar un doctor:</b><br/>1. Selecciona un departamento del panel<br/>2. Ve todos los doctores disponibles en ese departamento<br/>3. Verifica sus calificaciones y experiencia<br/>4. Lee su especialización<br/>5. Haz clic en un doctor para ver su disponibilidad<br/><br/>Puedes reservar citas con cualquier doctor disponible.',
+      '<b>ଜଣେ ଡାକ୍ତର କିପରି ଖୋଜିବେ:</b><br/>1. ଡ୍ୟାସବୋର୍ଡରୁ ଏକ ବିଭାଗ ବାଛନ୍ତୁ<br/>2. ସେହି ବିଭାଗରେ ସମସ୍ତ ଉପଲବ୍ଧ ଡାକ୍ତର ଦେଖନ୍ତୁ<br/>3. ତାଙ୍କର ଯୋଗ୍ୟତା ଏବଂ ଅଭିଜ୍ଞତା ପରୀକ୍ଷା କରନ୍ତୁ<br/>4. ତାଙ୍କର ବିଶେଷତ୍ବ ପଢ଼ନ୍ତୁ<br/>5. ସେମାନଙ୍କ ଉପଲବ୍ଧତା ଦେଖିବା ପାଇଁ ଡାକ୍ତର ଉପରେ କ୍ଲିକ କରନ୍ତୁ<br/><br/>ଆପେ ଯେକୌଣସି ଉପଲବ୍ଧ ଡାକ୍ତରଙ୍କ ସହ ଅପଏଣ୍ଟମେଣ୍ଟ ବୁକ କରିପାରିବେ।',
     appointmentGuide:
-      '<b>Cómo reservar una cita:</b><br/>1. Encuentra y haz clic en tu doctor preferido<br/>2. Ve "Next 7 Days Availability"<br/>3. Selecciona una fecha que te funcione<br/>4. El estado de la cita mostrará espacios disponibles<br/>5. Haz clic en "Book Now" para confirmar<br/>6. Verifica la confirmación en tu historial<br/><br/>Puedes cancelar en cualquier momento si es necesario.',
+      '<b>ଅପଏଣ୍ଟମେଣ୍ଟ କିପରି ବୁକ କରବେ:</b><br/>1. ଆପଣଙ୍କ ପସନ୍ଦର ଡାକ୍ତର ଖୋଜନ୍ତୁ ଏବଂ ଉପରେ କ୍ଲିକ କରନ୍ତୁ<br/>2. "Next 7 Days Availability" ଦେଖନ୍ତୁ<br/>3. ଆପଣଙ୍କ ପାଇଁ ଉପଯୁକ୍ତ ଏକ ତାରିଖ ବାଛନ୍ତୁ<br/>4. ଅପଏଣ୍ଟମେଣ୍ଟ ସ୍ଥିତି ଉପଲବ୍ଧ ସ୍ଲଟ ଦେଖାଇବ<br/>5. ନିଶ୍ଚିତ କରିବାକୁ "Book Now" ଉପରେ କ୍ଲିକ କରନ୍ତୁ<br/>6. ଆପଣଙ୍କ ଇତିହାସରେ ନିଶ୍ଚିତକରଣ ଯାଞ୍ଚ କରନ୍ତୁ<br/><br/>ଆବଶ୍ୟକ ହେଲେ ଆପେ ଯେକୌଣସି ସମୟରେ ରଦ୍ଦ କରିପାରିବେ।',
     historyGuide:
-      '<b>Cómo ver tu historial médico:</b><br/>1. Haz clic en "History" de la navegación<br/>2. Ve todas tus citas anteriores<br/>3. Consulta notas del doctor y diagnósticos<br/>4. Verifica medicinas prescritas<br/>5. Exporta tu historial como CSV<br/><br/>Guarda tus registros para futuras referencias.'
+      '<b>ଆପଣଙ୍କ ଚିକିତ୍ସା ଇତିହାସ କିପରି ଯାଞ୍ଚ କରବେ:</b><br/>1. ନେଭିଗେସନ ଠାରୁ "History" ଉପରେ କ୍ଲିକ କରନ୍ତୁ<br/>2. ଆପଣଙ୍କ ସମସ୍ତ ପୂର୍ବତନ ଅପଏଣ୍ଟମେଣ୍ଟ ଦେଖନ୍ତୁ<br/>3. ଡାକ୍ତରଙ୍କ ଟିପ୍ପଣୀ ଏବଂ ରୋଗ ନିର୍ଣ୍ଣୟ ଯାଞ୍ଚ କରନ୍ତୁ<br/>4. ନିର୍ଦ୍ଧାରିତ ଔଷଧ ଯାଞ୍ଚ କରନ୍ତୁ<br/>5. ଆପଣଙ୍କ ଇତିହାସ CSV ଭାବରେ ରପ୍ତାନି କରନ୍ତୁ<br/><br/>ଭବିଷ୍ୟତ ରେଫରେନ୍ସ ପାଇଁ ଆପଣଙ୍କ ରେକର୍ଡ ସୁରକ୍ଷିତ ରଖନ୍ତୁ।'
   },
-  fr: {
-    'Ask me anything...': 'Posez-moi n\'importe quelle question...',
-    'Complete Your Profile': 'Complétez Votre Profil',
-    'Explore Departments': 'Explorez les Départements',
-    'Find a Doctor': 'Trouvez un Docteur',
-    'Book Appointment': 'Réserver un Rendez-vous',
-    'Check My History': 'Voir Mon Historique',
+  ta: {
+    'Ask me anything...': 'எனக்கு எதையும் கேளுங்கள்...',
+    'Complete Your Profile': 'உங்கள் சுயவிவரத்தை முடிக்கவும்',
+    'Explore Departments': 'விभагங்களை ஆராயுங்கள்',
+    'Find a Doctor': 'ஒரு மருத்துவரை தேடுங்கள்',
+    'Book Appointment': 'சந்திப்பை பதிவு செய்யுங்கள்',
+    'Check My History': 'என் வரலாற்றை பார்க்கவும்',
     profileGuide:
-      '<b>Comment compléter votre profil:</b><br/>1. Cliquez sur "Edit Profile" depuis votre tableau de bord<br/>2. Remplissez vos informations personnelles (Nom, Âge, Date de Naissance)<br/>3. Sélectionnez votre sexe et groupe sanguin<br/>4. Ajoutez votre adresse (facultatif)<br/>5. Cliquez sur "Save Changes"<br/><br/>Cela aide les médecins à mieux comprendre vos antécédents médicaux.',
+      '<b>உங்கள் சுயவிவரத்தை முடிக்கவும்:</b><br/>1. உங்கள் டாஷ்போர்டில் "Edit Profile" ஐ கிளிக் செய்யுங்கள்<br/>2. உங்கள் ব்যक்তিগত தகவல் (பெயர், வயது, பிறந்த திகதி)<br/>3. உங்கள் பாலினம் மற்றும் இரத்த குழு தேர்வு செய்யுங்கள்<br/>4. உங்கள் முகவரி சேர்க்கவும் (விரும்பினால்)<br/>5. "Save Changes" ஐ கிளிக் செய்யுங்கள்<br/><br/>இது மருத்துவர்களுக்கு உங்கள் மருத்துவ பின்னணியை நன்கு புரிந்துகொள்ள உதவுகிறது.',
     departmentGuide:
-      '<b>Comment explorer les départements:</b><br/>1. Allez à votre tableau de bord<br/>2. Vous verrez la carte "Available Departments"<br/>3. Parcourez les départements comme Cardiologie, Neurologie, etc.<br/>4. Cliquez sur "View Details" pour voir les spécialistes<br/>5. Chaque département dispose de docteurs experts<br/><br/>Choisissez en fonction de vos besoins médicaux.',
+      '<b>விभагங்களை ஆராயுங்கள்:</b><br/>1. உங்கள் டாஷ்போர்டுக்கு செல்லுங்கள்<br/>2. நீங்கள் "Available Departments" கார்டைக் காணலாம்<br/>3. கர்டியோலஜி, நியுரோலஜி போன்ற விभागங்களை ஏட்டவும்<br/>4. நிபுணர்களைக் காண "View Details" ஐ கிளிக் செய்யுங்கள்<br/>5. ஒவ்வொரு விभாகத்திலும் திறமைசாலி மருத்துவர் உள்ளனர்<br/><br/>உங்கள் மருத்துவ தேவையைப் பொறுத்து தேர்வு செய்யுங்கள்.',
     doctorGuide:
-      '<b>Comment trouver un docteur:</b><br/>1. Sélectionnez un département du tableau de bord<br/>2. Voir tous les docteurs disponibles dans ce département<br/>3. Vérifiez leurs qualifications et expérience<br/>4. Lisez leur spécialisation<br/>5. Cliquez sur un docteur pour voir sa disponibilité<br/><br/>Vous pouvez réserver des rendez-vous avec n\'importe quel docteur disponible.',
+      '<b>ஒரு மருத்துவரை தேடுங்கள்:</b><br/>1. டாஷ்போர்டிலிருந்து ஒரு விभாகத்தை தேர்வு செய்யுங்கள்<br/>2. அந்த விभாகத்தில் உள்ள அனைத்து கிடைக்கக்கூடிய மருத்துவர்களைக் காணுங்கள்<br/>3. அவர்களின் தகுதி மற்றும் அனுபவத்தை சரிபார்க்கவும்<br/>4. அவர்களின் சிறப்பு நிபுணத்தைப் படிக்கவும்<br/>5. அவர்களின் கிடைக்கின்ற நேரத்தைக் காண மருத்துவரைக் கிளிக் செய்யுங்கள்<br/><br/>நீங்கள் கிடைக்கக்கூடிய எந்த மருத்துவரிடனும் சந்திப்பை பதிவு செய்யலாம்.',
     appointmentGuide:
-      '<b>Comment réserver un rendez-vous:</b><br/>1. Trouvez et cliquez sur votre docteur préféré<br/>2. Consultez "Next 7 Days Availability"<br/>3. Sélectionnez une date qui vous convient<br/>4. Le statut du rendez-vous affichera les créneaux disponibles<br/>5. Cliquez sur "Book Now" pour confirmer<br/>6. Vérifiez la confirmation dans votre historique<br/><br/>Vous pouvez annuler à tout moment si nécessaire.',
+      '<b>சந்திப்பை பதிவு செய்யுங்கள்:</b><br/>1. உங்களுக்கு விருப்பமான மருத்துவரைக் கண்டுபிடித்து கிளிக் செய்யுங்கள்<br/>2. "Next 7 Days Availability" ஐக் காணுங்கள்<br/>3. உங்களுக்கு பொருத்தமான ஒரு தேதியைத் தேர்வு செய்யுங்கள்<br/>4. சந்திப்பு நிலை கிடைக்கக்கூடிய சறுக்கைகளைக் காட்டும்<br/>5. உறுதிப்படுத்த "Book Now" ஐ கிளிக் செய்யுங்கள்<br/>6. உங்கள் வரலாற்றில் உறுதிப்படுத்தலைச் சரிபார்க்கவும்<br/><br/>தேவைப்பட்டால் நீங்கள் எப்போதும் ரத்து செய்யலாம்.',
     historyGuide:
-      '<b>Comment consulter votre historique médical:</b><br/>1. Cliquez sur "History" dans la navigation<br/>2. Consultez tous vos rendez-vous précédents<br/>3. Consultez les notes du docteur et les diagnostics<br/>4. Vérifiez les médicaments prescrits<br/>5. Exportez votre historique en CSV<br/><br/>Gardez vos dossiers en sécurité pour référence ultérieure.'
+      '<b>உங்கள் மருத்துவ வரலாற்றை சரிபார்க்கவும்:</b><br/>1. நேவிகேஷன் থেকে "History" ஐ கிளிக் செய்யுங்கள்<br/>2. உங்கள் அனைத்து முந்தைய சந்திப்புகளைக் காணுங்கள்<br/>3. மருத்துவரின் குறிப்புகள் மற்றும் நோயறிதல்களைக் சரிபார்க்கவும்<br/>4. பரிந்துரைக்கப்பட்ட மருந்துகளைச் சரிபார்க்கவும்<br/>5. உங்கள் வரலாற்றை CSV என்ற கோப்பாக ஏற்றுமதி செய்யுங்கள்<br/><br/>ভবிষ்যত ঋபேற்றுதலுக்காக உங்கள் வாழ்க்கைப்பதிவுகளை பாதுக்காப்பாக வைத்திருக்கவும்.'
   },
-  de: {
-    'Ask me anything...': 'Fragen Sie mich alles...',
-    'Complete Your Profile': 'Ihr Profil Vervollständigen',
-    'Explore Departments': 'Abteilungen Erkunden',
-    'Find a Doctor': 'Finden Sie Einen Arzt',
-    'Book Appointment': 'Termin Buchen',
-    'Check My History': 'Mein Verlauf Ansehen',
+  te: {
+    'Ask me anything...': 'నన్నుండి ఏదైనా అడగండి...',
+    'Complete Your Profile': 'మీ ప్రొఫైల్‌ను పూర్తి చేయండి',
+    'Explore Departments': 'విభాగాలను అన్వేషించండి',
+    'Find a Doctor': 'డాక్టర్‌ను కనుగొనండి',
+    'Book Appointment': 'అపాయింట్‌మెంట్‌ను బుక్ చేయండి',
+    'Check My History': 'నా చరిత్రను చూడండి',
     profileGuide:
-      '<b>So vervollständigen Sie Ihr Profil:</b><br/>1. Klicken Sie auf "Edit Profile" in Ihrem Dashboard<br/>2. Füllen Sie Ihre persönlichen Informationen aus (Name, Alter, Geburtsdatum)<br/>3. Wählen Sie Ihr Geschlecht und Ihre Blutgruppe<br/>4. Fügen Sie Ihre Adresse hinzu (optional)<br/>5. Klicken Sie auf "Save Changes"<br/><br/>Dies hilft Ärzten, Ihre medizinische Geschichte besser zu verstehen.',
+      '<b>మీ ప్రొఫైల్‌ను పూర్తి చేయండి:</b><br/>1. మీ డ్యాష్‌బోర్డ్ నుండి "Edit Profile" ను క్లిక్ చేయండి<br/>2. మీ వ్యక్తిగత సమాచారాన్ని (పేరు, వయస్సు, జన్మ తేదీ)<br/>3. మీ లింగం మరియు రక్త సమూహాన్ని ఎంచుకోండి<br/>4. మీ చిరునామాను జోడించండి (ఐచ్ఛికం)<br/>5. "Save Changes" ను క్లిక్ చేయండి<br/><br/>ఇది వైద్యులకు మీ వైద్య చరిత్రను బాగా అర్థం చేసుకోవడానికి సహాయపడుతుంది.',
     departmentGuide:
-      '<b>So erkunden Sie Abteilungen:</b><br/>1. Gehen Sie zu Ihrem Dashboard<br/>2. Sie sehen die Karte "Available Departments"<br/>3. Erkunden Sie Abteilungen wie Kardiologie, Neurologie usw.<br/>4. Klicken Sie auf "View Details", um Spezialisten anzuzeigen<br/>5. Jede Abteilung hat erfahrene Ärzte<br/><br/>Wählen Sie je nach Ihrem medizinischen Bedarf.',
+      '<b>విభాగాలను అన్వేషించండి:</b><br/>1. మీ డ్యాష్‌బోర్డ్‌కు వెళ్లండి<br/>2. మీరు "Available Departments" కార్డ్‌ను చూస్తారు<br/>3. కార్డియాలజీ, న్యూరాలజీ వంటి విభాగాలను విహారణ చేయండి<br/>4. నిపుణులను చూడటానికి "View Details" ను క్లిక్ చేయండి<br/>5. ప్రతి విభాగానికి నిపుణ వైద్యులు ఉన్నారు<br/><br/>మీ వైద్య అవసరం ఆధారంగా ఎంచుకోండి.',
     doctorGuide:
-      '<b>So finden Sie einen Arzt:</b><br/>1. Wählen Sie eine Abteilung aus dem Dashboard<br/>2. Sehen Sie alle verfügbaren Ärzte in dieser Abteilung<br/>3. Überprüfen Sie ihre Qualifikationen und Erfahrung<br/>4. Lesen Sie ihre Spezialisierung<br/>5. Klicken Sie auf einen Arzt, um seine Verfügbarkeit zu sehen<br/><br/>Sie können Termine mit jedem verfügbaren Arzt buchen.',
+      '<b>డాక్టర్‌ను కనుగొనండి:</b><br/>1. డ్యాష్‌బోర్డ్ నుండి విభాగాన్ని ఎంచుకోండి<br/>2. ఆ విభాగంలో అందుబాటులో ఉన్న విశేష వైద్యులన్నింటిని చూడండి<br/>3. వారి అర్హతలు మరియు అనుభవాన్ని సరిచేయండి<br/>4. వారి ప్రత్యేకత చదవండి<br/>5. వారి లభ్యతను చూడటానికి వైద్యుడిని క్లిక్ చేయండి<br/><br/>మీరు అందుబాటులో ఉన్న ఏదైనా డాక్టర్‌తో అపాయింట్‌మెంట్‌ను బుక్ చేయవచ్చు.',
     appointmentGuide:
-      '<b>So buchen Sie einen Termin:</b><br/>1. Finden Sie Ihren bevorzugten Arzt und klicken Sie darauf<br/>2. Sehen Sie "Next 7 Days Availability"<br/>3. Wählen Sie ein Datum, das Ihnen passt<br/>4. Der Termin-Status zeigt verfügbare Zeitfenster an<br/>5. Klicken Sie auf "Book Now", um zu bestätigen<br/>6. Überprüfen Sie die Bestätigung in Ihrem Verlauf<br/><br/>Sie können jederzeit stornieren, wenn nötig.',
+      '<b>అపాయింట్‌మెంట్‌ను బుక్ చేయండి:</b><br/>1. మీకు నచ్చిన డాక్టర్‌ను కనుగొనండి మరియు క్లిక్ చేయండి<br/>2. "Next 7 Days Availability" చూడండి<br/>3. మీకు సరిపోయే తేదీని ఎంచుకోండి<br/>4. అపాయింట్‌మెంట్ స్థితి లభ్యమైన స్లాట్‌లను చూపుతుంది<br/>5. ఖాయం చేయడానికి "Book Now" ను క్లిక్ చేయండి<br/>6. మీ చరిత్రలో ఖాయం చేయడాన్ని సరిచేయండి<br/><br/>అవసరమైతే మీరు ఎప్పుడైనా రద్దు చేయవచ్చు.',
     historyGuide:
-      '<b>So überprüfen Sie Ihre medizinische Geschichte:</b><br/>1. Klicken Sie auf "History" in der Navigation<br/>2. Sehen Sie alle Ihre früheren Termine<br/>3. Überprüfen Sie Ärzte-Notizen und Diagnosen<br/>4. Überprüfen Sie verschriebene Medikamente<br/>5. Exportieren Sie Ihren Verlauf als CSV<br/><br/>Bewahren Sie Ihre Unterlagen für zukünftige Referenzen auf.'
+      '<b>మీ వైద్య చరిత్రను చూడండి:</b><br/>1. నావిగేషన్ నుండి "History" ను క్లిక్ చేయండి<br/>2. మీ అన్ని చేసిన అపాయింట్‌మెంట్‌లను చూడండి<br/>3. డాక్టర్ నోట్‌లు మరియు రోగ నిర్ధారణలను సరిచేయండి<br/>4. సూచించిన ఔషధాలను సరిచేయండి<br/>5. మీ చరిత్రను CSV గా ఎగుమతి చేయండి<br/><br/>భవిష్యత్ సూచన కోసం మీ రికార్డ్‌లను సురక్షితంగా ఉంచండి.'
   },
-  pt: {
-    'Ask me anything...': 'Pergunte-me qualquer coisa...',
-    'Complete Your Profile': 'Complete Seu Perfil',
-    'Explore Departments': 'Explore Departamentos',
-    'Find a Doctor': 'Encontre um Médico',
-    'Book Appointment': 'Marcar Consulta',
-    'Check My History': 'Ver Meu Histórico',
+  ml: {
+    'Ask me anything...': 'എന്നോട് എന്തെങ്കിലും ചോദിക്കുക...',
+    'Complete Your Profile': 'നിങ്ങളുടെ പ്രൊഫൈൽ പൂർത്തിയാക്കുക',
+    'Explore Departments': 'വിഭാഗങ്ങൾ പര്യവേക്ഷണം ചെയ്യുക',
+    'Find a Doctor': 'ഒരു ഡോക്ടർ കണ്ടെത്തുക',
+    'Book Appointment': 'നിയമനം ബുക്ക് ചെയ്യുക',
+    'Check My History': 'എന്റെ ചരിത്രം പരിശോധിക്കുക',
     profileGuide:
-      '<b>Como completar seu perfil:</b><br/>1. Clique em "Edit Profile" no seu painel<br/>2. Preencha suas informações pessoais (Nome, Idade, Data de Nascimento)<br/>3. Selecione seu sexo e grupo sanguíneo<br/>4. Adicione seu endereço (opcional)<br/>5. Clique em "Save Changes"<br/><br/>Isso ajuda os médicos a entender melhor seu histórico médico.',
+      '<b>നിങ്ങളുടെ പ്രൊഫൈൽ പൂർത്തിയാക്കുക:</b><br/>1. നിങ്ങളുടെ ഡാഷ്ബോർഡിൽ "Edit Profile" ക്ലിക്ക് ചെയ്യുക<br/>2. നിങ്ങളുടെ വ്യക്തിഗത വിവരങ്ങൾ (പേര്, പ്രായം, ജനനത്തീയതി)<br/>3. നിങ്ങളുടെ ലിംഗം, രക്തഗ്രൂപ്പ് തിരഞ്ഞെടുക്കുക<br/>4. നിങ്ങളുടെ വിലാസം ചേർക്കുക (ഐച്ഛികം)<br/>5. "Save Changes" ക്ലിക്ക് ചെയ്യുക<br/><br/>ഇത് ഡോക്ടർമാരെ നിങ്ങളുടെ മെഡിക്കൽ പശ്ചാത്തലം നന്നായി മനസ്സിലാക്കാൻ സഹായിക്കുന്നു.',
     departmentGuide:
-      '<b>Como explorar departamentos:</b><br/>1. Vá ao seu Painel<br/>2. Você verá o card "Available Departments"<br/>3. Explore departamentos como Cardiologia, Neurologia, etc.<br/>4. Clique em "View Details" para ver especialistas<br/>5. Cada departamento tem médicos experientes<br/><br/>Escolha de acordo com sua necessidade médica.',
+      '<b>വിഭാഗങ്ങൾ പര്യവേക്ഷണം ചെയ്യുക:</b><br/>1. നിങ്ങളുടെ ഡാഷ്ബോർഡിലേക്ക് പോകുക<br/>2. നിങ്ങൾ "Available Departments" കാർഡ് കാണും<br/>3. കാർഡിയോളജി, ന്യൂറോളജി തുടങ്ങിയ വിഭാഗങ്ങൾ ബ്രൗസ് ചെയ്യുക<br/>4. വിശേഷജ്ഞരെ കാണാൻ "View Details" ക്ലിക്ക് ചെയ്യുക<br/>5. ഓരോ വിഭാഗത്തിലും നിപുണ ഡോക്ടരുമാരുണ്ട്<br/><br/>നിങ്ങളുടെ മെഡിക്കൽ ആവശ്യം അനുസരിച്ച് തിരഞ്ഞെടുക്കുക.',
     doctorGuide:
-      '<b>Como encontrar um médico:</b><br/>1. Selecione um departamento do painel<br/>2. Veja todos os médicos disponíveis nesse departamento<br/>3. Verifique suas qualificações e experiência<br/>4. Leia sua especialização<br/>5. Clique em um médico para ver sua disponibilidade<br/><br/>Você pode marcar consultas com qualquer médico disponível.',
+      '<b>ഒരു ഡോക്ടർ കണ്ടെത്തുക:</b><br/>1. ഡാഷ്ബോർഡിൽ നിന്ന് ഒരു വിഭാഗം തിരഞ്ഞെടുക്കുക<br/>2. ആ വിഭാഗത്തിലെ ലഭ്യമായ എല്ലാ ഡോക്ടറുമാരെ കാണുക<br/>3. അവരുടെ യോഗ്യതകൾ, അനുഭവം പരിശോധിക്കുക<br/>4. അവരുടെ പ്രത്യേകത വായിക്കുക<br/>5. അവരുടെ ലഭ്യത കാണാൻ ഡോക്ടരിനെ ക്ലിക്ക് ചെയ്യുക<br/><br/>നിങ്ങൾക്ക് ലഭ്യമായ ഏത് ഡോക്ടരുമായും നിയമനം ബുക്ക് ചെയ്യാൻ കഴിയും.',
     appointmentGuide:
-      '<b>Como marcar uma consulta:</b><br/>1. Encontre e clique no seu médico preferido<br/>2. Veja "Next 7 Days Availability"<br/>3. Selecione uma data que funcione para você<br/>4. O status da consulta mostrará horários disponíveis<br/>5. Clique em "Book Now" para confirmar<br/>6. Verifique a confirmação no seu histórico<br/><br/>Você pode cancelar a qualquer momento se necessário.',
+      '<b>നിയമനം ബുക്ക് ചെയ്യുക:</b><br/>1. നിങ്ങൾ ഇഷ്ടപ്പെട്ട ഡോക്ടരിനെ കണ്ടെത്തി ക്ലിക്ക് ചെയ്യുക<br/>2. "Next 7 Days Availability" കാണുക<br/>3. നിങ്ങൾക്ക് അനുയോജ്യമായ ഒരു തീയതി തിരഞ്ഞെടുക്കുക<br/>4. നിയമന അവസ്ഥ ലഭ്യ സ്ലോട്ടുകൾ കാണിക്കും<br/>5. സ്ഥിരീകരിക്കാൻ "Book Now" ക്ലിക്ക് ചെയ്യുക<br/>6. നിങ്ങളുടെ ചരിത്രത്തിൽ സ്ഥിരീകരണം പരിശോധിക്കുക<br/><br/>ആവശ്യമെങ്കിൽ നിങ്ങൾ ഏത് സമയത്തും റദ്ദ് ചെയ്യാൻ കഴിയും.',
     historyGuide:
-      '<b>Como verificar seu histórico médico:</b><br/>1. Clique em "History" na navegação<br/>2. Veja todas as suas consultas anteriores<br/>3. Verifique as anotações do médico e diagnósticos<br/>4. Verifique medicamentos prescritos<br/>5. Exporte seu histórico como CSV<br/><br/>Guarde seus registros com segurança para referência futura.'
+      '<b>നിങ്ങളുടെ മെഡിക്കൽ ചരിത്രം പരിശോധിക്കുക:</b><br/>1. നാവിഗേഷനിൽ നിന്ന് "History" ക്ലിക്ക് ചെയ്യുക<br/>2. നിങ്ങളുടെ എല്ലാ മുൻകാല നിയമനങ്ങൾ കാണുക<br/>3. ഡോക്ടരുടെ കുറിപ്പുകൾ, രോഗനിർണ്ണയം പരിശോധിക്കുക<br/>4. നിർദ്ദേശിത മരുന്നുകൾ പരിശോധിക്കുക<br/>5. നിങ്ങളുടെ ചരിത്രം CSV ആയി എഴുതുക<br/><br/>ഭാവിഷ്യത്തിലെ റഫറൻസിനായി നിങ്ങളുടെ രേഖകൾ സുരക്ഷിതമായി സൂക്ഷിക്കുക.'
+  },
+  bn: {
+    'Ask me anything...': 'আমাকে যেকোনো প্রশ্ন করুন...',
+    'Complete Your Profile': 'আপনার প্রোফাইল সম্পূর্ণ করুন',
+    'Explore Departments': 'বিভাগ অন্বেষণ করুন',
+    'Find a Doctor': 'একজন ডাক্তার খুঁজুন',
+    'Book Appointment': 'অ্যাপয়েন্টমেন্ট বুক করুন',
+    'Check My History': 'আমার ইতিহাস পরীক্ষা করুন',
+    profileGuide:
+      '<b>আপনার প্রোফাইল সম্পূর্ণ করুন:</b><br/>1. আপনার ড্যাশবোর্ড থেকে "Edit Profile" ক্লিক করুন<br/>2. আপনার ব্যক্তিগত তথ্য পূরণ করুন (নাম, বয়স, জন্ম তারিখ)<br/>3. আপনার লিঙ্গ এবং রক্তের গ্রুপ নির্বাচন করুন<br/>4. আপনার ঠিকানা যোগ করুন (ঐচ্ছিক)<br/>5. "Save Changes" ক্লিক করুন<br/><br/>এটি ডাক্তারদের আপনার চিকিৎসা পটভূমি ভালভাবে বুঝতে সাহায্য করে।',
+    departmentGuide:
+      '<b>বিভাগ অন্বেষণ করুন:</b><br/>1. আপনার ড্যাশবোর্ডে যান<br/>2. আপনি "Available Departments" কার্ড দেখতে পাবেন<br/>3. কার্ডিওলজি, নিউরোলজি ইত্যাদি বিভাগ ব্রাউজ করুন<br/>4. বিশেষজ্ঞ দেখতে "View Details" ক্লিক করুন<br/>5. প্রতিটি বিভাগে অভিজ্ঞ ডাক্তার রয়েছে<br/><br/>আপনার চিকিৎসা প্রয়োজন অনুযায়ী বেছে নিন।',
+    doctorGuide:
+      '<b>একজন ডাক্তার খুঁজুন:</b><br/>1. ড্যাশবোর্ড থেকে একটি বিভাগ নির্বাচন করুন<br/>2. সেই বিভাগে সকল উপলব্ধ ডাক্তার দেখুন<br/>3. তাদের যোগ্যতা এবং অভিজ্ঞতা যাচাই করুন<br/>4. তাদের বিশেষত্ব পড়ুন<br/>5. তাদের উপলব্ধতা দেখতে ডাক্তারে ক্লিক করুন<br/><br/>আপনি কোনো উপলব্ধ ডাক্তারের সাথে অ্যাপয়েন্টমেন্ট বুক করতে পারেন।',
+    appointmentGuide:
+      '<b>অ্যাপয়েন্টমেন্ট বুক করুন:</b><br/>1. আপনার পছন্দের ডাক্তার খুঁজুন এবং ক্লিক করুন<br/>2. "Next 7 Days Availability" দেখুন<br/>3. আপনার জন্য উপযুক্ত একটি তারিখ নির্বাচন করুন<br/>4. অ্যাপয়েন্টমেন্ট স্ট্যাটাস উপলব্ধ স্লট দেখাবে<br/>5. নিশ্চিত করতে "Book Now" ক্লিক করুন<br/>6. আপনার ইতিহাসে নিশ্চিতকরণ যাচাই করুন<br/><br/>প্রয়োজনে আপনি যেকোনো সময় বাতিল করতে পারেন।',
+    historyGuide:
+      '<b>আপনার চিকিৎসা ইতিহাস পরীক্ষা করুন:</b><br/>1. নেভিগেশন থেকে "History" ক্লিক করুন<br/>2. আপনার সমস্ত পূর্ববর্তী অ্যাপয়েন্টমেন্ট দেখুন<br/>3. ডাক্তারের নোট এবং রোগ নির্ণয় পরীক্ষা করুন<br/>4. নির্ধারিত ওষুধ পরীক্ষা করুন<br/>5. আপনার ইতিহাস CSV হিসাবে রপ্তানি করুন<br/><br/>ভবিষ্যত রেফারেন্সের জন্য আপনার রেকর্ড নিরাপদে রাখুন.'
   }
 }
 
@@ -446,13 +462,13 @@ export default {
 }
 
 .ai-assistant-modal {
-  background: white;
-  border-radius: 16px;
+  background: #fffdf7;
+  border-radius: 24px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   width: 100%;
-  max-width: 600px;
+  max-width: 700px;
   height: 80vh;
-  max-height: 800px;
+  max-height: 850px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -473,12 +489,12 @@ export default {
 /* Header */
 .assistant-header {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #f4e9db;
+  color: #3d362f;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid #dacbb8;
 }
 
 .header-left {
@@ -492,29 +508,31 @@ export default {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, #8f7b65 0%, #a68a72 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
+  color: white;
 }
 
 .header-info h2 {
   font-size: 1.2rem;
   margin: 0;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .header-info p {
   font-size: 0.85rem;
-  opacity: 0.9;
+  color: #7d6d5f;
   margin: 0.25rem 0 0 0;
 }
 
 .close-btn {
   background: none;
   border: none;
-  color: white;
+  color: #3d362f;
   font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -524,64 +542,67 @@ export default {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(143, 123, 101, 0.1);
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(143, 123, 101, 0.2);
   transform: rotate(90deg);
 }
 
 /* Language Selector */
 .language-selector {
   padding: 1rem 1.5rem;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   align-items: center;
   gap: 1rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #d8c8b0;
 }
 
 .language-selector label {
-  font-weight: 600;
-  color: #2c3e50;
+  font-weight: 700;
+  color: #3d362f;
   white-space: nowrap;
 }
 
 .language-select {
   flex: 1;
   padding: 0.5rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border: 2px solid #d8c8b0;
+  border-radius: 12px;
   font-family: inherit;
   font-size: 0.95rem;
-  background: white;
-  color: #2c3e50;
+  background: #fff9f1;
+  color: #3d362f;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .language-select:hover {
-  border-color: #667eea;
+  border-color: #8f7b65;
 }
 
 .language-select:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #8f7b65;
+  box-shadow: 0 0 0 3px rgba(143, 123, 101, 0.15);
 }
 
 /* Quick Actions */
 .quick-actions {
   padding: 1rem 1.5rem;
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
+  background: #fffdf7;
+  border-bottom: 1px solid #d8c8b0;
+  flex-shrink: 0;
+  overflow-y: auto;
+  max-height: 140px;
 }
 
 .quick-actions h3 {
   font-size: 0.9rem;
-  font-weight: 600;
-  color: #2c3e50;
+  font-weight: 700;
+  color: #3d362f;
   margin-bottom: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -589,40 +610,45 @@ export default {
 
 .actions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   gap: 0.75rem;
 }
 
 .action-btn {
-  padding: 0.75rem 1rem;
-  background: #f0f2f9;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: 0.75rem 0.85rem;
+  background: #f0e5d8;
+  border: 1px solid #d8c8b0;
+  border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #7f8c8d;
-  white-space: nowrap;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #7d6d5f;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: center;
+  min-height: 80px;
+  justify-content: center;
+  line-height: 1.2;
 }
 
 .action-btn i {
   font-size: 1.2rem;
-  color: #667eea;
+  color: #8f7b65;
 }
 
 .action-btn:hover {
-  background: #e8eef7;
-  border-color: #667eea;
-  color: #667eea;
+  background: #e6d9c8;
+  border-color: #8f7b65;
+  color: #8f7b65;
 }
 
 .action-btn.active {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8f7b65 0%, #a68a72 100%);
   color: white;
   border-color: transparent;
 }
@@ -661,8 +687,10 @@ export default {
 .message-content {
   display: flex;
   gap: 0.75rem;
-  max-width: 85%;
+  max-width: 80%;
   animation: messageSlide 0.3s ease;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 @keyframes messageSlide {
@@ -680,7 +708,7 @@ export default {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8f7b65 0%, #a68a72 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -691,18 +719,21 @@ export default {
 
 .message-text {
   padding: 0.75rem 1rem;
-  border-radius: 12px;
+  border-radius: 16px;
   line-height: 1.5;
   font-size: 0.95rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .message.assistant .message-text {
-  background: #f0f2f9;
-  color: #2c3e50;
+  background: #f0e5d8;
+  color: #3d362f;
 }
 
 .message.user .message-text {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8f7b65 0%, #a68a72 100%);
   color: white;
 }
 
@@ -725,7 +756,7 @@ export default {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: #667eea;
+  background: #8f7b65;
   animation: typing 1.4s infinite;
 }
 
@@ -753,8 +784,8 @@ export default {
 /* Input Area */
 .input-area {
   padding: 1rem 1.5rem;
-  background: white;
-  border-top: 1px solid #e0e0e0;
+  background: #fffdf7;
+  border-top: 1px solid #d8c8b0;
   display: flex;
   gap: 0.75rem;
 }
@@ -762,31 +793,36 @@ export default {
 .message-input {
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 2px solid #d8c8b0;
+  border-radius: 16px;
   font-family: inherit;
   font-size: 0.95rem;
-  color: white;
+  color: #3d362f;
+  background: #fff9f1;
   transition: all 0.3s ease;
 }
 
+.message-input::placeholder {
+  color: #bfafa1;
+}
+
 .message-input:hover {
-  border-color: #667eea;
+  border-color: #8f7b65;
 }
 
 .message-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #8f7b65;
+  box-shadow: 0 0 0 3px rgba(143, 123, 101, 0.15);
 }
 
 .send-btn {
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8f7b65 0%, #a68a72 100%);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -798,7 +834,7 @@ export default {
 
 .send-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
 }
 
 .send-btn:disabled {
@@ -832,12 +868,13 @@ export default {
   }
 
   .actions-grid {
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   }
 
   .action-btn {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.7rem;
+    padding: 0.5rem 0.65rem;
+    font-size: 0.65rem;
+    min-height: 75px;
   }
 
   .message-content {
@@ -874,13 +911,14 @@ export default {
   }
 
   .actions-grid {
-    grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
   }
 
   .action-btn {
-    padding: 0.5rem 0.5rem;
-    font-size: 0.65rem;
+    padding: 0.5rem 0.4rem;
+    font-size: 0.6rem;
+    min-height: 70px;
   }
 
   .action-btn i {

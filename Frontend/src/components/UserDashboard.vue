@@ -3,21 +3,18 @@
     <UserNavBar />
 
     <div class="user-container">
-      <!-- Welcome Header -->
       <div class="welcome-section">
         <div class="welcome-content">
-          <h1 class="welcome-title"> Welcome, {{ userName }}</h1>
+          <h1 class="welcome-title">Welcome, {{ userName }}</h1>
           <p class="welcome-subtitle">Book and manage your medical appointments</p>
         </div>
       </div>
 
-      <!-- Dashboard Grid -->
       <div class="dashboard-grid">
-        <!-- Departments Card -->
         <div class="dashboard-card departments-card">
           <div class="card-header">
             <div class="header-content">
-              <h3 class="card-title"> Available Departments</h3>
+              <h3 class="card-title">Available Departments</h3>
               <p class="card-subtitle">{{ departments.length }} departments</p>
             </div>
           </div>
@@ -43,11 +40,10 @@
           </div>
         </div>
 
-        <!-- Appointments Card -->
         <div class="dashboard-card appointments-card">
           <div class="card-header">
             <div class="header-content">
-              <h3 class="card-title"> Upcoming Appointments</h3>
+              <h3 class="card-title">Upcoming Appointments</h3>
               <p class="card-subtitle">{{ filteredAppointments.length }} appointments</p>
             </div>
           </div>
@@ -91,16 +87,18 @@
         </div>
       </div>
     </div>
+    <FloatingAIButton />
   </div>
 </template>
 
 <script>
 import UserNavBar from './UserNavBar.vue'
+import FloatingAIButton from './FloatingAIButton.vue'
 import { getApiBase, getAuthHeader } from '../utils/auth'
 
 export default {
   name: 'UserDashboard',
-  components: { UserNavBar },
+  components: { UserNavBar, FloatingAIButton },
   data() {
     return {
       userName: 'User',
@@ -286,12 +284,13 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .user-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   flex-direction: column;
 }
@@ -299,108 +298,69 @@ export default {
 .user-container {
   flex: 1;
   padding: 2rem;
-  max-width: 1600px;
+  max-width: 1400px;
   margin: 0 auto;
   width: 100%;
 }
 
-/* ========== WELCOME SECTION ========== */
 .welcome-section {
-  margin-bottom: 3rem;
-  animation: slideDown 0.5s ease-out;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  margin-bottom: 2rem;
 }
 
 .welcome-content {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #fffdf7;
+  color: #3d362f;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.05);
 }
 
 .welcome-title {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
   margin-bottom: 0.5rem;
 }
 
 .welcome-subtitle {
-  font-size: 1.1rem;
-  opacity: 0.9;
+  font-size: 1rem;
+  color: #6d5f53;
 }
 
-/* ========== DASHBOARD GRID ========== */
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 2rem;
-  animation: slideUp 0.5s ease-out;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 1.75rem;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* ========== CARDS ========== */
 .dashboard-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  transition: all 0.3s ease;
-  /* border-top: 4px solid #667eea; */
-  animation: cardSlide 0.5s ease-out;
 }
 
-@keyframes cardSlide {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* .dashboard-card:hover {
+  transform: translateY(-3px);
+} */
 
-.dashboard-card:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  transform: translateY(-5px);
-}
+/* .departments-card {
+  border-top: 4px solid #8f7b65;
+} */
 
-.departments-card {
-  border-top-color: #667eea;
-}
-
-.appointments-card {
-  border-top-color: #764ba2;
-  grid-column: 1 / -1;
-}
+/* .appointments-card {
+  border-top: 4px solid #a68a72;
+} */
 
 .card-header {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  background: #f4e9db;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .header-content {
@@ -408,22 +368,21 @@ export default {
 }
 
 .card-title {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #3d362f;
   margin-bottom: 0.25rem;
 }
 
 .card-subtitle {
-  font-size: 0.9rem;
-  color: #7f8c8d;
+  font-size: 0.95rem;
+  color: #7d6d5f;
 }
 
 .card-body {
   padding: 1.5rem;
 }
 
-/* ========== LOADING STATE ========== */
 .loading-state {
   text-align: center;
   padding: 2rem;
@@ -431,14 +390,14 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f0f0f0;
-  border-top-color: #667eea;
+  border: 4px solid #e3d3c1;
+  border-top-color: #8f7b65;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -449,36 +408,34 @@ export default {
   }
 }
 
-/* ========== DEPARTMENTS GRID ========== */
 .departments-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
 }
 
 .dept-card {
-  background: linear-gradient(135deg, #f9f9f9 0%, #f0f2f9 100%);
-  border-radius: 10px;
+  background: #fff9f1;
+  border-radius: 18px;
   overflow: hidden;
-  transition: all 0.3s ease;
-  border: 1px solid #e8eef7;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid #e2d1be;
 }
 
 .dept-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.15);
-  border-color: #667eea;
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.06);
 }
 
 .dept-header {
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #f3eadf;
+  color: #3d362f;
 }
 
 .dept-header h4 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 700;
 }
 
@@ -486,17 +443,16 @@ export default {
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.9rem;
 }
 
 .dept-description {
-  color: #7f8c8d;
-  font-size: 0.9rem;
+  color: #6d5f53;
+  font-size: 0.95rem;
   margin: 0;
   flex: 1;
 }
 
-/* ========== APPOINTMENTS TABLE ========== */
 .appointments-table {
   width: 100%;
   border-collapse: collapse;
@@ -507,13 +463,11 @@ export default {
   grid-template-columns: 80px 1.5fr 1.2fr 120px 100px 120px;
   gap: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  font-weight: 600;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-  position: sticky;
-  top: 0;
+  background: #f4e9db;
+  color: #3d362f;
+  font-weight: 700;
+  border-radius: 16px;
+  margin-bottom: 0.7rem;
 }
 
 .table-row {
@@ -521,17 +475,17 @@ export default {
   grid-template-columns: 80px 1.5fr 1.2fr 120px 100px 120px;
   gap: 1rem;
   padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-  /* border-left: 3px solid #764ba2; */
-  transition: all 0.2s ease;
+  background: #fff9f1;
+  border-radius: 16px;
+  margin-bottom: 0.55rem;
+  border: 1px solid #e6d6c5;
+  transition: background 0.25s ease, transform 0.25s ease;
   align-items: center;
 }
 
 .table-row:hover {
-  background: #f0f2f9;
-  transform: translateX(5px);
+  background: #f7eee5;
+  transform: translateX(3px);
 }
 
 .col-no,
@@ -541,46 +495,42 @@ export default {
 .col-time,
 .col-action {
   font-size: 0.95rem;
-  color: #2c3e50;
+  color: #3d362f;
 }
 
-/* ========== BUTTONS ========== */
 .btn-action {
-  padding: 0.6rem 1rem;
-  border: none;
-  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  border: 1px solid #d1c2b3;
+  border-radius: 999px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  font-weight: 600;
+  transition: background 0.25s ease, transform 0.25s ease;
+  font-weight: 700;
   font-size: 0.85rem;
   background: transparent;
-  border: 1px solid #ddd;
+  color: #3d362f;
   white-space: nowrap;
 }
 
 .btn-action:hover {
+  background: #f3eadf;
   transform: translateY(-2px);
 }
 
 .btn-view {
-  color: #667eea;
-  border-color: #667eea;
+  color: #3d362f;
+  border-color: #3d362f;
+  background: #f9f1e8;
   width: 100%;
 }
 
-.btn-view:hover {
-  background: #e8eef7;
-  border-color: #667eea;
-}
-
 .btn-cancel {
-  color: #e74c3c;
-  border-color: #e74c3c;
+  color: #8a2f2a;
+  border-color: #8a2f2a;
+  background: rgba(138, 47, 42, 0.1);
 }
 
 .btn-cancel:hover:not(:disabled) {
-  background: #ffe0e0;
-  border-color: #e74c3c;
+  background: rgba(138, 47, 42, 0.18);
 }
 
 .btn-cancel:disabled {
@@ -588,36 +538,29 @@ export default {
   cursor: not-allowed;
 }
 
-/* ========== STATUS BADGE ========== */
 .status-badge {
   display: inline-block;
-  padding: 0.5rem 1rem;
-  background: #e8eef7;
-  color: #667eea;
-  border-radius: 20px;
-  font-weight: 600;
+  padding: 0.55rem 1rem;
+  background: #56493f;
+  color: #ffffff;
+  border-radius: 999px;
+  font-weight: 700;
   font-size: 0.85rem;
 }
 
-/* ========== EMPTY STATE ========== */
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: #7f8c8d;
+  color: #6d5f53;
   font-style: italic;
-  background: #f9f9f9;
-  border-radius: 8px;
-  border: 2px dashed #ddd;
+  background: #fff7f0;
+  border-radius: 16px;
+  border: 1px dashed #d7c7b5;
 }
 
-/* ========== RESPONSIVE ========== */
 @media (max-width: 1200px) {
   .dashboard-grid {
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  }
-
-  .appointments-card {
-    grid-column: 1 / -1;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   }
 }
 
@@ -638,16 +581,8 @@ export default {
     gap: 1.5rem;
   }
 
-  .welcome-content {
-    padding: 1.5rem;
-  }
-
-  .welcome-title {
-    font-size: 1.5rem;
-  }
-
-  .departments-grid {
-    grid-template-columns: 1fr;
+  .dept-card {
+    width: 100%;
   }
 
   .table-header,
@@ -677,11 +612,11 @@ export default {
   }
 
   .welcome-title {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
   }
 
   .card-title {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 
   .table-header,
@@ -690,7 +625,7 @@ export default {
   }
 
   .btn-action {
-    padding: 0.5rem 0.75rem;
+    padding: 0.55rem 0.85rem;
     font-size: 0.75rem;
   }
 }

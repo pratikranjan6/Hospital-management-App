@@ -132,7 +132,7 @@ function goBack() {
 .admin-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   flex-direction: column;
 }
@@ -148,20 +148,21 @@ function goBack() {
 /* ========== INFO CARD ========== */
 .info-card,
 .history-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   animation: slideUp 0.5s ease-out;
   margin-bottom: 2rem;
 }
 
 .info-card {
-  border-top: 4px solid #764ba2;
+  border-top: 4px solid #8f7b65;
 }
 
 .history-card {
-  border-top: 4px solid #3498db;
+  border-top: 4px solid #a68a72;
 }
 
 @keyframes slideUp {
@@ -177,8 +178,9 @@ function goBack() {
 
 .card-header {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-  color: white;
+  background: #f4e9db;
+  border-bottom: 1px solid #dacbb8;
+  color: #3d362f;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -186,7 +188,8 @@ function goBack() {
 }
 
 .history-card .card-header {
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  background: #f4e9db;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .header-content {
@@ -195,13 +198,14 @@ function goBack() {
 
 .card-title {
   font-size: 1.5rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .card-subtitle {
   font-size: 0.9rem;
-  opacity: 0.9;
+  color: #7d6d5f;
   margin: 0.25rem 0 0;
 }
 
@@ -220,20 +224,20 @@ function goBack() {
   display: flex;
   gap: 1rem;
   padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  /* border-left: 4px solid #764ba2; */
+  background: #fff9f1;
+  border: 1px solid #e6d6c5;
+  border-radius: 16px;
 }
 
 .info-label {
-  font-weight: 600;
-  color: #2c3e50;
+  font-weight: 700;
+  color: #3d362f;
   min-width: 150px;
 }
 
 .info-value {
-  color: #667eea;
-  font-weight: 500;
+  color: #8f7b65;
+  font-weight: 600;
 }
 
 /* ========== HISTORY TABLE ========== */
@@ -243,8 +247,8 @@ function goBack() {
 
 .table-wrapper {
   overflow-x: auto;
-  border-radius: 8px;
-  border: 1px solid #e0e6ed;
+  border-radius: 16px;
+  border: 1px solid #d8c8b0;
 }
 
 .history-table {
@@ -254,24 +258,25 @@ function goBack() {
 }
 
 .history-table thead {
-  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
-  color: white;
+  background: #f4e9db;
+  color: #3d362f;
   position: sticky;
   top: 0;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .history-table th {
   padding: 1rem;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
   min-width: 100px;
   white-space: nowrap;
 }
 
 .history-table td {
   padding: 1rem;
-  border-bottom: 1px solid #e0e6ed;
-  color: #2c3e50;
+  border-bottom: 1px solid #e6d6c5;
+  color: #3d362f;
 }
 
 .history-table tbody tr {
@@ -279,7 +284,7 @@ function goBack() {
 }
 
 .history-table tbody tr:hover {
-  background: #f0f2f9;
+  background: #f7eee5;
 }
 
 .history-row:last-child td {
@@ -316,23 +321,24 @@ function goBack() {
 .medicine-badge {
   display: inline-block;
   padding: 0.4rem 0.8rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 20px;
+  background: #f0e5d8;
+  color: #8f7b65;
+  border-radius: 999px;
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 700;
   white-space: nowrap;
+  border: 1px solid #d8c8b0;
 }
 
 /* ========== EMPTY STATE ========== */
 .empty-state {
   text-align: center;
   padding: 3rem 2rem;
-  color: #7f8c8d;
+  color: #6d5f53;
   font-style: italic;
-  background: #f9f9f9;
-  border-radius: 8px;
-  border: 2px dashed #ddd;
+  background: #fff7f0;
+  border-radius: 16px;
+  border: 1px dashed #d7c7b5;
 }
 
 /* ========== BUTTONS ========== */
@@ -345,11 +351,11 @@ function goBack() {
 
 .btn-back {
   padding: 0.85rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
@@ -357,7 +363,8 @@ function goBack() {
 
 .btn-back:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
+  background: #7a6a58;
 }
 
 .btn-back:active {
@@ -365,7 +372,7 @@ function goBack() {
 }
 
 .text-muted {
-  color: #7f8c8d;
+  color: #7d6d5f;
 }
 
 /* ========== RESPONSIVE ========== */

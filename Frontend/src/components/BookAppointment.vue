@@ -71,54 +71,66 @@
         <p>No appointment slots available</p>
       </div>
       <div v-else class="slots-grid">
-        <div
-          v-for="slot in appointmentSlots"
-          :key="slot.id"
-          :class="['slot-card', getSlotCardClass(slot)]"
-        >
-          <div class="slot-header" :class="{ 'unavailable': !slot.available }">
-            <div class="slot-date">
-              <div class="date-day">{{ slot.dateNumber }}</div>
-              <div class="date-month">{{ slot.month }}</div>
+        <div v-for="day in slotsByDate" :key="day.date" class="day-group">
+          <div class="day-group-header">
+            <div>
+              <span class="day-group-title">{{ day.dayOfWeek }}, {{ day.month }} {{ day.dateNumber }}</span>
+              <span class="day-group-meta">{{ day.availableCount }} available / {{ day.totalSlots }} slots</span>
             </div>
-            <div class="slot-day">{{ slot.dayOfWeek }}</div>
+            <span v-if="day.allBooked" class="day-all-booked">All slots booked</span>
           </div>
 
-          <div class="slot-body">
-            <div v-if="slot.available" class="time-display">
-              <i class="fas fa-clock"></i>
-              {{ slot.startTime }} - {{ slot.endTime }}
-            </div>
-            <div class="slot-status">
-              <span v-if="!slot.available" class="status-badge unavailable-badge">
-                <i class="fas fa-ban"></i> No Appointment
-              </span>
-              <span v-else-if="slot.status === 'Booked'" class="status-badge booked-badge">
-                <i class="fas fa-check-circle"></i> Booked
-              </span>
-              <span v-else class="status-badge available-badge">
-                <i class="fas fa-plus-circle"></i> Available
-              </span>
-            </div>
+          <div class="day-slot-grid">
+            <div
+              v-for="slot in day.slots"
+              :key="slot.id"
+              :class="['slot-card', getSlotCardClass(slot)]"
+            >
+              <div class="slot-header" :class="{ 'unavailable': !slot.available }">
+                <div class="slot-date">
+                  <div class="date-day">{{ slot.dateNumber }}</div>
+                  <div class="date-month">{{ slot.month }}</div>
+                </div>
+                <div class="slot-day">{{ slot.dayOfWeek }}</div>
+              </div>
 
-            <button
-              v-if="slot.available && slot.status !== 'Booked'"
-              @click="bookAppointment(slot)"
-              class="action-btn book-btn"
-              :disabled="bookingLoading === slot.id"
-            >
-              <i class="fas fa-calendar-check"></i>
-              {{ bookingLoading === slot.id ? 'Booking...' : 'Book Now' }}
-            </button>
-            <button
-              v-else-if="slot.status === 'Booked' && slot.bookedByMe"
-              @click="cancelAppointment(slot)"
-              class="action-btn cancel-btn"
-              :disabled="cancellingLoading === slot.id"
-            >
-              <i class="fas fa-trash-alt"></i>
-              {{ cancellingLoading === slot.id ? 'Cancelling...' : 'Cancel' }}
-            </button>
+              <div class="slot-body">
+                <div class="time-display">
+                  <i class="fas fa-clock"></i>
+                  {{ slot.startTime }} - {{ slot.endTime }}
+                </div>
+                <div class="slot-status">
+                  <span v-if="slot.status === 'Booked'" class="status-badge booked-badge">
+                    <i class="fas fa-check-circle"></i> Booked
+                  </span>
+                  <span v-else-if="!slot.available" class="status-badge unavailable-badge">
+                    <i class="fas fa-ban"></i> Not Available
+                  </span>
+                  <span v-else class="status-badge available-badge">
+                    <i class="fas fa-plus-circle"></i> Available
+                  </span>
+                </div>
+
+                <button
+                  v-if="slot.available && slot.status !== 'Booked'"
+                  @click="bookAppointment(slot)"
+                  class="action-btn book-btn"
+                  :disabled="bookingLoading === slot.id"
+                >
+                  <i class="fas fa-calendar-check"></i>
+                  {{ bookingLoading === slot.id ? 'Booking...' : 'Book Now' }}
+                </button>
+                <button
+                  v-else-if="slot.status === 'Booked' && slot.bookedByMe"
+                  @click="cancelAppointment(slot)"
+                  class="action-btn cancel-btn"
+                  :disabled="cancellingLoading === slot.id"
+                >
+                  <i class="fas fa-trash-alt"></i>
+                  {{ cancellingLoading === slot.id ? 'Cancelling...' : 'Cancel' }}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -168,6 +180,39 @@ export default {
       successMessage: '',
       errorMessage: '',
       currentUser: null
+    }
+  },
+  computed: {
+    slotsByDate() {
+      const grouped = {}
+
+      this.appointmentSlots.forEach(slot => {
+        if (!grouped[slot.date]) {
+          grouped[slot.date] = {
+            date: slot.date,
+            dayOfWeek: slot.dayOfWeek,
+            dateNumber: slot.dateNumber,
+            month: slot.month,
+            slots: []
+          }
+        }
+
+        grouped[slot.date].slots.push(slot)
+      })
+
+      return Object.values(grouped)
+        .map(group => {
+          const availableCount = group.slots.filter(s => s.available && s.status !== 'Booked').length
+          const totalSlots = group.slots.length
+          const allBooked = group.slots.every(s => s.status === 'Booked' || !s.available)
+          return {
+            ...group,
+            availableCount,
+            totalSlots,
+            allBooked
+          }
+        })
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
     }
   },
   mounted() {
@@ -293,18 +338,21 @@ export default {
           month: 'short'
         })
 
-  
         const isAvailable = this.checkDoctorAvailability(currentDate)
 
+        // Full day slot from 9:00 AM to 5:00 PM
+        const startTime = '09:00'
+        const endTime = '17:00'
+
         slots.push({
-          id: `slot-${i}`,
+          id: `slot-${this.doctorId}-${currentDate.toISOString().split('T')[0]}`,
           doctorId: this.doctorId,
           date: currentDate.toISOString().split('T')[0],
           dateNumber: dateNumber,
           month: month,
           dayOfWeek: dayOfWeek,
-          startTime: '09:00',
-          endTime: '17:00',
+          startTime: startTime,
+          endTime: endTime,
           available: isAvailable,
           status: 'Open',
           bookedByMe: false,
@@ -316,11 +364,7 @@ export default {
     },
 
     checkDoctorAvailability(date) {
-     
-      const dayOfWeek = date.getDay()
-      if (dayOfWeek === 0 || dayOfWeek === 6) {
-        return false
-      }
+      // Hospital operates all 7 days, so every date is available by default
       return true
     },
 
@@ -346,9 +390,10 @@ export default {
 
         this.bookingLoading = slot.id
 
-     
+        // Parse the start time from the slot
+        const [hours, minutes] = slot.startTime.split(':')
         const appointmentDate = new Date(slot.date)
-        appointmentDate.setHours(9, 0, 0, 0) 
+        appointmentDate.setHours(parseInt(hours), parseInt(minutes), 0, 0)
 
         const appointmentData = {
           patient_id: this.currentUser.id,
@@ -374,8 +419,8 @@ export default {
 
         const result = await response.json()
 
-  
         slot.status = 'Booked'
+        slot.available = false
         slot.bookedByMe = true
         slot.appointmentId = result.appointment_id
 
@@ -451,7 +496,7 @@ export default {
 }
 
 .appointment-container {
-  background: #f5f7fa;
+  background: #f2e8d8;
   min-height: 100vh;
   padding: 2rem 1rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
@@ -500,12 +545,13 @@ export default {
 
 /* Header Styles */
 .header-section {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 12px;
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
   padding: 2rem 2rem;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  color: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  color: #3d362f;
   animation: slideDown 0.5s ease-out;
 }
 
@@ -521,13 +567,14 @@ export default {
 
 .page-title {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 .header-subtitle {
   font-size: 1rem;
-  opacity: 0.9;
+  color: #6d5f53;
   margin: 0;
 }
 
@@ -542,35 +589,40 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: white;
+  color: #3d362f;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
   padding: 0.6rem 1rem;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.15);
-  border: none;
+  border-radius: 999px;
+  background: #f4e9db;
+  border: 1px solid #d8c8b0;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
 }
 
 .nav-link:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: #e8dcc9;
+  border-color: #8f7b65;
   transform: translateY(-2px);
 }
 
 .logout-btn {
-  background: rgba(239, 68, 68, 0.25);
+  background: rgba(138, 90, 90, 0.1);
+  border-color: #8a5a5a;
+  color: #3d362f;
 }
 
 .logout-btn:hover {
-  background: rgba(239, 68, 68, 0.4);
+  background: rgba(138, 90, 90, 0.15);
+  border-color: #8f7b65;
 }
 
 /* Doctor Info Card */
 .doctor-info-card {
-  background: white;
-  border-radius: 12px;
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
   padding: 1.5rem;
   margin-bottom: 2rem;
   margin-left: auto;
@@ -578,30 +630,30 @@ export default {
   display: flex;
   gap: 2rem;
   align-items: flex-start;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  border-top: 4px solid #667eea;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
+  border-top: 4px solid #8f7b65;
   max-width: 1400px;
   transition: all 0.3s ease;
   animation: cardSlide 0.5s ease-out;
 }
 
 .doctor-info-card:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  transform: translateY(-5px);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
 }
 
 .doctor-avatar {
   width: 80px;
   height: 80px;
-  border-radius: 10px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  background: #8f7b65;
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
   font-size: 2.5rem;
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.25);
 }
 
 .doctor-details {
@@ -610,8 +662,8 @@ export default {
 
 .doctor-name {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
   margin-bottom: 0.75rem;
 }
 
@@ -620,14 +672,14 @@ export default {
 }
 
 .badge-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
   padding: 0.5rem 1.25rem;
-  border-radius: 20px;
+  border-radius: 999px;
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 700;
   display: inline-block;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.25);
 }
 
 .doctor-meta {
@@ -640,12 +692,12 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
   font-size: 0.95rem;
 }
 
 .meta-item i {
-  color: #667eea;
+  color: #8f7b65;
   font-size: 1rem;
 }
 
@@ -655,11 +707,11 @@ export default {
   align-items: center;
   gap: 0.5rem;
   padding: 0.6rem 1.2rem;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  color: #2c3e50;
-  font-weight: 600;
+  background: #fffdf7;
+  border: 1px solid #d8c8b0;
+  border-radius: 999px;
+  color: #8f7b65;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   margin-bottom: 2rem;
@@ -670,9 +722,9 @@ export default {
 }
 
 .back-btn:hover {
-  border-color: #667eea;
-  color: #667eea;
-  background: #e8eef7;
+  border-color: #8f7b65;
+  color: #3d362f;
+  background: #f4e9db;
   transform: translateY(-2px);
 }
 
@@ -688,8 +740,8 @@ export default {
 
 .slots-title {
   font-size: 1.3rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
   margin-bottom: 0.25rem;
   display: flex;
   align-items: center;
@@ -697,44 +749,44 @@ export default {
 }
 
 .slots-title i {
-  color: #667eea;
+  color: #8f7b65;
 }
 
 .slots-subtitle {
-  color: #7f8c8d;
+  color: #7d6d5f;
   font-size: 0.95rem;
   margin: 0;
 }
 
 /* Alert Styles */
 .alert-profile {
-  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-  border: 1px solid #fcd34d;
-  border-radius: 10px;
+  background: #fff7f0;
+  border: 1px solid #d7c7b5;
+  border-radius: 16px;
   padding: 1.5rem;
   display: flex;
   gap: 1rem;
   align-items: flex-start;
   margin-bottom: 2rem;
-  box-shadow: 0 4px 15px rgba(252, 211, 77, 0.2);
+  box-shadow: 0 4px 15px rgba(143, 123, 101, 0.1);
   animation: slideUp 0.5s ease-out;
 }
 
 .alert-profile i {
-  color: var(--warning-color);
+  color: #8f7b65;
   font-size: 1.5rem;
   flex-shrink: 0;
   margin-top: 0.25rem;
 }
 
 .alert-title {
-  font-weight: 700;
-  color: #78350f;
+  font-weight: 800;
+  color: #3d362f;
   margin-bottom: 0.25rem;
 }
 
 .alert-text {
-  color: #92400e;
+  color: #7d6d5f;
   margin: 0 0 1rem 0;
 }
 
@@ -742,11 +794,11 @@ export default {
   display: inline-flex;
   align-items: center;
   padding: 0.6rem 1.5rem;
-  background: #f59e0b;
+  background: #8f7b65;
   color: white;
   text-decoration: none;
-  border-radius: 6px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   transition: all 0.3s ease;
   border: none;
   cursor: pointer;
@@ -754,9 +806,9 @@ export default {
 }
 
 .btn-profile:hover {
-  background: #d97706;
+  background: #7a6a58;
   transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(245, 158, 11, 0.3);
+  box-shadow: 0 6px 16px rgba(143, 123, 101, 0.3);
 }
 
 /* Loading Spinner */
@@ -767,17 +819,18 @@ export default {
   gap: 1rem;
   padding: 3rem 2rem;
   text-align: center;
-  color: #7f8c8d;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  color: #7d6d5f;
+  background: #fffdf7;
+  border-radius: 16px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f0f0f0;
-  border-top-color: #667eea;
+  border: 4px solid #e3d3c1;
+  border-top-color: #8f7b65;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -789,11 +842,12 @@ export default {
   align-items: center;
   gap: 1rem;
   padding: 3rem 2rem;
-  color: #7f8c8d;
+  color: #6d5f53;
   text-align: center;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 16px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .no-slots i {
@@ -803,19 +857,61 @@ export default {
 
 /* Slots Grid */
 .slots-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   animation: slideUp 0.5s ease-out;
 }
 
+.day-group {
+  background: #fffdf7;
+  border: 1px solid #d8c8b0;
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+}
+
+.day-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.day-group-title {
+  font-weight: 800;
+  color: #3d362f;
+}
+
+.day-group-meta {
+  color: #7d6d5f;
+  font-size: 0.9rem;
+}
+
+.day-all-booked {
+  background: #f8d7da;
+  color: #842029;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.day-slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
 /* Slot Card */
 .slot-card {
-  background: white;
-  border-radius: 10px;
+  background: #fffdf7;
+  border-radius: 12px;
   overflow: hidden;
-  border: 1px solid #e8eef7;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
   cursor: pointer;
   display: flex;
@@ -824,40 +920,44 @@ export default {
 }
 
 .slot-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
 }
 
 .slot-card.available {
-  border-color: #667eea;
+  border-color: #8f7b65;
+  border-top: 4px solid #8f7b65;
 }
 
 .slot-card.available:hover {
-  border-color: #667eea;
+  border-color: #8f7b65;
 }
 
 .slot-card.booked {
-  border-color: #f59e0b;
+  border-color: #d7c7b5;
+  border-top: 4px solid #d7c7b5;
 }
 
 .slot-card.unavailable {
   border-color: #ddd;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 /* Slot Header */
 .slot-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 1.5rem;
+  background: #f4e9db;
+  color: #3d362f;
+  padding: 0.75rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 2px 8px rgba(143, 123, 101, 0.1);
+  border-bottom: 1px solid #dacbb8;
 }
 
 .slot-header.unavailable {
-  background: linear-gradient(135deg, #ddd 0%, #ccc 100%);
+  background: #efefef;
+  color: #999;
 }
 
 .slot-date {
@@ -865,46 +965,49 @@ export default {
 }
 
 .date-day {
-  font-size: 1.8rem;
+  font-size: 1.2rem;
   font-weight: 800;
   line-height: 1;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.15rem;
+  color: #8f7b65;
 }
 
 .date-month {
-  font-size: 0.85rem;
-  font-weight: 600;
-  opacity: 0.9;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #7d6d5f;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .slot-day {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-align: right;
+  color: #3d362f;
 }
 
 /* Slot Body */
 .slot-body {
-  padding: 1.5rem;
+  padding: 0.75rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.6rem;
   flex: 1;
 }
 
 .time-display {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #7f8c8d;
-  font-size: 0.9rem;
-  font-weight: 500;
+  gap: 0.3rem;
+  color: #7d6d5f;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .time-display i {
-  color: #667eea;
+  color: #8f7b65;
+  font-size: 0.75rem;
 }
 
 /* Status Badges */
@@ -916,48 +1019,51 @@ export default {
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  gap: 0.3rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
 .available-badge {
-  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-  color: #166534;
+  background: rgba(85, 158, 104, 0.15);
+  color: #3d5f3d;
+  border: 1px solid #559e68;
 }
 
 .booked-badge {
-  background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
-  color: #78350f;
+  background: rgba(215, 199, 181, 0.3);
+  color: #6d5f53;
+  border: 1px solid #d7c7b5;
 }
 
 .unavailable-badge {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  color: #991b1b;
+  background: rgba(138, 90, 90, 0.15);
+  color: #5c3d3d;
+  border: 1px solid #8a5a5a;
 }
 
 /* Action Buttons */
 .action-btn {
-  padding: 0.6rem 1rem;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  font-size: 0.85rem;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #d8c8b0;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.7rem;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.3rem;
   width: 100%;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background: transparent;
-  border: 1px solid #ddd;
+  background: #f4e9db;
+  color: #3d362f;
   white-space: nowrap;
 }
 
@@ -966,14 +1072,15 @@ export default {
 }
 
 .book-btn {
-  color: #667eea;
-  border-color: #667eea;
+  color: #8f7b65;
+  border-color: #8f7b65;
+  background: #f0e5d8;
 }
 
 .book-btn:hover:not(:disabled) {
-  background: #e8eef7;
-  border-color: #667eea;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  background: #e8dcc9;
+  border-color: #8f7b65;
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.2);
 }
 
 .book-btn:disabled {
@@ -982,14 +1089,15 @@ export default {
 }
 
 .cancel-btn {
-  color: #e74c3c;
-  border-color: #e74c3c;
+  color: #8a5a5a;
+  border-color: #8a5a5a;
+  background: rgba(138, 90, 90, 0.08);
 }
 
 .cancel-btn:hover:not(:disabled) {
-  background: #ffe0e0;
-  border-color: #e74c3c;
-  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
+  background: rgba(138, 90, 90, 0.15);
+  border-color: #8a5a5a;
+  box-shadow: 0 4px 12px rgba(138, 90, 90, 0.2);
 }
 
 .cancel-btn:disabled {
@@ -1003,9 +1111,9 @@ export default {
   top: 1.5rem;
   right: 1.5rem;
   max-width: 420px;
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 1.25rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   animation: slideIn 0.3s ease;
   z-index: 1000;
   display: flex;
@@ -1014,25 +1122,14 @@ export default {
   gap: 1rem;
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(400px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 .success-notification {
-  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-  border: 1px solid #6ee7b7;
+  background: #f0f9f0;
+  border: 1px solid #b8dab8;
 }
 
 .error-notification {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  border: 1px solid #fca5a5;
+  background: #fef5f5;
+  border: 1px solid #dbb8b8;
 }
 
 .notification-content {
@@ -1049,24 +1146,24 @@ export default {
 }
 
 .success-notification i {
-  color: var(--success-color);
+  color: #559e68;
 }
 
 .error-notification i {
-  color: var(--danger-color);
+  color: #a65c5c;
 }
 
 .notification-title {
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 0.25rem;
 }
 
 .success-notification .notification-title {
-  color: #166534;
+  color: #3d5f3d;
 }
 
 .error-notification .notification-title {
-  color: #991b1b;
+  color: #5c3d3d;
 }
 
 .notification-message {
@@ -1076,11 +1173,11 @@ export default {
 }
 
 .success-notification .notification-message {
-  color: #166534;
+  color: #3d5f3d;
 }
 
 .error-notification .notification-message {
-  color: #991b1b;
+  color: #5c3d3d;
 }
 
 .notification-close {
@@ -1097,11 +1194,11 @@ export default {
 }
 
 .success-notification .notification-close {
-  color: #10b981;
+  color: #559e68;
 }
 
 .error-notification .notification-close {
-  color: #ef4444;
+  color: #a65c5c;
 }
 
 .notification-close:hover {

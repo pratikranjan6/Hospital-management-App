@@ -137,17 +137,18 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f2e8d8 0%, #e8dcc8 100%);
 }
 
 /* ========== NAVBAR ========== */
 .navbar {
-  background: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #fffdf7;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   padding: 1rem 0;
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 2px solid #d8c8b0;
 }
 
 .nav-container {
@@ -167,17 +168,18 @@ export default {
 
 .logo {
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #007bff;
+  font-weight: 800;
+  color: #8f7b65;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
   transition: color 0.3s ease;
+  letter-spacing: -0.02em;
 }
 
 .logo:hover {
-  color: #0056b3;
+  color: #a68a72;
 }
 
 .nav-buttons {
@@ -198,24 +200,26 @@ export default {
 
 .btn-login {
   background: transparent;
-  color: #333;
-  border: 2px solid #333;
+  color: #8f7b65;
+  border: 2px solid #8f7b65;
+  font-weight: 600;
 }
 
 .btn-login:hover {
-  background: #f0f0f0;
+  background: rgba(143, 123, 101, 0.1);
   transform: translateY(-2px);
 }
 
 .btn-signup {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8f7b65 0%, #a68a72 100%);
   color: white;
   border: none;
+  font-weight: 600;
 }
 
 .btn-signup:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
 }
 
 /* ========== HERO SECTION ========== */
@@ -262,39 +266,42 @@ export default {
 
 .hero-title {
   font-size: 2.5rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
   margin-bottom: 0.5rem;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
 .hero-subtitle {
   font-size: 1.2rem;
-  color: #666;
+  color: #7d6d5f;
   margin-bottom: 2rem;
-  font-weight: 300;
+  font-weight: 500;
 }
 
 .description-box {
-  background: white;
+  background: #fffdf7;
   padding: 2.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
-  border-top: 4px solid #667eea;
+  border-top: 5px solid #f4e9db;
+  border: 2px solid #d8c8b0;
+  border-top: 5px solid #f4e9db;
 }
 
 .desc-main {
   font-size: 1.1rem;
-  color: #333;
-  font-weight: 600;
+  color: #3d362f;
+  font-weight: 700;
   margin-bottom: 1rem;
   line-height: 1.6;
 }
 
 .desc-secondary {
   font-size: 0.95rem;
-  color: #666;
+  color: #7d6d5f;
   line-height: 1.7;
   margin: 0;
 }
@@ -306,19 +313,20 @@ export default {
 .cta-btn {
   padding: 1rem 2.5rem;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
   color: white;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8f7b65 0%, #a68a72 100%);
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
+  letter-spacing: 0.5px;
 }
 
 .cta-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 12px 28px rgba(143, 123, 101, 0.4);
 }
 
 .cta-btn:active {
@@ -327,9 +335,9 @@ export default {
 
 /* ========== STATS SECTION ========== */
 .stats-section {
-  background: white;
+  background: #fffdf7;
   padding: 4rem 2rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 2px solid #d8c8b0;
 }
 
 .stats-container {
@@ -341,32 +349,37 @@ export default {
 }
 
 .stat-card {
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f0e5d8 0%, #e8dcc8 100%);
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: 24px;
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
+  border: 2px solid #d8c8b0;
 }
 
 .stat-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 24px 50px rgba(143, 123, 101, 0.15);
+  background: linear-gradient(135deg, #e6d9c8 0%, #ddd0c0 100%);
 }
 
 .stat-card:nth-child(1) {
-  border-left: 5px solid #667eea;
+  /* border-left: 6px solid #8f7b65; */
+  background: linear-gradient(135deg, #f4e9db 0%, #e8dcc8 100%);
 }
 
 .stat-card:nth-child(2) {
-  border-left: 5px solid #764ba2;
+  /* border-left: 6px solid #a68a72; */
+  background: linear-gradient(135deg, #f4e9db 0%, #e8dcc8 100%);
 }
 
 .stat-card:nth-child(3) {
-  border-left: 5px solid #f093fb;
+  /* border-left: 6px solid #8f7b65; */
+  background: linear-gradient(135deg, #f0e5d8 0%, #e8dcc8 100%);
 }
 
 .stat-icon {
@@ -403,16 +416,17 @@ export default {
 
 .stat-number {
   font-size: 2.5rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #8f7b65;
   line-height: 1;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 .stat-label {
   font-size: 1rem;
-  color: #666;
-  font-weight: 500;
+  color: #7d6d5f;
+  font-weight: 600;
 }
 
 /* ========== RESPONSIVE ========== */

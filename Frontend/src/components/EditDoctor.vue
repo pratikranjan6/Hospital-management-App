@@ -151,7 +151,7 @@ onMounted(() => {
 .admin-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   flex-direction: column;
 }
@@ -166,12 +166,13 @@ onMounted(() => {
 
 /* ========== FORM CARD ========== */
 .form-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   animation: slideUp 0.5s ease-out;
-  border-top: 4px solid #667eea;
+  border-top: 4px solid #8f7b65;
+  border: 1px solid #d8c8b0;
 }
 
 @keyframes slideUp {
@@ -187,8 +188,9 @@ onMounted(() => {
 
 .card-header {
   padding: 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #f4e9db;
+  color: #3d362f;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .header-content {
@@ -199,13 +201,14 @@ onMounted(() => {
 
 .card-title {
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .card-subtitle {
   font-size: 0.95rem;
-  opacity: 0.9;
+  color: #7d6d5f;
   margin: 0;
 }
 
@@ -228,48 +231,48 @@ onMounted(() => {
 
 .form-label {
   font-size: 0.95rem;
-  font-weight: 600;
-  color: #2c3e50;
+  font-weight: 700;
+  color: #3d362f;
 }
 
 .form-input {
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e6ed;
-  border-radius: 8px;
-  color: black;
+  border: 2px solid #d8c8b0;
+  border-radius: 16px;
+  color: #3d362f;
   font-size: 0.95rem;
   font-family: inherit;
   transition: all 0.3s ease;
-  background: #fff;
+  background: #fff9f1;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-  background: #f8f9ff;
+  border-color: #8f7b65;
+  box-shadow: 0 0 0 3px rgba(143, 123, 101, 0.15);
+  background: #fffdf7;
 }
 
 .form-input::placeholder {
-  color: #b0bcc4;
+  color: #bfafa1;
 }
 
 .form-input-disabled {
-  background: #f5f5f5;
-  color: #7f8c8d;
+  background: #f0e5d8;
+  color: #7d6d5f;
   cursor: not-allowed;
-  border-color: #e0e6ed;
+  border-color: #d8c8b0;
 }
 
 .form-input-disabled:focus {
-  border-color: #e0e6ed;
+  border-color: #d8c8b0;
   box-shadow: none;
-  background: #f5f5f5;
+  background: #f0e5d8;
 }
 
 .field-note {
   font-size: 0.8rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
   margin: 0;
   margin-top: -0.3rem;
 }
@@ -286,21 +289,22 @@ onMounted(() => {
   flex: 1;
   padding: 0.85rem 1.5rem;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
 }
 
 .btn-submit {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
 }
 
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  background: #7a6a58;
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
 }
 
 .btn-submit:active {
@@ -308,15 +312,15 @@ onMounted(() => {
 }
 
 .btn-back {
-  background: #e9ecef;
-  color: #2c3e50;
-  border: 2px solid #dee2e6;
+  background: #f4e9db;
+  color: #3d362f;
+  border: 2px solid #d8c8b0;
 }
 
 .btn-back:hover {
-  background: #dee2e6;
-  border-color: #667eea;
-  color: #667eea;
+  background: #e6d9c8;
+  border-color: #8f7b65;
+  color: #8f7b65;
   transform: translateY(-2px);
 }
 

@@ -12,13 +12,13 @@
             placeholder="Search doctors, patients, departments..."
             aria-label="Search"
           />
-          <button class="btn btn-outline-success" type="submit">Search</button>
+          <button class="btn-search" type="submit">Search</button>
         </form>
       </div>
 
       <div class="navbar-nav ms-auto">
         <button @click="goToDashboard" class="nav-link btn btn-link me-2">Dashboard</button>
-        <button @click="logout" class="btn btn-outline-danger">Logout</button>
+        <button @click="logout" class="btn-logout">Logout</button>
       </div>
     </div>
   </nav>
@@ -56,16 +56,17 @@ function logout() {
 <style scoped>
 .custom-navbar {
   padding: 1.5rem 0 !important;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background: white !important;
-  border-bottom: 1px solid #e0e0e0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  background: #fffdf7 !important;
+  border-bottom: 2px solid #d8c8b0;
 }
 
 .navbar-brand {
   font-size: 1.4rem;
-  font-weight: 700;
-  color: #667eea !important;
+  font-weight: 800;
+  color: #8f7b65 !important;
   margin-right: 2rem;
+  letter-spacing: -0.02em;
 }
 
 .search-container {
@@ -85,27 +86,71 @@ function logout() {
 .search-input {
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 1px solid #ced4da;
-  border-radius: 4px;
+  border: 2px solid #d8c8b0;
+  border-radius: 16px;
   font-size: 0.95rem;
   transition: all 0.3s ease;
+  background: #fff9f1;
+  color: #3d362f;
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #28a745;
-  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
+  border-color: #8f7b65;
+  box-shadow: 0 0 0 3px rgba(143, 123, 101, 0.15);
+  background: #fffdf7;
+}
+
+.search-input::placeholder {
+  color: #bfafa1;
 }
 
 .nav-link {
-  color: #2c3e50 !important;
-  font-weight: 600;
+  color: #3d362f !important;
+  font-weight: 700;
   transition: all 0.3s ease;
   padding: 0.5rem 1rem !important;
 }
 
 .nav-link:hover {
-  color: #667eea !important;
+  color: #8f7b65 !important;
+}
+
+.btn-search {
+  padding: 0.75rem 1.5rem;
+  background: #8f7b65;
+  color: white;
+  border: none;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.btn-search:hover {
+  background: #7a6a58;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.3);
+}
+
+.btn-logout {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  color: #8f7b65;
+  border: 2px solid #8f7b65;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.btn-logout:hover {
+  background: #8f7b65;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.3);
 }
 
 @media (max-width: 768px) {

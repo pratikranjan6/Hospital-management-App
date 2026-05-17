@@ -388,12 +388,13 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .profile-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   flex-direction: column;
 }
@@ -406,7 +407,6 @@ export default {
   width: 100%;
 }
 
-/* ========== ANIMATIONS ========== */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -446,18 +446,18 @@ export default {
   }
 }
 
-/* ========== WELCOME SECTION ========== */
 .welcome-section {
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
   animation: slideDown 0.5s ease-out;
 }
 
 .welcome-content {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #fffdf7;
+  color: #3d362f;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -466,60 +466,54 @@ export default {
 }
 
 .welcome-title {
-  font-size: 2rem;
-  font-weight: 700;
+  font-size: 2.4rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
   margin-bottom: 0.5rem;
 }
 
 .welcome-subtitle {
-  font-size: 0.95rem;
-  opacity: 0.9;
-  margin: 0;
+  font-size: 1rem;
+  color: #6d5f53;
 }
 
 .back-btn-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: white;
-  border-radius: 6px;
-  font-weight: 600;
+  padding: 0.8rem 1.2rem;
+  background: #f4e9db;
+  border: 1px solid #dacbb8;
+  color: #3d362f;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   white-space: nowrap;
 }
 
 .back-btn-header:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: #ede0d4;
   transform: translateY(-2px);
 }
 
-/* ========== PROFILE CARD ========== */
 .profile-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  border-top: 4px solid #667eea;
   animation: cardSlide 0.5s ease-out;
-}
-
-.profile-card:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
 .card-header {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  background: #f4e9db;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .header-content {
@@ -528,8 +522,8 @@ export default {
 
 .card-title {
   font-size: 1.3rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
   margin-bottom: 0.25rem;
   display: flex;
   align-items: center;
@@ -537,41 +531,39 @@ export default {
 }
 
 .card-title i {
-  color: #667eea;
+  color: #8f7b65;
   font-size: 1.5rem;
 }
 
 .card-subtitle {
-  font-size: 0.9rem;
-  color: #7f8c8d;
+  font-size: 0.95rem;
+  color: #7d6d5f;
   margin: 0;
 }
 
 .card-body {
-  padding: 2rem;
+  padding: 1.75rem;
 }
 
-/* ========== LOADING STATE ========== */
 .loading-state {
   text-align: center;
-  padding: 3rem 2rem;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f0f0f0;
-  border-top-color: #667eea;
+  border: 4px solid #e3d3c1;
+  border-top-color: #8f7b65;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
 
-/* ========== FORM STYLES ========== */
 .profile-form {
   display: flex;
   flex-direction: column;
@@ -586,103 +578,102 @@ export default {
 
 .form-label {
   font-size: 0.95rem;
-  font-weight: 600;
-  color: #2c3e50;
+  font-weight: 700;
+  color: #3d362f;
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
 .form-label i {
-  color: #667eea;
+  color: #8f7b65;
   font-size: 1rem;
 }
 
 .required {
-  color: #e74c3c;
+  color: #9b1c26;
   font-weight: 700;
 }
 
 .form-input {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 0.95rem;
-  color: #2c3e50;
+  padding: 0.95rem 1rem;
+  border: 1px solid #e2d1be;
+  border-radius: 18px;
+  font-size: 0.96rem;
+  color: #3d362f;
   font-family: inherit;
-  transition: all 0.3s ease;
-  background: #f9f9f9;
+  transition: all 0.25s ease;
+  background: #fff9f1;
 }
 
 .form-input:hover {
-  border-color: #667eea;
+  border-color: #c7b399;
   background: #fff;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #8f7b65;
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 3px rgba(143, 123, 101, 0.12);
 }
 
 .form-input.has-error {
-  border-color: #e74c3c;
-  background: #fff5f5;
+  border-color: #c55a4f;
+  background: #fff3f2;
 }
 
 .form-input.has-error:focus {
-  box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.1);
+  box-shadow: 0 0 0 3px rgba(197, 90, 79, 0.12);
 }
 
 .textarea-input {
   resize: vertical;
-  min-height: 100px;
+  min-height: 120px;
 }
 
-/* ========== FORM ROW ========== */
 .form-row {
   display: flex;
   gap: 1.5rem;
 }
 
 .two-columns {
-  grid-template-columns: repeat(2, 1fr);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
 }
 
 .form-row .form-group {
   flex: 1;
 }
 
-/* ========== ERROR MESSAGE ========== */
 .error-message {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.85rem;
-  color: #e74c3c;
+  font-size: 0.9rem;
+  color: #9b1c26;
   animation: slideUp 0.3s ease-out;
 }
 
 .error-message i {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
 }
 
-/* ========== ACTION BUTTONS ========== */
 .form-actions {
   display: flex;
   gap: 1rem;
   margin-top: 1.5rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #e6d6c5;
 }
 
 .btn-primary,
 .btn-secondary {
-  padding: 0.75rem 1.5rem;
+  padding: 0.95rem 1.5rem;
   border: none;
-  border-radius: 6px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
@@ -690,36 +681,34 @@ export default {
   justify-content: center;
   gap: 0.75rem;
   font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   flex: 1;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
+  background: #8f7b65;
+  color: #fff;
+  box-shadow: 0 10px 26px rgba(143, 123, 101, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 14px 30px rgba(143, 123, 101, 0.28);
 }
 
 .btn-primary:disabled {
-  opacity: 0.7;
+  opacity: 0.75;
   cursor: not-allowed;
   transform: none;
 }
 
 .btn-secondary {
-  background: white;
-  color: #667eea;
-  border: 1.5px solid #667eea;
+  background: #fff7f0;
+  color: #3d362f;
+  border: 1px solid #d8c8b0;
 }
 
 .btn-secondary:hover:not(:disabled) {
-  background: #e8eef7;
+  background: #f4e9db;
   transform: translateY(-2px);
 }
 
@@ -729,15 +718,14 @@ export default {
   transform: none;
 }
 
-/* ========== NOTIFICATIONS ========== */
 .notification {
   position: fixed;
   top: 1.5rem;
   right: 1.5rem;
   max-width: 420px;
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 1.25rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
   animation: slideIn 0.3s ease;
   z-index: 1000;
   display: flex;
@@ -758,13 +746,13 @@ export default {
 }
 
 .success-notification {
-  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-  border: 1px solid #6ee7b7;
+  background: #eff9ef;
+  border: 1px solid #b6d8b2;
 }
 
 .error-notification {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  border: 1px solid #fca5a5;
+  background: #fff1f0;
+  border: 1px solid #f0c1c1;
 }
 
 .notification-content {
@@ -781,11 +769,11 @@ export default {
 }
 
 .success-notification i {
-  color: #10b981;
+  color: #166534;
 }
 
 .error-notification i {
-  color: #ef4444;
+  color: #991b1b;
 }
 
 .notification-title {
@@ -829,18 +817,17 @@ export default {
 }
 
 .success-notification .notification-close {
-  color: #10b981;
+  color: #166534;
 }
 
 .error-notification .notification-close {
-  color: #ef4444;
+  color: #991b1b;
 }
 
 .notification-close:hover {
   transform: scale(1.2);
 }
 
-/* ========== RESPONSIVE DESIGN ========== */
 @media (max-width: 768px) {
   .profile-container {
     padding: 1rem;
@@ -853,7 +840,7 @@ export default {
   }
 
   .welcome-title {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
 
   .back-btn-header {
@@ -864,12 +851,8 @@ export default {
     padding: 1.5rem;
   }
 
-  .form-row {
-    flex-direction: column;
-  }
-
-  .form-row.two-columns {
-    gap: 1rem;
+  .two-columns {
+    grid-template-columns: 1fr;
   }
 
   .form-actions {
@@ -899,11 +882,11 @@ export default {
   }
 
   .welcome-title {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
 
   .welcome-subtitle {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
   }
 
   .card-body {
@@ -911,7 +894,7 @@ export default {
   }
 
   .card-title {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
 
   .form-label {
@@ -919,7 +902,7 @@ export default {
   }
 
   .form-input {
-    padding: 0.65rem 0.75rem;
+    padding: 0.75rem 0.9rem;
     font-size: 0.9rem;
   }
 
@@ -929,7 +912,7 @@ export default {
 
   .btn-primary,
   .btn-secondary {
-    padding: 0.65rem 1rem;
+    padding: 0.7rem 1rem;
     font-size: 0.85rem;
     gap: 0.5rem;
   }

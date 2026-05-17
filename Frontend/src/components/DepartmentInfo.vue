@@ -330,20 +330,21 @@ export default {
 .department-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   flex-direction: column;
 }
 
 /* ========== HEADER ========== */
 .department-header {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #fffdf7;
+  color: #3d362f;
   padding: 1.5rem 2rem;
+  border-bottom: 2px solid #d8c8b0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
   position: sticky;
   top: 0;
   z-index: 10;
@@ -353,20 +354,20 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(143, 123, 101, 0.1);
+  color: #8f7b65;
+  border: 2px solid #d8c8b0;
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.3s ease;
   font-size: 0.95rem;
 }
 
 .btn-back:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(143, 123, 101, 0.15);
+  border-color: #8f7b65;
   transform: translateX(-3px);
 }
 
@@ -376,27 +377,28 @@ export default {
 
 .department-title {
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 800;
   flex: 1;
   text-align: center;
   margin: 0;
+  color: #3d362f;
 }
 
 .btn-logout {
   padding: 0.6rem 1.5rem;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 2px solid rgba(255, 255, 255, 0.4);
+  background: rgba(143, 123, 101, 0.1);
+  color: #8f7b65;
+  border: 2px solid #d8c8b0;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.3s ease;
   font-size: 0.95rem;
 }
 
 .btn-logout:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(143, 123, 101, 0.15);
+  border-color: #8f7b65;
   transform: translateY(-2px);
 }
 
@@ -427,9 +429,10 @@ export default {
 /* ========== CARDS ========== */
 .overview-card,
 .doctors-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: all 0.3s ease;
   animation: cardSlide 0.5s ease-out;
@@ -454,21 +457,21 @@ export default {
 
 .card-header {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
-  border-bottom: 2px solid #e0e6ed;
+  background: #f4e9db;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .card-title {
   font-size: 1.3rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
   margin: 0;
   margin-bottom: 0.25rem;
 }
 
 .card-subtitle {
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
   margin: 0;
 }
 
@@ -480,7 +483,7 @@ export default {
 .overview-text {
   font-size: 1rem;
   line-height: 1.6;
-  color: #2c3e50;
+  color: #3d362f;
   text-align: justify;
   margin: 0;
 }
@@ -488,8 +491,8 @@ export default {
 /* ========== SEARCH SECTION ========== */
 .search-section {
   padding: 1.5rem;
-  background: #f9f9f9;
-  border-bottom: 1px solid #e0e6ed;
+  background: #f9f6f2;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .search-form {
@@ -501,7 +504,7 @@ export default {
 .search-input {
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e6ed;
+  border: 1px solid #d8c8b0;
   border-radius: 8px;
   font-size: 0.95rem;
   transition: all 0.3s ease;
@@ -510,21 +513,21 @@ export default {
 
 .search-input:focus {
   outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  border-color: #8f7b65;
+  box-shadow: 0 0 0 3px rgba(143, 123, 101, 0.1);
 }
 
 .search-input::placeholder {
-  color: #bdc3c7;
+  color: #b8a89a;
 }
 
 .btn-search {
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
   border: none;
   border-radius: 8px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
@@ -532,7 +535,8 @@ export default {
 
 .btn-search:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.3);
+  background: #7a6a58;
 }
 
 /* ========== DOCTORS LIST ========== */
@@ -547,16 +551,17 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 1.25rem;
-  background: linear-gradient(135deg, #f9f9f9 0%, #f5f7fa 100%);
-  border-radius: 10px;
+  background: #fff9f1;
+  border: 1px solid #e6d6c5;
+  border-radius: 16px;
   transition: all 0.3s ease;
 }
 
-/* .doctor-item:hover {
-  background: linear-gradient(135deg, #f0f2f9 0%, #e8eef7 100%);
-  transform: translateX(5px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
-} */
+.doctor-item:hover {
+  background: #f7eee5;
+  transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.1);
+}
 
 .doctor-info {
   flex: 1;
@@ -565,13 +570,13 @@ export default {
 .doctor-name {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: #3d362f;
   margin: 0 0 0.25rem 0;
 }
 
 .doctor-specialty {
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
   margin: 0;
   font-style: italic;
 }
@@ -586,34 +591,36 @@ export default {
 .btn-action {
   padding: 0.6rem 1rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 999px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.85rem;
   transition: all 0.3s ease;
   white-space: nowrap;
 }
 
 .btn-details {
-  background: transparent;
-  color: #667eea;
-  border: 2px solid #667eea;
+  background: #f0e5d8;
+  color: #8f7b65;
+  border: 1px solid #d8c8b0;
 }
 
 .btn-details:hover {
-  background: #e8eef7;
+  background: #e8dcc9;
   transform: translateY(-2px);
+  border-color: #8f7b65;
 }
 
 .btn-book {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
   border: none;
 }
 
 .btn-book:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.3);
+  background: #7a6a58;
 }
 
 /* ========== LOADING STATE ========== */
@@ -624,14 +631,14 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f0f0f0;
-  border-top-color: #667eea;
+  border: 4px solid #e3d3c1;
+  border-top-color: #8f7b65;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -646,11 +653,11 @@ export default {
 .empty-state {
   text-align: center;
   padding: 3rem 2rem;
-  color: #7f8c8d;
+  color: #6d5f53;
   font-style: italic;
-  background: #f9f9f9;
-  border-radius: 8px;
-  border: 2px dashed #ddd;
+  background: #fff7f0;
+  border-radius: 16px;
+  border: 1px dashed #d7c7b5;
 }
 
 /* ========== MODAL ========== */
@@ -688,9 +695,10 @@ export default {
 }
 
 .modal-content {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   width: 90%;
   max-width: 500px;
   animation: slideUp 0.3s ease-out;
@@ -701,23 +709,24 @@ export default {
 
 .modal-header {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #f4e9db;
+  color: #3d362f;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .modal-header h3 {
   margin: 0;
   font-size: 1.3rem;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .modal-close {
   background: none;
   border: none;
-  color: white;
+  color: #8f7b65;
   font-size: 1.5rem;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -731,6 +740,7 @@ export default {
 
 .modal-close:hover {
   transform: scale(1.2) rotate(90deg);
+  color: #3d362f;
 }
 
 .modal-body {
@@ -742,7 +752,7 @@ export default {
   justify-content: space-between;
   align-items: flex-start;
   padding: 1rem 0;
-  border-bottom: 1px solid #e0e6ed;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .detail-group:last-child {
@@ -750,13 +760,13 @@ export default {
 }
 
 .detail-label {
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
   min-width: 120px;
 }
 
 .detail-value {
-  color: #7f8c8d;
+  color: #7d6d5f;
   text-align: right;
   flex: 1;
 }
@@ -764,10 +774,11 @@ export default {
 .empty-modal-state {
   text-align: center;
   padding: 2rem;
-  color: #7f8c8d;
+  color: #6d5f53;
   font-style: italic;
-  background: #f9f9f9;
-  border-radius: 8px;
+  background: #fff7f0;
+  border-radius: 16px;
+  border: 1px dashed #d7c7b5;
 }
 
 .availability-list {
@@ -778,14 +789,15 @@ export default {
 
 .availability-item {
   padding: 1rem;
-  background: linear-gradient(135deg, #f9f9f9 0%, #f5f7fa 100%);
-  border-radius: 8px;
-  border-left: 4px solid #667eea;
+  background: #fff9f1;
+  border-radius: 12px;
+  border-left: 4px solid #8f7b65;
+  border: 1px solid #e6d6c5;
 }
 
 .availability-date {
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
   margin-bottom: 0.5rem;
   font-size: 1rem;
 }
@@ -800,38 +812,38 @@ export default {
 .status-badge {
   display: inline-block;
   padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   font-size: 0.8rem;
 }
 
 .status-badge.bg-success {
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background: rgba(85, 158, 104, 0.15);
+  color: #3d5f3d;
+  border: 1px solid #559e68;
 }
 
 .status-badge.bg-danger {
-  background: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background: rgba(138, 47, 42, 0.15);
+  color: #5c3d3d;
+  border: 1px solid #8a5a5a;
 }
 
 .status-badge.bg-info {
-  background: #d1ecf1;
-  color: #0c5460;
-  border: 1px solid #bee5eb;
+  background: rgba(143, 123, 101, 0.15);
+  color: #3d362f;
+  border: 1px solid #d8c8b0;
 }
 
 .time-slot {
-  color: #7f8c8d;
+  color: #7d6d5f;
   font-size: 0.9rem;
 }
 
 .modal-footer {
   padding: 1rem 2rem;
-  background: #f9f9f9;
-  border-top: 1px solid #e0e6ed;
+  background: #f9f6f2;
+  border-top: 1px solid #dacbb8;
   display: flex;
   justify-content: flex-end;
   gap: 1rem;
@@ -839,18 +851,19 @@ export default {
 
 .btn-modal-close {
   padding: 0.6rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 999px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.3s ease;
 }
 
 .btn-modal-close:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.3);
+  background: #7a6a58;
 }
 
 /* ========== RESPONSIVE ========== */

@@ -1,12 +1,9 @@
 <template>
   <div class="floating-ai-container">
-    <!-- Floating AI Button -->
     <button @click="isOpen = !isOpen" class="floating-ai-btn" :class="{ active: isOpen }">
-      <i class="fas fa-robot"></i>
       <span class="ai-badge">AI</span>
     </button>
 
-    <!-- AI Assistant Modal -->
     <AIAssistant :isOpen="isOpen" @close="isOpen = false" />
   </div>
 </template>
@@ -43,7 +40,7 @@ export default {
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #8f7b65 0%, #6d5f53 100%);
   color: white;
   border: none;
   font-size: 1.8rem;
@@ -53,7 +50,7 @@ export default {
   justify-content: center;
   position: relative;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 4px 20px rgba(143, 123, 101, 0.4);
   animation: float 3s ease-in-out infinite;
 }
 
@@ -68,16 +65,18 @@ export default {
 
 .floating-ai-btn:hover {
   transform: scale(1.1) translateY(-10px);
-  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.6);
+  box-shadow: 0 8px 30px rgba(143, 123, 101, 0.6);
 }
 
 .floating-ai-btn.active {
   animation: none;
   transform: scale(1.15);
-  box-shadow: 0 8px 30px rgba(102, 126, 234, 0.8);
+  box-shadow: 0 8px 30px rgba(143, 123, 101, 0.8);
 }
 
-.floating-ai-btn i {
+.gemini-logo {
+  width: 45px;
+  height: 45px;
   position: absolute;
 }
 

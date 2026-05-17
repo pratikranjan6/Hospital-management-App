@@ -1,5 +1,5 @@
 export function getApiBase() {
-  return 'http://localhost:5000'
+  return ''
 }
 
 export function getAuthHeader() {

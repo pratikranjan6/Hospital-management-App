@@ -202,7 +202,7 @@ export default {
 .doctor-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   flex-direction: column;
 }
@@ -233,22 +233,24 @@ export default {
 }
 
 .welcome-content {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #fffdf7;
+  color: #3d362f;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
 .welcome-title {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
 }
 
 .welcome-subtitle {
   font-size: 1.1rem;
-  opacity: 0.9;
+  color: #6d5f53;
 }
 
 /* ========== DASHBOARD GRID ========== */
@@ -272,12 +274,12 @@ export default {
 
 /* ========== CARDS ========== */
 .dashboard-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: all 0.3s ease;
-  /* border-top: 4px solid #667eea; */
   animation: cardSlide 0.5s ease-out;
 }
 
@@ -293,29 +295,30 @@ export default {
 }
 
 .dashboard-card:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  transform: translateY(-5px);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
 }
 
 .appointments-card {
-  border-top-color: #667eea;
+  border-top: 4px solid #8f7b65;
   grid-column: 1 / -1;
 }
 
 .patients-card {
-  border-top-color: #764ba2;
+  border-top: 4px solid #a68a72;
 }
 
 .availability-card {
-  border-top-color: #f093fb;
+  border-top: 4px solid #9d8b78;
 }
 
 .card-header {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  background: #f4e9db;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .header-content {
@@ -324,14 +327,14 @@ export default {
 
 .card-title {
   font-size: 1.3rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
   margin-bottom: 0.25rem;
 }
 
 .card-subtitle {
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
 }
 
 .card-body {
@@ -350,15 +353,16 @@ export default {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  /* border-left: 3px solid #667eea; */
+  background: #fff9f1;
+  border: 1px solid #e6d6c5;
+  border-radius: 16px;
   transition: all 0.3s ease;
 }
 
 .appointment-item:hover {
-  background: #f0f2f9;
-  transform: translateX(5px);
+  background: #f7eee5;
+  transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.1);
 }
 
 .appointment-number {
@@ -367,7 +371,7 @@ export default {
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
   border-radius: 50%;
   font-weight: 700;
@@ -379,23 +383,23 @@ export default {
 }
 
 .appointment-info h4 {
-  color: #2c3e50;
+  color: #3d362f;
   font-size: 1rem;
   margin-bottom: 0.25rem;
 }
 
 .appointment-time {
   font-size: 0.85rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
 }
 
 .status-badge {
   display: inline-block;
   padding: 0.25rem 0.75rem;
-  background: #e8f4f8;
-  color: #0c7fb1;
-  border-radius: 20px;
-  font-weight: 600;
+  background: #f0e5d8;
+  color: #8f7b65;
+  border-radius: 999px;
+  font-weight: 700;
   font-size: 0.8rem;
 }
 
@@ -416,15 +420,16 @@ export default {
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  /* border-left: 3px solid #764ba2; */
+  background: #fff9f1;
+  border: 1px solid #e6d6c5;
+  border-radius: 16px;
   transition: all 0.3s ease;
 }
 
 .patient-item:hover {
-  background: #f0f2f9;
-  transform: translateX(5px);
+  background: #f7eee5;
+  transform: translateX(3px);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.1);
 }
 
 .patient-avatar {
@@ -433,10 +438,11 @@ export default {
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: #e8eef7;
+  background: #f0e5d8;
   border-radius: 50%;
   font-size: 1.5rem;
   flex-shrink: 0;
+  color: #8f7b65;
 }
 
 .patient-info {
@@ -444,14 +450,14 @@ export default {
 }
 
 .patient-info h4 {
-  color: #2c3e50;
+  color: #3d362f;
   font-size: 1rem;
   margin-bottom: 0.25rem;
 }
 
 .patient-id {
   font-size: 0.85rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
 }
 
 /* ========== AVAILABILITY SECTION ========== */
@@ -461,7 +467,7 @@ export default {
 }
 
 .availability-desc {
-  color: #7f8c8d;
+  color: #7d6d5f;
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
 }
@@ -469,11 +475,11 @@ export default {
 /* ========== BUTTONS ========== */
 .btn-primary {
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
@@ -482,19 +488,19 @@ export default {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.3);
+  background: #7a6a58;
 }
 
 .btn-action {
   padding: 0.5rem 0.75rem;
-  border: none;
-  border-radius: 6px;
+  border: 1px solid #d8c8b0;
+  border-radius: 999px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.85rem;
   background: transparent;
-  border: 1px solid #ddd;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -503,50 +509,54 @@ export default {
 }
 
 .btn-update {
-  color: #3498db;
+  color: #8f7b65;
+  border-color: #8f7b65;
 }
 
 .btn-update:hover {
-  background: #e0f2f9;
-  border-color: #3498db;
+  background: #f0e5d8;
+  border-color: #8f7b65;
 }
 
 .btn-complete {
-  color: #1dd1a1;
+  color: #559e68;
+  border-color: #559e68;
 }
 
 .btn-complete:hover {
-  background: #e8f9f5;
-  border-color: #1dd1a1;
+  background: rgba(85, 158, 104, 0.1);
+  border-color: #559e68;
 }
 
 .btn-cancel {
-  color: #e74c3c;
+  color: #8a5a5a;
+  border-color: #8a5a5a;
 }
 
 .btn-cancel:hover {
-  background: #ffe0e0;
-  border-color: #e74c3c;
+  background: rgba(138, 90, 90, 0.1);
+  border-color: #8a5a5a;
 }
 
 .btn-view {
-  color: #764ba2;
+  color: #8f7b65;
+  border-color: #8f7b65;
 }
 
 .btn-view:hover {
-  background: #f4ecf7;
-  border-color: #764ba2;
+  background: #f0e5d8;
+  border-color: #8f7b65;
 }
 
 /* ========== EMPTY STATE ========== */
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: #7f8c8d;
+  color: #6d5f53;
   font-style: italic;
-  background: #f9f9f9;
-  border-radius: 8px;
-  border: 2px dashed #ddd;
+  background: #fff7f0;
+  border-radius: 16px;
+  border: 1px dashed #d7c7b5;
 }
 
 /* ========== RESPONSIVE ========== */

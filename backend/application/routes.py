@@ -612,7 +612,7 @@ def create_doctor():
         today = date.today()
         for i in range(7):
             d = today + timedelta(days=i)
-            availability = Availability(doctor_id=new_doctor.id, date=d)
+            availability = Availability(doctor_id=new_doctor.id, date=d, status='Available')
             db.session.add(availability)
         db.session.commit()
         
@@ -1107,6 +1107,43 @@ def get_doctor_by_id(doctor_id):
         return jsonify([]), 200
 
 
+@app.route('/api/doctor/<int:doctor_id>/booked-appointments', methods=['GET'])
+@jwt_required()
+def get_booked_appointments(doctor_id):
+    """Get all booked appointments for a doctor"""
+    try:
+        doctor = Doctor.query.get(doctor_id)
+        if not doctor:
+            return jsonify({'msg': 'Doctor not found'}), 404
+        
+        today = datetime.now().date()
+        start_date = today
+        end_date = today + timedelta(days=7)
+        
+        appointments = Appointment.query.filter(
+            Appointment.doctor_id == doctor_id,
+            Appointment.appointment_date >= datetime.combine(start_date, datetime.min.time()),
+            Appointment.appointment_date < datetime.combine(end_date, datetime.max.time()),
+            Appointment.status == 'Booked'
+        ).order_by(Appointment.appointment_date).all()
+        
+        booked_list = []
+        for appointment in appointments:
+            patient = Patient.query.get(appointment.patient_id)
+            booked_list.append({
+                'id': appointment.id,
+                'patient_name': patient.name if patient else 'N/A',
+                'appointment_date': appointment.appointment_date.isoformat(),
+                'status': appointment.status,
+                'patient_id': appointment.patient_id
+            })
+        
+        return jsonify(booked_list), 200
+    except Exception as e:
+        app.logger.exception('Error fetching booked appointments')
+        return jsonify({'msg': 'Failed to fetch booked appointments'}), 500
+
+
 @app.route('/api/doctor/<int:doctor_id>/7day-slots', methods=['GET'])
 @jwt_required()
 def get_7day_slots(doctor_id):
@@ -1176,7 +1213,7 @@ def book_appointment():
         data = request.get_json()
         
         if not data.get('patient_id') or not data.get('doctor_id') or not data.get('appointment_date'):
-            return jsonify({'msg': 'Missing required fields'}), 400
+            return jsonify({'msg': 'Missing required fields: patient_id, doctor_id, appointment_date'}), 400
         
         patient = Patient.query.get(data.get('patient_id'))
         if not patient:
@@ -1188,27 +1225,32 @@ def book_appointment():
         
         department_id = doctor.specialization if doctor.specialization else data.get('department_id', 1)
         
+        # Parse appointment date
         try:
-            appointment_date = datetime.fromisoformat(data.get('appointment_date').replace('Z', '+00:00'))
-        except Exception:
-            return jsonify({'msg': 'Invalid appointment date format'}), 400
+            appointment_date_str = data.get('appointment_date')
+            # Handle ISO format with timezone
+            if 'T' in appointment_date_str:
+                appointment_date = datetime.fromisoformat(appointment_date_str.replace('Z', '+00:00'))
+            else:
+                appointment_date = datetime.fromisoformat(appointment_date_str)
+        except Exception as e:
+            app.logger.error(f'Date parse error: {str(e)}, received: {data.get("appointment_date")}')
+            return jsonify({'msg': f'Invalid appointment date format: {str(e)}'}), 400
         
-     
-        existing = Appointment.query.filter(
-            Appointment.patient_id == data.get('patient_id'),
-            Appointment.doctor_id == data.get('doctor_id'),
-            Appointment.appointment_date >= appointment_date.replace(hour=0, minute=0, second=0),
-            Appointment.appointment_date < appointment_date.replace(hour=23, minute=59, second=59),
+        # Check if this exact slot is already booked by anyone for this doctor
+        existing_slot = Appointment.query.filter(
+            Appointment.doctor_id == doctor.id,
+            Appointment.appointment_date == appointment_date,
             Appointment.status == 'Booked'
         ).first()
         
-        if existing:
-            return jsonify({'msg': 'You already have an appointment with this doctor on this date'}), 400
+        if existing_slot:
+            return jsonify({'msg': 'This time slot is already booked. Please select another slot.'}), 400
         
-     
+        # Create and save new appointment
         new_appointment = Appointment(
-            patient_id=data.get('patient_id'),
-            doctor_id=data.get('doctor_id'),
+            patient_id=patient.id,
+            doctor_id=doctor.id,
             department_id=department_id,
             appointment_date=appointment_date,
             status='Booked'
@@ -1222,10 +1264,11 @@ def book_appointment():
             'appointment_id': new_appointment.id,
             'appointment_date': new_appointment.appointment_date.isoformat()
         }), 201
+        
     except Exception as e:
         db.session.rollback()
         app.logger.exception('Error booking appointment')
-        return jsonify({'msg': 'Failed to book appointment'}), 500
+        return jsonify({'msg': f'Failed to book appointment: {str(e)}'}), 500
 
 
 @app.route('/api/doctor/appointment/<int:appointment_id>/cancel', methods=['POST'])
@@ -1286,3 +1329,99 @@ def doctor_complete_appointment(appointment_id):
         db.session.rollback()
         app.logger.exception('Error doctor completing appointment')
         return jsonify({'msg': 'Failed to complete appointment'}), 500
+
+
+@app.route('/api/admin/refresh-availability', methods=['POST'])
+@role_required('admin')
+def refresh_availability():
+    """
+    Manually refresh doctor availability records.
+    
+    This endpoint:
+    1. Deletes all past availability records (before today)
+    2. Creates new availability records for the next 7 days (if missing)
+    3. Preserves existing availability status for current dates
+    
+    Can be called on demand or scheduled via external services.
+    """
+    try:
+        today = datetime.now().date()
+        future_date = today + timedelta(days=7)
+        
+        # Get all doctors
+        all_doctors = Doctor.query.all()
+        
+        if not all_doctors:
+            return jsonify({'msg': 'No doctors found', 'doctors_processed': 0}), 200
+        
+        doctors_processed = 0
+        records_deleted = 0
+        records_created = 0
+        
+        for doctor in all_doctors:
+            # Delete old availability records (before today)
+            old_records = Availability.query.filter(
+                Availability.doctor_id == doctor.id,
+                Availability.date < today
+            ).delete()
+            records_deleted += old_records
+            
+            # Get existing availability records for next 7 days
+            existing_records = Availability.query.filter(
+                Availability.doctor_id == doctor.id,
+                Availability.date >= today,
+                Availability.date <= future_date
+            ).all()
+            
+            existing_dates = {record.date for record in existing_records}
+            
+            # Create availability records for missing dates
+            for i in range(8):  # 0-7 = 8 days total (today + next 7 days)
+                check_date = today + timedelta(days=i)
+                if check_date not in existing_dates:
+                    new_availability = Availability(
+                        doctor_id=doctor.id,
+                        date=check_date,
+                        status='Available'
+                    )
+                    db.session.add(new_availability)
+                    records_created += 1
+            
+            doctors_processed += 1
+        
+        db.session.commit()
+        
+        return jsonify({
+            'msg': 'Availability refresh completed successfully',
+            'doctors_processed': doctors_processed,
+            'records_deleted': records_deleted,
+            'records_created': records_created,
+            'refresh_date': today.isoformat()
+        }), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        app.logger.exception('Error in refresh_availability')
+        return jsonify({'msg': f'Failed to refresh availability: {str(e)}'}), 500
+
+
+@app.route('/api/admin/clear-appointments', methods=['POST'])
+@role_required('admin')
+def clear_appointments():
+    """
+    ADMIN ONLY: Clear all test appointments from the database.
+    Use this endpoint during development/testing only.
+    """
+    try:
+        count = Appointment.query.delete()
+        db.session.commit()
+        
+        return jsonify({
+            'msg': 'All appointments cleared successfully',
+            'appointments_deleted': count
+        }), 200
+        
+    except Exception as e:
+        db.session.rollback()
+        app.logger.exception('Error clearing appointments')
+        return jsonify({'msg': f'Failed to clear appointments: {str(e)}'}), 500

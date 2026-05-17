@@ -201,7 +201,7 @@ export default {
 .admin-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   flex-direction: column;
 }
@@ -216,12 +216,13 @@ export default {
 
 /* ========== AVAILABILITY CARD ========== */
 .availability-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  border-top: 4px solid #8f7b65;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   animation: slideUp 0.5s ease-out;
-  border-top: 4px solid #1dd1a1;
 }
 
 @keyframes slideUp {
@@ -237,8 +238,9 @@ export default {
 
 .card-header {
   padding: 2rem;
-  background: linear-gradient(135deg, #1dd1a1 0%, #10ac84 100%);
-  color: white;
+  background: #f4e9db;
+  border-bottom: 1px solid #dacbb8;
+  color: #3d362f;
 }
 
 .header-content {
@@ -249,13 +251,14 @@ export default {
 
 .card-title {
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .card-subtitle {
   font-size: 0.95rem;
-  opacity: 0.9;
+  color: #6d5f53;
   margin: 0;
 }
 
@@ -276,8 +279,8 @@ export default {
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #e0e6ed;
-  border-top-color: #1dd1a1;
+  border: 4px solid #e3d3c1;
+  border-top-color: #8f7b65;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -289,7 +292,7 @@ export default {
 }
 
 .loading-state p {
-  color: #7f8c8d;
+  color: #7d6d5f;
   font-size: 0.95rem;
 }
 
@@ -297,11 +300,11 @@ export default {
 .empty-state {
   text-align: center;
   padding: 3rem 2rem;
-  color: #7f8c8d;
+  color: #6d5f53;
   font-style: italic;
-  background: #f9f9f9;
-  border-radius: 8px;
-  border: 2px dashed #ddd;
+  background: #fff7f0;
+  border-radius: 16px;
+  border: 1px dashed #d7c7b5;
 }
 
 /* ========== AVAILABILITY GRID ========== */
@@ -313,9 +316,9 @@ export default {
 }
 
 .availability-item {
-  background: #f9f9f9;
-  border-radius: 10px;
-  border: 2px solid #e0e6ed;
+  background: #fff9f1;
+  border-radius: 16px;
+  border: 1px solid #e6d6c5;
   overflow: hidden;
   transition: all 0.3s ease;
   display: flex;
@@ -323,20 +326,21 @@ export default {
 }
 
 .availability-item:hover {
-  border-color: #1dd1a1;
-  box-shadow: 0 4px 12px rgba(29, 209, 161, 0.15);
+  border-color: #8f7b65;
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.1);
   transform: translateY(-3px);
 }
 
 .item-header {
   padding: 1rem;
-  background: linear-gradient(135deg, #1dd1a1 0%, #10ac84 100%);
-  color: white;
+  background: #f4e9db;
+  border-bottom: 1px solid #dacbb8;
+  color: #3d362f;
 }
 
 .date-badge {
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .item-body {
@@ -355,34 +359,36 @@ export default {
 }
 
 .time-slot .label {
-  font-weight: 600;
-  color: #2c3e50;
+  font-weight: 700;
+  color: #3d362f;
   font-size: 0.85rem;
 }
 
 .time-slot .value {
-  color: #667eea;
-  font-weight: 500;
+  color: #8f7b65;
+  font-weight: 600;
   font-size: 0.95rem;
 }
 
 .status-badge {
   padding: 0.5rem 0.75rem;
-  border-radius: 6px;
+  border-radius: 999px;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   text-align: center;
   transition: all 0.3s ease;
 }
 
 .status-badge.available {
-  background: #d4f8e8;
-  color: #0d7657;
+  background: rgba(85, 158, 104, 0.15);
+  color: #3d5f3d;
+  border: 1px solid #559e68;
 }
 
 .status-badge.unavailable {
-  background: #f8d7da;
-  color: #842029;
+  background: rgba(138, 90, 90, 0.15);
+  color: #5c3d3d;
+  border: 1px solid #8a5a5a;
 }
 
 .item-footer {
@@ -392,29 +398,31 @@ export default {
 .toggle-btn {
   width: 100%;
   padding: 0.75rem 1rem;
-  border: 2px solid #1dd1a1;
-  background: white;
-  color: #1dd1a1;
-  border-radius: 6px;
-  font-weight: 600;
+  border: 1px solid #d8c8b0;
+  background: #f0e5d8;
+  color: #8f7b65;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
 }
 
 .toggle-btn:hover {
-  background: #f0fdf4;
+  background: #e8dcc9;
   transform: translateY(-2px);
+  border-color: #8f7b65;
 }
 
 .toggle-btn.active {
-  background: linear-gradient(135deg, #1dd1a1 0%, #10ac84 100%);
+  background: #8f7b65;
   color: white;
-  border-color: #1dd1a1;
+  border-color: #8f7b65;
 }
 
 .toggle-btn.active:hover {
-  box-shadow: 0 4px 12px rgba(29, 209, 161, 0.3);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.3);
+  background: #7a6a58;
 }
 
 /* ========== BUTTONS ========== */
@@ -427,11 +435,11 @@ export default {
 
 .btn-back {
   padding: 0.85rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
@@ -439,7 +447,8 @@ export default {
 
 .btn-back:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
+  background: #7a6a58;
 }
 
 .btn-back:active {

@@ -43,9 +43,9 @@ function logout() {
 <style scoped>
 .custom-navbar {
   width: 100%;
-  background: white;
-  border-bottom: 2px solid #e0e0e0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-bottom: 2px solid #d8c8b0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   padding: 0;
   position: sticky;
   top: 0;
@@ -72,8 +72,8 @@ function logout() {
 
 .brand-text {
   font-size: 1.3rem;
-  font-weight: 700;
-  color: #667eea;
+  font-weight: 800;
+  color: #8f7b65;
   letter-spacing: -0.5px;
 }
 
@@ -89,18 +89,18 @@ function logout() {
   padding: 0.6rem 1.2rem;
   background: transparent;
   border: none;
-  color: #2c3e50;
-  font-weight: 600;
+  color: #3d362f;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-radius: 6px;
+  border-radius: 16px;
   font-size: 0.95rem;
   white-space: nowrap;
 }
 
 .nav-link:hover {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #f4e9db;
+  color: #8f7b65;
   transform: translateY(-2px);
 }
 
@@ -113,11 +113,11 @@ function logout() {
 
 .btn-logout {
   padding: 0.65rem 1.5rem;
-  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+  background: #8f7b65;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
@@ -125,7 +125,8 @@ function logout() {
 
 .btn-logout:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+  background: #7a6a58;
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
 }
 
 .btn-logout:active {

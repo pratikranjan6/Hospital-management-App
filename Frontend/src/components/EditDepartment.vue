@@ -116,7 +116,7 @@ onMounted(() => fetchDepartment())
 .admin-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   flex-direction: column;
 }
@@ -131,12 +131,13 @@ onMounted(() => fetchDepartment())
 
 /* ========== FORM CARD ========== */
 .form-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   animation: slideUp 0.5s ease-out;
-  border-top: 4px solid #f093fb;
+  border-top: 4px solid #8f7b65;
+  border: 1px solid #d8c8b0;
 }
 
 @keyframes slideUp {
@@ -152,8 +153,9 @@ onMounted(() => fetchDepartment())
 
 .card-header {
   padding: 2rem;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  color: white;
+  background: #f4e9db;
+  color: #3d362f;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .header-content {
@@ -164,13 +166,14 @@ onMounted(() => fetchDepartment())
 
 .card-title {
   font-size: 1.8rem;
-  font-weight: 700;
+  font-weight: 800;
   margin: 0;
+  letter-spacing: -0.02em;
 }
 
 .card-subtitle {
   font-size: 0.95rem;
-  opacity: 0.9;
+  color: #7d6d5f;
   margin: 0;
 }
 
@@ -193,31 +196,31 @@ onMounted(() => fetchDepartment())
 
 .form-label {
   font-size: 0.95rem;
-  font-weight: 600;
-  color: #2c3e50;
+  font-weight: 700;
+  color: #3d362f;
 }
 
 .form-input {
   padding: 0.75rem 1rem;
-  border: 2px solid #e0e6ed;
-  color: black;
-  border-radius: 8px;
+  border: 2px solid #d8c8b0;
+  color: #3d362f;
+  border-radius: 16px;
   font-size: 0.95rem;
   font-family: inherit;
   transition: all 0.3s ease;
-  background: #fff;
+  background: #fff9f1;
   resize: none;
 }
 
 .form-input:focus {
   outline: none;
-  border-color: #f093fb;
-  box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.1);
-  background: #fff9fd;
+  border-color: #8f7b65;
+  box-shadow: 0 0 0 3px rgba(143, 123, 101, 0.15);
+  background: #fffdf7;
 }
 
 .form-input::placeholder {
-  color: #b0bcc4;
+  color: #bfafa1;
 }
 
 .form-textarea {
@@ -237,21 +240,22 @@ onMounted(() => fetchDepartment())
   flex: 1;
   padding: 0.85rem 1.5rem;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
 }
 
 .btn-submit {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  background: #8f7b65;
   color: white;
 }
 
 .btn-submit:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(240, 147, 251, 0.3);
+  background: #7a6a58;
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
 }
 
 .btn-submit:active {
@@ -259,15 +263,15 @@ onMounted(() => fetchDepartment())
 }
 
 .btn-back {
-  background: #e9ecef;
-  color: #2c3e50;
-  border: 2px solid #dee2e6;
+  background: #f4e9db;
+  color: #3d362f;
+  border: 2px solid #d8c8b0;
 }
 
 .btn-back:hover {
-  background: #dee2e6;
-  border-color: #f093fb;
-  color: #f093fb;
+  background: #e6d9c8;
+  border-color: #8f7b65;
+  color: #8f7b65;
   transform: translateY(-2px);
 }
 

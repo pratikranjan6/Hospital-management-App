@@ -57,7 +57,7 @@
           <div class="card-body">
             <div v-if="doctors.length === 0" class="empty-state">No doctors registered yet</div>
             <div v-else class="items-list">
-              <div v-for="doctor in doctors" :key="doctor.id" class="list-item doctor-item">
+              <div v-for="(doctor, index) in doctors" v-show="expandedDoctors || index < ITEMS_PER_PAGE" :key="doctor.id" class="list-item doctor-item">
                 <div class="item-content">
                   <h4>Dr. {{ doctor.name }}</h4>
                   <p class="specialty">{{ doctor.specialization }}</p>
@@ -68,6 +68,9 @@
                   <button @click="blacklistDoctor(doctor.id)" class="btn-action btn-block">Blacklist</button>
                 </div>
               </div>
+              <button v-if="doctors.length > ITEMS_PER_PAGE" @click="toggleDoctors" class="btn-show-more">
+                {{ expandedDoctors ? '▼ Show Less' : '▶ Show More' }}
+              </button>
             </div>
           </div>
         </div>
@@ -83,7 +86,7 @@
           <div class="card-body">
             <div v-if="patients.length === 0" class="empty-state">No patients registered yet</div>
             <div v-else class="items-list">
-              <div v-for="patient in patients" :key="patient.id" class="list-item patient-item">
+              <div v-for="(patient, index) in patients" v-show="expandedPatients || index < ITEMS_PER_PAGE" :key="patient.id" class="list-item patient-item">
                 <div class="item-content">
                   <h4>{{ patient.name }}</h4>
                   <p class="patient-info">Age: {{ patient.age }} • {{ patient.gender }}</p>
@@ -94,6 +97,9 @@
                   <button @click="blacklistPatient(patient.id)" class="btn-action btn-block">Blacklist</button>
                 </div>
               </div>
+              <button v-if="patients.length > ITEMS_PER_PAGE" @click="togglePatients" class="btn-show-more">
+                {{ expandedPatients ? '▼ Show Less' : '▶ Show More' }}
+              </button>
             </div>
           </div>
         </div>
@@ -110,7 +116,7 @@
           <div class="card-body">
             <div v-if="departments.length === 0" class="empty-state">No departments found</div>
             <div v-else class="items-list">
-              <div v-for="department in departments" :key="department.id" class="list-item dept-item">
+              <div v-for="(department, index) in departments" v-show="expandedDepartments || index < ITEMS_PER_PAGE" :key="department.id" class="list-item dept-item">
                 <div class="item-content">
                   <h4>{{ department.name }}</h4>
                   <p class="description">{{ department.description }}</p>
@@ -120,11 +126,13 @@
                   <button @click="deleteDepartment(department.id)" class="btn-action btn-delete">Delete</button>
                 </div>
               </div>
+              <button v-if="departments.length > ITEMS_PER_PAGE" @click="toggleDepartments" class="btn-show-more">
+                {{ expandedDepartments ? '▼ Show Less' : '▶ Show More' }}
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- Appointments Card -->
         <div class="dashboard-card appointments-card">
           <div class="card-header">
             <div class="header-content">
@@ -141,12 +149,15 @@
                 <div class="col-dept">Department</div>
                 <div class="col-date">Date & Time</div>
               </div>
-              <div v-for="(appointment, index) in appointments" :key="appointment.id" class="table-row">
+              <div v-for="(appointment, index) in appointments" v-show="expandedAppointments || index < ITEMS_PER_PAGE" :key="appointment.id" class="table-row">
                 <div class="col-patient">{{ appointment.patient_name }}</div>
                 <div class="col-doctor">Dr. {{ appointment.doctor_name }}</div>
                 <div class="col-dept">{{ appointment.department }}</div>
                 <div class="col-date">{{ formatDate(appointment.appointment_date) }}</div>
               </div>
+              <button v-if="appointments.length > ITEMS_PER_PAGE" @click="toggleAppointments" class="btn-show-more btn-show-more-appointments">
+                {{ expandedAppointments ? ' Show Less' : ' Show More' }}
+              </button>
             </div>
           </div>
         </div>
@@ -170,6 +181,13 @@ const appointments = ref([])
 const departments = ref([])
 const searchResults = ref(null)
 const route = useRoute()
+
+const expandedDoctors = ref(false)
+const expandedPatients = ref(false)
+const expandedDepartments = ref(false)
+const expandedAppointments = ref(false)
+
+const ITEMS_PER_PAGE = 5
 
 const API_BASE = getApiBase()
 
@@ -351,6 +369,22 @@ function formatDate(dateString) {
   const date = new Date(dateString)
   return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 }
+
+function toggleDoctors() {
+  expandedDoctors.value = !expandedDoctors.value
+}
+
+function togglePatients() {
+  expandedPatients.value = !expandedPatients.value
+}
+
+function toggleDepartments() {
+  expandedDepartments.value = !expandedDepartments.value
+}
+
+function toggleAppointments() {
+  expandedAppointments.value = !expandedAppointments.value
+}
 </script>
 
 <style scoped>
@@ -363,7 +397,7 @@ function formatDate(dateString) {
 .admin-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   flex-direction: column;
 }
@@ -376,7 +410,6 @@ function formatDate(dateString) {
   width: 100%;
 }
 
-/* ========== SEARCH RESULTS ========== */
 .search-results-section {
   animation: fadeIn 0.3s ease-out;
 }
@@ -401,32 +434,35 @@ function formatDate(dateString) {
 
 .section-title {
   font-size: 2rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
+  letter-spacing: -0.02em;
 }
 
 .btn-clear {
   padding: 0.75rem 1.5rem;
-  background: #e74c3c;
+  background: #8f7b65;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 999px;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.3s ease;
 }
 
 .btn-clear:hover {
-  background: #c0392b;
+  background: #7a6a58;
   transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
 }
 
 .search-card {
-  background: white;
-  border-radius: 12px;
+  background: #fffdf7;
+  border-radius: 24px;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid #d8c8b0;
 }
 
 .search-list {
@@ -440,15 +476,16 @@ function formatDate(dateString) {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  /* border-left: 4px solid #667eea; */
+  background: #fff9f1;
+  border-radius: 16px;
+  /* border-left: 4px solid #8f7b65; */
   transition: all 0.3s ease;
 }
 
 .search-item:hover {
-  background: #f0f2f9;
+  background: #f7eee5;
   transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.1);
 }
 
 .item-info {
@@ -460,10 +497,9 @@ function formatDate(dateString) {
 .specialization,
 .age-info {
   font-size: 0.85rem;
-  color: #666;
+  color: #7d6d5f;
 }
 
-/* ========== DASHBOARD GRID ========== */
 .dashboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
@@ -482,14 +518,14 @@ function formatDate(dateString) {
   }
 }
 
-/* ========== CARDS ========== */
 .dashboard-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: all 0.3s ease;
-  /* border-top: 4px solid #667eea; */
+  /* border-top: 4px solid #8f7b65; */
+  border: 1px solid #d8c8b0;
   animation: cardSlide 0.5s ease-out;
 }
 
@@ -504,35 +540,31 @@ function formatDate(dateString) {
   }
 }
 
-.dashboard-card:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-  transform: translateY(-5px);
-}
-
 .doctors-card {
-  border-top-color: #667eea;
+  border-top-color: #8f7b65;
 }
 
 .patients-card {
-  border-top-color: #764ba2;
+  border-top-color: #a68a72;
 }
 
 .departments-card {
-  border-top-color: #f093fb;
+  border-top-color: #b59881;
 }
 
 .appointments-card {
-  border-top-color: #1dd1a1;
+  border-top-color: #8f7b65;
   grid-column: 1 / -1;
 }
 
 .card-header {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+  background: #f4e9db;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .header-content {
@@ -541,14 +573,15 @@ function formatDate(dateString) {
 
 .card-title {
   font-size: 1.3rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
   margin-bottom: 0.25rem;
+  letter-spacing: -0.02em;
 }
 
 .card-subtitle {
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
 }
 
 .card-body {
@@ -558,11 +591,11 @@ function formatDate(dateString) {
 /* ========== BUTTONS ========== */
 .btn-primary {
   padding: 0.75rem 1.25rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   white-space: nowrap;
@@ -571,18 +604,20 @@ function formatDate(dateString) {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  background: #7a6a58;
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
 }
 
 .btn-action {
   padding: 0.5rem 0.75rem;
   border: none;
-  border-radius: 6px;
+  border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 1rem;
   background: transparent;
-  border: 1px solid #ddd;
+  border: 1px solid #d8c8b0;
+  font-weight: 600;
 }
 
 .btn-action:hover {
@@ -590,42 +625,65 @@ function formatDate(dateString) {
 }
 
 .btn-edit {
-  color: #f39c12;
+  color: #8f7b65;
 }
 
 .btn-edit:hover {
-  background: #fff3e0;
-  border-color: #f39c12;
+  background: #f0e5d8;
+  border-color: #8f7b65;
 }
 
 .btn-delete {
-  color: #e74c3c;
+  color: #c85a5a;
 }
 
 .btn-delete:hover {
-  background: #ffe0e0;
-  border-color: #e74c3c;
+  background: #f5dede;
+  border-color: #c85a5a;
 }
 
 .btn-block {
-  color: #9b59b6;
+  color: #a68a72;
 }
 
 .btn-block:hover {
-  background: #f4ecf7;
-  border-color: #9b59b6;
+  background: #f0e5d8;
+  border-color: #a68a72;
 }
 
 .btn-view {
-  color: #3498db;
+  color: #8f7b65;
 }
 
 .btn-view:hover {
-  background: #e0f2f9;
-  border-color: #3498db;
+  background: #f7eee5;
+  border-color: #8f7b65;
 }
 
-/* ========== LISTS ========== */
+.btn-show-more {
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  margin-top: 1rem;
+  background: #f4e9db;
+  color: #3d362f;
+  border: 2px solid #d8c8b0;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.btn-show-more:hover {
+  background: #e8dcc8;
+  border-color: #8f7b65;
+  color: #8f7b65;
+}
+
+.btn-show-more-appointments {
+  margin-top: 0.75rem;
+}
+
 .items-list {
   display: flex;
   flex-direction: column;
@@ -637,36 +695,38 @@ function formatDate(dateString) {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
-  /* border-left: 3px solid #667eea; */
+  background: #fff9f1;
+  border-radius: 16px;
+  /* border-left: 3px solid #8f7b65; */
   transition: all 0.2s ease;
 }
 
 .list-item:hover {
-  background: #f0f2f9;
+  background: #f7eee5;
   transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.1);
 }
 
 .patient-item {
-  border-left-color: #764ba2;
+  border-left-color: #a68a72;
 }
 
 .dept-item {
-  border-left-color: #f093fb;
+  border-left-color: #b59881;
 }
 
 .item-content h4 {
-  color: #2c3e50;
+  color: #3d362f;
   font-size: 1rem;
   margin-bottom: 0.25rem;
+  font-weight: 700;
 }
 
 .specialty,
 .patient-info,
 .description {
   font-size: 0.85rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
 }
 
 .item-actions {
@@ -685,13 +745,14 @@ function formatDate(dateString) {
   grid-template-columns: 1.5fr 1.5fr 1fr 1.5fr;
   gap: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  font-weight: 600;
-  border-radius: 8px;
+  background: #f4e9db;
+  color: #3d362f;
+  font-weight: 700;
+  border-radius: 16px;
   margin-bottom: 0.5rem;
   position: sticky;
   top: 0;
+  border: 1px solid #dacbb8;
 }
 
 .table-row {
@@ -699,16 +760,17 @@ function formatDate(dateString) {
   grid-template-columns: 1.5fr 1.5fr 1fr 1.5fr;
   gap: 1rem;
   padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
+  background: #fff9f1;
+  border-radius: 16px;
   margin-bottom: 0.5rem;
-  /* border-left: 3px solid #1dd1a1; */
+  /* border-left: 3px solid #8f7b65; */
   transition: all 0.2s ease;
 }
 
 .table-row:hover {
-  background: #f0f2f9;
+  background: #f7eee5;
   transform: translateX(5px);
+  box-shadow: 0 4px 12px rgba(143, 123, 101, 0.1);
 }
 
 .col-patient,
@@ -718,18 +780,19 @@ function formatDate(dateString) {
   display: flex;
   align-items: center;
   font-size: 0.95rem;
-  color: #2c3e50;
+  color: #3d362f;
+  font-weight: 500;
 }
 
 /* ========== EMPTY STATE ========== */
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: #7f8c8d;
+  color: #6d5f53;
   font-style: italic;
-  background: #f9f9f9;
-  border-radius: 8px;
-  border: 2px dashed #ddd;
+  background: #fff9f1;
+  border-radius: 16px;
+  border: 2px dashed #d7c7b5;
 }
 
 /* ========== RESPONSIVE ========== */

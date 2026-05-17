@@ -252,7 +252,7 @@ export default {
 .history-wrapper {
   width: 100%;
   min-height: 100vh;
-  background: #f5f7fa;
+  background: #f2e8d8;
   display: flex;
   flex-direction: column;
 }
@@ -323,11 +323,12 @@ export default {
 }
 
 .welcome-content {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #fffdf7;
+  color: #3d362f;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.05);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -337,20 +338,22 @@ export default {
 
 .welcome-title {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
+  letter-spacing: -0.02em;
 }
 
 .welcome-title i {
   font-size: 2.5rem;
+  color: #8f7b65;
 }
 
 .welcome-subtitle {
   font-size: 0.95rem;
-  opacity: 0.9;
+  color: #6d5f53;
   margin: 0;
 }
 
@@ -365,13 +368,13 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: white;
+  color: #3d362f;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
   padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  background: #f4e9db;
+  border: 1px solid #d1c2b3;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
@@ -379,48 +382,52 @@ export default {
 }
 
 .nav-link-btn:hover {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: #f0e5d8;
+  border-color: #c3b4a0;
   transform: translateY(-2px);
 }
 
 .export-btn {
-  background: rgba(52, 211, 153, 0.2);
-  border-color: rgba(52, 211, 153, 0.4);
+  background: rgba(52, 211, 153, 0.1);
+  border-color: #559e68;
+  color: #3d362f;
 }
 
 .export-btn:hover {
-  background: rgba(52, 211, 153, 0.3);
+  background: rgba(52, 211, 153, 0.15);
 }
 
 .logout-btn {
-  background: rgba(239, 68, 68, 0.2);
-  border-color: rgba(239, 68, 68, 0.4);
+  background: rgba(200, 80, 80, 0.1);
+  border-color: #8a5a5a;
+  color: #3d362f;
 }
 
 .logout-btn:hover {
-  background: rgba(239, 68, 68, 0.3);
+  background: rgba(200, 80, 80, 0.15);
 }
 
 /* ========== INFO CARD ========== */
 .info-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  /* border-top: 4px solid #667eea; */
+  border-top: 4px solid #8f7b65;
   margin-bottom: 2rem;
   animation: cardSlide 0.5s ease-out;
 }
 
 .info-card:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.08);
 }
 
 .card-header {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
-  border-bottom: 1px solid #e0e0e0;
+  background: #f4e9db;
+  border-bottom: 1px solid #dacbb8;
 }
 
 .header-content {
@@ -429,8 +436,8 @@ export default {
 
 .card-title {
   font-size: 1.3rem;
-  font-weight: 700;
-  color: #2c3e50;
+  font-weight: 800;
+  color: #3d362f;
   margin: 0;
   display: flex;
   align-items: center;
@@ -438,13 +445,13 @@ export default {
 }
 
 .card-title i {
-  color: #667eea;
+  color: #8f7b65;
   font-size: 1.5rem;
 }
 
 .card-subtitle {
   font-size: 0.9rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
   margin: 0.25rem 0 0 0;
 }
 
@@ -466,8 +473,8 @@ export default {
 
 .info-label {
   font-size: 0.9rem;
-  font-weight: 600;
-  color: #7f8c8d;
+  font-weight: 700;
+  color: #7d6d5f;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -476,28 +483,30 @@ export default {
 }
 
 .info-label i {
-  color: #667eea;
+  color: #8f7b65;
   font-size: 1rem;
 }
 
 .info-value {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #2c3e50;
+  color: #3d362f;
 }
 
 /* ========== HISTORY CARD ========== */
 .history-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  background: #fffdf7;
+  border-radius: 24px;
+  border: 1px solid #d8c8b0;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
   overflow: hidden;
-  /* border-top: 4px solid #764ba2; */
+  border-top: 4px solid #a68a72;
   animation: cardSlide 0.5s ease-out 0.1s backwards;
 }
 
 .history-card:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.08);
 }
 
 /* ========== LOADING STATE ========== */
@@ -508,14 +517,14 @@ export default {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  color: #7f8c8d;
+  color: #7d6d5f;
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f0f0f0;
-  border-top-color: #667eea;
+  border: 4px solid #e3d3c1;
+  border-top-color: #8f7b65;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -524,7 +533,11 @@ export default {
 .empty-state {
   text-align: center;
   padding: 3rem 2rem;
-  color: #7f8c8d;
+  color: #6d5f53;
+  background: #fff7f0;
+  border-radius: 16px;
+  border: 1px dashed #d7c7b5;
+  font-style: italic;
 }
 
 .empty-state i {
@@ -542,17 +555,17 @@ export default {
 .btn-empty {
   display: inline-block;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #8f7b65;
   color: white;
   text-decoration: none;
-  border-radius: 6px;
-  font-weight: 600;
+  border-radius: 999px;
+  font-weight: 700;
   transition: all 0.3s ease;
 }
 
 .btn-empty:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 20px rgba(143, 123, 101, 0.3);
 }
 
 /* ========== TABLE STYLES ========== */
@@ -570,10 +583,10 @@ export default {
   grid-template-columns: 50px 1.2fr 1.2fr 100px 1fr 1.2fr 1.2fr 1.2fr;
   gap: 1rem;
   padding: 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  font-weight: 600;
-  border-radius: 8px 8px 0 0;
+  background: #f4e9db;
+  color: #3d362f;
+  font-weight: 700;
+  border-radius: 16px;
   margin-bottom: 0.5rem;
   position: sticky;
   top: 0;
@@ -585,45 +598,48 @@ export default {
   grid-template-columns: 50px 1.2fr 1.2fr 100px 1fr 1.2fr 1.2fr 1.2fr;
   gap: 1rem;
   padding: 1rem;
-  background: #f9f9f9;
-  border-radius: 8px;
+  background: #fff9f1;
+  border-radius: 16px;
   margin-bottom: 0.5rem;
+  border: 1px solid #e6d6c5;
   transition: all 0.2s ease;
   align-items: center;
   font-size: 0.925rem;
-  color: #2c3e50;
+  color: #3d362f;
 }
 
 .table-row:hover {
-  background: #f0f2f9;
-  transform: translateX(5px);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.15);
+  background: #f7eee5;
+  transform: translateX(3px);
+  box-shadow: 0 2px 8px rgba(143, 123, 101, 0.1);
 }
 
 /* Table Columns */
 .col-no {
   font-weight: 700;
-  color: #667eea;
+  color: #8f7b65;
 }
 
 .doctor-badge {
   display: inline-block;
   padding: 0.4rem 0.8rem;
-  background: linear-gradient(135deg, #e8eef7 0%, #f0f2f9 100%);
-  color: #667eea;
-  border-radius: 6px;
-  font-weight: 600;
+  background: #f0e5d8;
+  color: #3d362f;
+  border-radius: 999px;
+  font-weight: 700;
   font-size: 0.9rem;
+  border: 1px solid #d8c8b0;
 }
 
 .date-badge {
   display: inline-block;
   padding: 0.4rem 0.8rem;
-  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-  color: #1e40af;
-  border-radius: 6px;
-  font-weight: 600;
+  background: #f5ede4;
+  color: #6d5f53;
+  border-radius: 999px;
+  font-weight: 700;
   font-size: 0.9rem;
+  border: 1px solid #d8c8b0;
 }
 
 .medicines-list {
@@ -635,23 +651,24 @@ export default {
 .medicine-badge {
   display: inline-block;
   padding: 0.35rem 0.75rem;
-  background: linear-gradient(135deg, #fef08a 0%, #fde047 100%);
-  color: #78350f;
-  border-radius: 12px;
+  background: #f0e5d8;
+  color: #6d5f53;
+  border-radius: 16px;
   font-size: 0.8rem;
-  font-weight: 600;
+  font-weight: 700;
+  border: 1px solid #d8c8b0;
 }
 
 .text-muted {
-  color: #7f8c8d;
+  color: #7d6d5f;
   font-style: italic;
 }
 
 /* ========== CARD FOOTER ========== */
 .card-footer {
   padding: 1.5rem;
-  border-top: 1px solid #e0e0e0;
-  background: #f9f9f9;
+  border-top: 1px solid #dacbb8;
+  background: #f9f6f2;
   text-align: right;
 }
 
@@ -660,20 +677,18 @@ export default {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1.5rem;
-  background: white;
-  color: #667eea;
-  border: 1.5px solid #667eea;
-  border-radius: 6px;
-  font-weight: 600;
+  background: #fffdf7;
+  color: #8f7b65;
+  border: 1.5px solid #8f7b65;
+  border-radius: 999px;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.95rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
 
 .btn-secondary:hover {
-  background: #e8eef7;
+  background: #f4e9db;
   transform: translateY(-2px);
 }
 
@@ -683,9 +698,9 @@ export default {
   top: 1.5rem;
   right: 1.5rem;
   max-width: 420px;
-  border-radius: 10px;
+  border-radius: 16px;
   padding: 1.25rem;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   animation: slideIn 0.3s ease;
   z-index: 1000;
   display: flex;
@@ -695,13 +710,13 @@ export default {
 }
 
 .success-notification {
-  background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
-  border: 1px solid #6ee7b7;
+  background: #f0f9f0;
+  border: 1px solid #b8dab8;
 }
 
 .error-notification {
-  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-  border: 1px solid #fca5a5;
+  background: #fef5f5;
+  border: 1px solid #dbb8b8;
 }
 
 .notification-content {
@@ -718,24 +733,24 @@ export default {
 }
 
 .success-notification i {
-  color: #10b981;
+  color: #559e68;
 }
 
 .error-notification i {
-  color: #ef4444;
+  color: #a65c5c;
 }
 
 .notification-title {
-  font-weight: 700;
+  font-weight: 800;
   margin-bottom: 0.25rem;
 }
 
 .success-notification .notification-title {
-  color: #166534;
+  color: #3d5f3d;
 }
 
 .error-notification .notification-title {
-  color: #991b1b;
+  color: #5c3d3d;
 }
 
 .notification-message {
@@ -745,11 +760,11 @@ export default {
 }
 
 .success-notification .notification-message {
-  color: #166534;
+  color: #3d5f3d;
 }
 
 .error-notification .notification-message {
-  color: #991b1b;
+  color: #5c3d3d;
 }
 
 .notification-close {
@@ -766,11 +781,11 @@ export default {
 }
 
 .success-notification .notification-close {
-  color: #10b981;
+  color: #559e68;
 }
 
 .error-notification .notification-close {
-  color: #ef4444;
+  color: #a65c5c;
 }
 
 .notification-close:hover {
