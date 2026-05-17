@@ -340,7 +340,6 @@ export default {
 
         const isAvailable = this.checkDoctorAvailability(currentDate)
 
-        // Full day slot from 9:00 AM to 5:00 PM
         const startTime = '09:00'
         const endTime = '17:00'
 
@@ -364,7 +363,6 @@ export default {
     },
 
     checkDoctorAvailability(date) {
-      // Hospital operates all 7 days, so every date is available by default
       return true
     },
 
@@ -390,7 +388,6 @@ export default {
 
         this.bookingLoading = slot.id
 
-        // Parse the start time from the slot
         const [hours, minutes] = slot.startTime.split(':')
         const appointmentDate = new Date(slot.date)
         appointmentDate.setHours(parseInt(hours), parseInt(minutes), 0, 0)
@@ -503,7 +500,6 @@ export default {
     sans-serif;
 }
 
-/* Animations */
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -543,7 +539,6 @@ export default {
   }
 }
 
-/* Header Styles */
 .header-section {
   background: #fffdf7;
   border-radius: 24px;
