@@ -25,7 +25,7 @@ The **MAD2 Hospital Management App** addresses these challenges by providing a c
 
 ##  Key Features
 
-### 👨‍⚕️ Doctor Management
+###  Doctor Management
 - Doctor registration and authentication
 - Manage doctor profiles
 - Specify medical specialization
@@ -33,7 +33,7 @@ The **MAD2 Hospital Management App** addresses these challenges by providing a c
 - View assigned appointments
 - Maintain patient treatment information
 
-### 🧑‍💼 Patient Management
+###  Patient Management
 - Patient registration and login
 - View available doctors
 - Search doctors based on specialization
@@ -43,14 +43,14 @@ The **MAD2 Hospital Management App** addresses these challenges by providing a c
 - View appointment history
 - Access prescriptions and treatment reports
 
-### 📅 Appointment Management
+###  Appointment Management
 - Schedule appointments based on doctor availability
 - Prevent conflicting appointments
 - Appointment status tracking
 - Appointment cancellation
 - Appointment-day reminders
 
-### 💊 Prescription & Treatment Management
+###  Prescription & Treatment Management
 - Doctors can create prescriptions
 - Record treatment details
 - Maintain patient treatment history
@@ -61,7 +61,7 @@ The **MAD2 Hospital Management App** addresses these challenges by providing a c
 - Export appointment data in **CSV format**
 - View relevant patient and appointment information
 
-### 🔐 Authentication & Authorization
+###  Authentication & Authorization
 - Secure user authentication
 - Role-based access for different users
 - Separate dashboards for patients and doctors
@@ -124,7 +124,7 @@ The **MAD2 Hospital Management App** addresses these challenges by providing a c
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```text
 Mad2-Hospital-management-App/
@@ -154,7 +154,7 @@ Mad2-Hospital-management-App/
 
 ---
 
-## ⚙️ Installation & Setup
+##  Installation & Setup
 
 ### 1. Clone the Repository
 
@@ -346,19 +346,19 @@ This allows time-consuming or scheduled operations to run independently from the
 
 Potential improvements include:
 
-- 🔔 Real-time notifications
-- 📱 Responsive mobile-first interface
-- 💳 Online payment integration
-- 🩺 Electronic health record enhancements
-- 📊 Advanced hospital analytics
-- 🤖 AI-assisted medical data analysis
-- 📧 More advanced notification workflows
-- ☁️ Cloud deployment
-- 🔐 Enhanced security and audit logging
+-  Real-time notifications
+-  Responsive mobile-first interface
+-  Online payment integration
+-  Electronic health record enhancements
+-  Advanced hospital analytics
+-  AI-assisted medical data analysis
+-  More advanced notification workflows
+-  Cloud deployment
+-  Enhanced security and audit logging
 
 ---
 
-## 🔒 Security Considerations
+##  Security Considerations
 
 The application should follow standard security practices including:
 
@@ -373,7 +373,7 @@ The application should follow standard security practices including:
 
 ---
 
-## 🚀 Learning Outcomes
+##  Learning Outcomes
 
 This project provided practical experience in:
 
@@ -391,7 +391,7 @@ This project provided practical experience in:
 
 ---
 
-## 👨‍💻 Contributors
+##  Contributors
 
 Developed as part of the **Modern Application Development – II (MAD2)** project.
 
@@ -400,12 +400,12 @@ Computer Science & Data Science Student
 
 ---
 
-## 📄 License
+##  License
 
 This project is developed for **educational purposes**.
 
 ---
 
-## ⭐ Support
+##  Support
 
 If you find this project useful or interesting, consider giving the repository a ⭐ on GitHub.
